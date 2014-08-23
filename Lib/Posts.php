@@ -60,26 +60,16 @@ class Posts{
     *
     * @var PDO
     */
-    private $db;
-
+    private $db = false;
+    
     /**
-    * Veritabanına bağlanmaya yarayan yardımcı metod
+    * Bağlantı yapmaya yarayan metod
     *
-    * @param string host Veritabanı sunucusunun adresi
-    * @param string dbname Veritabanı adı
-    * @param string username Kullanıcı adı
-    * @param string password Parola
-    * @return string bağlanılabildiyse doğru, bağlanamadıysa hata mesajı döndürsün.
+    * @param PDO $db Bağlantı objesi
+    * @return void
     */
-    public function connect($host, $username, $password, $dbname){ 
-        try {
-            return $this->db = new PDO("mysql:host=".$host.";dbname=".$dbname."", "".$username."", "".$password."", array(
-                PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8",
-                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
-            ));
-        } catch ( PDOException $e ){
-            return $e->getMessage();
-        }
+    public function connect($db){
+        $this->db = $db;
     }
     
     /**
