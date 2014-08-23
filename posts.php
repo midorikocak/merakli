@@ -225,7 +225,10 @@ class Posts{
     * @return bool silindiyse doğru, eklenemediyse yanlış değer döndürsün
     */
     public function delete($id){
-		
+        $query = $this->db->prepare("DELETE FROM posts WHERE id = :id");
+        $delete = $query->execute(array(
+           'id' => $id
+        ));
     }
 	
 }
