@@ -192,8 +192,29 @@ class Posts{
     * @param int $id Girdinin benzersiz index'i
     * @return bool düzenlendiyse doğru, eklenemediyse yanlış değer döndürsün
     */
-    public function edit($id){
+    public function edit($id, $title, $content, $category_id){
+        
+        // Tarih içeren alanları elle girmiyoruz. Sistemden doğrudan isteyen fonksiyonumuz var.
+        $date = $this->getDate();
 		
+        // Önce veritabanı sorgumuzu hazırlayalım.
+        $query = $this->db->prepare("UPDATE posts SET title=:baslik, content=:icerik, category_id=:category, updated=:updated WHERE id=:id");
+	
+        $update = $query->execute(array(
+            "baslik"=>$title,
+            "icerik"=>$content,
+            "category"=>$category_id,
+            "updated"=>$date,
+            "id"=>$id
+        ));
+		
+        if ( $update ){
+             return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     /**
