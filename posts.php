@@ -60,7 +60,7 @@ class Posts{
     private $db;
 
     /**
-    * Veritabanına bağlanmaya yarayan metod
+    * Veritabanına bağlanmaya yarayan yardımcı metod
     *
     * @param string host Veritabanı sunucusunun adresi
     * @param string dbname Veritabanı adı
@@ -77,6 +77,18 @@ class Posts{
         } catch ( PDOException $e ){
             return $e->getMessage();
         }
+    }
+    
+    /**
+    * Şu anki tarihi döndüren yardımcı metod
+    *
+    * @return string tarihi mysql formatında döndürür
+    */
+    public function getDate(){
+        date_default_timezone_set('Europe/Istanbul');
+        $currentDate = date("Y-m-d H:i:s");
+		
+        return $currentDate;
     }
  
     /**
@@ -184,18 +196,6 @@ class Posts{
     */
     public function delete($id){
 		
-    }
-	
-    /**
-    * Şu anki tarihi döndüren metod
-    *
-    * @return string tarihi mysql formatında döndürür
-    */
-    public function getDate(){
-        date_default_timezone_set('Europe/Istanbul');
-        $currentDate = date("Y-m-d H:i:s");
-		
-        return $currentDate;
     }
 	
 }
