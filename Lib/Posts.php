@@ -7,6 +7,9 @@
 *
 * @author     Midori Kocak <mtkocak@mtkocak.net>
 */
+
+namespace Midori\Cms;
+
 class Posts{
 	
     /**
