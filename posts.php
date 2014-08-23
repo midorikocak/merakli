@@ -169,10 +169,19 @@ class Posts{
     /**
     * Tüm girdilerin listelenmesini sağlayan metod.
     *
-    * @return bool listelenebildiyse doğru, eklenemediyse yanlış değer döndürsün
+    * @return bool listelenebildiyse doğru, listelenemediyse yanlış değer döndürsün
     */
     public function index(){
-		
+		$query = $this->db->prepare("SELECT * FROM posts");
+        $query->execute();
+        if($query){
+            // Buradaki fetchAll metoduyla tüm değeleri diziye çektik.
+            return $query->fetchAll(PDO::FETCH_ASSOC);
+        }
+        else
+        {
+            return false;
+        }
     }
 
 
