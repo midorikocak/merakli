@@ -10,7 +10,7 @@
 *
 */
 
-<form action="edir.php" method="post">
+<form action="edit.php" method="post">
   <div class="row">
     <div class="large-12 columns">
       <label>Başlık
