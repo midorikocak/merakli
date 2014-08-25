@@ -15,26 +15,31 @@
   <div class="row">
     <div class="large-12 columns">
       <label>Başlık
-        <input type="text" placeholder="large-12.columns" />
+        <input id="title" name="title" type="text" placeholder="large-12.columns" />
       </label>
     </div>
   </div>
   <div class="row">
     <div class="large-12 columns">
       <label>İçerik
-        <textarea placeholder="small-12.columns"></textarea>
+        <textarea id="content" name="content" placeholder="small-12.columns"></textarea>
       </label>
     </div>
   </div>
   <div class="row">
     <div class="large-12 columns">
       <label>Kategoriler
-        <select>
+        <select id="category" name="category">
             <?php foreach ($categories as $category):?>
                 <option value="<?=$category['id']?>"><?=$category['title']?></option>
             <?php endforeach:?>
         </select>
       </label>
     </div>
+  </div>
+  <div class="row">
+      <div class="large-12 columns">
+          <button type="submit">Submit</button>
+      </div>
   </div>
 </form>

@@ -14,21 +14,21 @@
   <div class="row">
     <div class="large-12 columns">
       <label>Başlık
-        <input type="text" placeholder="large-12.columns" value="<?=$post['title']?>"/>
+        <input id="title" name="title" type="text" placeholder="large-12.columns" value="<?=$post['title']?>"/>
       </label>
     </div>
   </div>
   <div class="row">
     <div class="large-12 columns">
       <label>İçerik
-        <textarea placeholder="small-12.columns">value="<?=$post['content']?>"</textarea>
+        <textarea id="content" name="content" placeholder="small-12.columns">value="<?=$post['content']?>"</textarea>
       </label>
     </div>
   </div>
   <div class="row">
     <div class="large-12 columns">
       <label>Kategoriler
-        <select>
+        <select id="category" name="category">
             <?php foreach ($categories as $category):?>
                 <option value="<?=$category['id']?>"
                     
@@ -43,5 +43,10 @@
         </select>
       </label>
     </div>
+  </div>
+  <div class="row">
+      <div class="large-12 columns">
+          <button type="submit">Submit</button>
+      </div>
   </div>
 </form>
