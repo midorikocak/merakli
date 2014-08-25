@@ -1,16 +1,23 @@
 <?php
 /**
-* Tüm sistemdeki girdileri yönetecek olan girdi sınıfıdır.
+* Uygulamamızı çalıştıracak olan sınıf
 *
-* Sistemdeki girdilerin düzenlenmesini, silinmesini, görüntülenmesini, 
-* listelenmesini ve eklenmesini kontrol eden sınıftır.
+* Sistemdeki tüm sınıfların içermeleri gereken veritabanı ve diğer bilgileri tutan sınıf.
 *
-* @author     Midori Kocak <mtkocak@mtkocak.net>
+* @author   Midori Kocak <mtkocak@mtkocak.net>
 */
 
 namespace Midori\Cms;
 
-class Connection{
+class App{
+    
+    /**
+    * Veritabanı bağlantısını tutacak olan değişken.
+    *
+    * @var PDO
+    */
+    private $db = false;
+    
 	
     /**
     * Veritabanına bağlanmaya yarayan kurucu metod
@@ -31,7 +38,6 @@ class Connection{
             return $e->getMessage();
         }
     }
-	
 }
 ?>
 
