@@ -13,9 +13,11 @@
 if(sizeof($posts>0)):
     foreach($posts as $post):
         ?>
-        <h2><?php echo $post['title']; ?></h2>
-        <p><?=substr($post['content'],0,40)?></p>
-        <small><?=$post['created']?></small>
+        <article>
+            <h2><?php echo $post['title']; ?></h2>
+            <p><?=substr($post['content'],0,40)?>... <a href="view.php/<?=$post['id']?>">Devamını Oku</a></p>
+            <small><?=$post['created']?></small>
+        </article>
         <?php?
     endforeach;
 endif;
