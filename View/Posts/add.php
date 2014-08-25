@@ -31,7 +31,7 @@
       <label>Kategoriler
         <select>
             <?php foreach ($categories as $category):?>
-                <option value="<?=$category?>"><?=$category?></option>
+                <option value="<?=$category['id']?>"><?=$category['title']?></option>
             <?php endforeach:?>
         </select>
       </label>
