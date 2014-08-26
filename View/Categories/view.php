@@ -1,6 +1,7 @@
+<?php
 /*
 *
-* Kulllanıcılara tek girdiyi gösteren sayfa.
+* Kulllanıcılara tek kategoriyi gösteren sayfa.
 *
 * Bu sayfaya ham veri $post şeklinde ilişkili dizi halinde gelecek
 * biz de dosya içerisinde istediğimiz şekilde verileri göstereceğiz.
@@ -9,6 +10,7 @@
 * @author Midori Kocak 2014
 *
 */
+?>
 
 <?php echo $category['title'];?>
 

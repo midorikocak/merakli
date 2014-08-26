@@ -10,6 +10,8 @@
 
 namespace Midori\Cms;
 
+use \PDO;
+
 class Posts{
 	
     /**
@@ -142,14 +144,16 @@ class Posts{
             $query->execute(array(':id'=>$id));
 		
             if($query){
-                $result = $query->fetch(PDO::FETCH_ASSOC);
+                $post = $query->fetch(PDO::FETCH_ASSOC);
                 
-                $this->id = $result['id'];
-                $this->title = $result['title'];
-                $this->content = $result['content'];
-                $this->created = $result['created'];
-                $this->updated = $result['updated'];
-                $this->category_id = $result['updated'];
+                $this->id = $post['id'];
+                $this->title = $post['title'];
+                $this->content = $post['content'];
+                $this->created = $post['created'];
+                $this->updated = $post['updated'];
+                $this->category_id = $post['updated'];
+                
+                $result = array('template'=>'public','post'=>$post);
                 
                 return $result;
             }
@@ -169,7 +173,8 @@ class Posts{
         $query->execute();
         if($query){
             // Buradaki fetchAll metoduyla tüm değeleri diziye çektik.
-            return $query->fetchAll(PDO::FETCH_ASSOC);
+            $result = array('template'=>'public','posts'=>  $query->fetchAll(PDO::FETCH_ASSOC));
+            return $result;
         }
         else
         {

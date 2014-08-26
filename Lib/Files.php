@@ -91,11 +91,12 @@ class Files{
             $query->execute(array(':id'=>$id));
 		
             if($query){
-                $result = $query->fetch(PDO::FETCH_ASSOC);
+                $file = $query->fetch(PDO::FETCH_ASSOC);
                 
-                $this->id = $result['id'];
-                $this->title = $result['filename'];
+                $this->id = $file['id'];
+                $this->title = $file['filename'];
                 
+                $result = array('file'=>$file)
                 return $result;
             }
         }
@@ -114,7 +115,7 @@ class Files{
         $query->execute();
         if($query){
             // Buradaki fetchAll metoduyla tüm değeleri diziye çektik.
-            return $query->fetchAll(PDO::FETCH_ASSOC);
+            return array('files'=>$query->fetchAll(PDO::FETCH_ASSOC));
         }
         else
         {

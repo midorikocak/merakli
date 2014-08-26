@@ -93,7 +93,8 @@ class Categories{
             $query->execute(array(':id'=>$id));
 		
             if($query){
-                $result = $query->fetch(PDO::FETCH_ASSOC);
+                $category = $query->fetch(PDO::FETCH_ASSOC);
+                $result = array('category'=>$category);
                 
                 $this->id = $result['id'];
                 $this->title = $result['title'];
@@ -116,7 +117,9 @@ class Categories{
         $query->execute();
         if($query){
             // Buradaki fetchAll metoduyla tüm değeleri diziye çektik.
-            return $query->fetchAll(PDO::FETCH_ASSOC);
+            $categories = $query->fetchAll(PDO::FETCH_ASSOC);
+            $result = array('categories'=>$categories);
+            return $result;
         }
         else
         {

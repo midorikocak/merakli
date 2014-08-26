@@ -1,3 +1,4 @@
+<?php
 /*
 *
 * Kulllanıcılara tek girdiyi gösteren sayfa.
@@ -9,6 +10,7 @@
 * @author Midori Kocak 2014
 *
 */
+?>
 
 <article>
     <h2><?php echo $post['title']; ?></h2>

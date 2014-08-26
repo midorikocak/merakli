@@ -1,3 +1,4 @@
+<?php
 /*
 *
 * Adminlerin yeni yazı eklediği sayfa
@@ -9,8 +10,8 @@
 *
 * @author Midori Kocak 2014
 *
-*/
-
+*/  
+?>
 <form action="add.php" method="post">
   <div class="row">
     <div class="large-12 columns">

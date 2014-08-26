@@ -1,3 +1,4 @@
+<?php
 /*
 *
 * Kulllanıcılara girdileri gösteren sayfa.
@@ -9,6 +10,7 @@
 * @author Midori Kocak 2014
 *
 */
+?>
 <?php
 if(sizeof($posts>0)):
     foreach($posts as $post):

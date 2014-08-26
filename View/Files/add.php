@@ -1,3 +1,4 @@
+<?php
 /*
 *
 * Adminlerin yeni yazı eklediği sayfa
@@ -10,6 +11,7 @@
 * @author Midori Kocak 2014
 *
 */
+?>
 
 <form action="add.php" method="post" enctype="multipart/form-data">
   <div class="row">

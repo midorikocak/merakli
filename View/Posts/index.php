@@ -1,3 +1,4 @@
+<?php
 /*
 *
 * Kulllanıcılara girdileri gösteren sayfa.
@@ -9,7 +10,6 @@
 * @author Midori Kocak 2014
 *
 */
-<?php
 if(sizeof($posts>0)):
     foreach($posts as $post):
         ?>
@@ -18,7 +18,7 @@ if(sizeof($posts>0)):
             <p><?=substr($post['content'],0,40)?>... <a href="view.php/<?=$post['id']?>">Devamını Oku</a></p>
             <small><?=$post['created']?></small>
         </article>
-        <?php?
+        <?php
     endforeach;
 endif;
 ?>

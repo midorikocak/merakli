@@ -1,3 +1,4 @@
+<?php
 /*
 *
 * Adminlerin yeni kategori eklediği sayfa
@@ -7,6 +8,7 @@
 * @author Midori Kocak 2014
 *
 */
+?>
 
 <form action="add.php" method="post">
   <div class="row">

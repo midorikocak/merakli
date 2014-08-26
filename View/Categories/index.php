@@ -1,3 +1,4 @@
+<?php
 /*
 *
 * Kulllanıcılara kategorileri gösteren sayfa.
@@ -9,6 +10,7 @@
 * @author Midori Kocak 2014
 *
 */
+?>
 
 <table>
     <?php

@@ -9,6 +9,9 @@
 
 namespace Midori\Cms;
 
+use Midori\Cms;
+use \PDO;
+
 class App{
     
     /**
@@ -17,8 +20,8 @@ class App{
     * @var PDO
     */
     private $db = false;
+
     
-	
     /**
     * Veritabanına bağlanmaya yarayan kurucu metod
     *
@@ -28,7 +31,7 @@ class App{
     * @param string password Parola
     * @return string bağlanılabildiyse doğru, bağlanamadıysa hata mesajı döndürsün.
     */
-    public function __construct($host, $username, $password, $dbname){ 
+    public function connect($host, $username, $password, $dbname){ 
         try {
             return $this->db = new PDO("mysql:host=".$host.";dbname=".$dbname."", "".$username."", "".$password."", array(
                 PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8",
@@ -38,6 +41,52 @@ class App{
             return $e->getMessage();
         }
     }
+    
+    public function calculate($request, $data)
+    {
+        // /posts/add gibi bir request geldi.
+        $params = split("/", $request);;
+        $className = __NAMESPACE__.'\\'.$params[1];
+        //var_dump($data);
+        //call_user_func_array
+        if(empty($data))
+        {
+            $class = new $className();
+            $class->connect($this->db);
+            if($params[2]!=null)
+            {
+                $data = $class->$params[2]($params[3]);
+                $content = array('content'=>$this->render('./View/'.$params[1].'/'.mb_strtolower($params[2]).'.php',$data));
+                return $this->render('./www/'.$data['template'].'.php', $content);
+            }
+            else{
+                $data = $class->index();
+                $content =  array('content'=>$this->render('./View/'.$params[1].'/index.php',$data));
+                return $this->render('./www/'.$data['template'].'.php', $content);
+            }
+        }
+        else{
+            var_dump($data);
+        }
+        // var_dump($params);
+        // $posts = new Posts();
+        // $posts->connect($this->db);
+        // return $posts->view(1);
+    }
+    
+    public function render($file, $vars){
+        
+        if (is_array($vars) && !empty($vars)) {
+            extract($vars);
+        }
+        
+        ob_start();
+        include $file;
+        return ob_get_clean();
+    }
+    
 }
+
+
 ?>
 
