@@ -12,7 +12,8 @@
 */
 ?>
 
-<form action="edit.php" method="post">
+<form action="/Cms/index.php/Categories/edit/<?=$category['id']?>" method="post">
+    <input type="hidden" name="id" id="id" value="<?=$category['id']?>" />
   <div class="row">
     <div class="large-12 columns">
       <label>Başlık

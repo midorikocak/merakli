@@ -16,23 +16,17 @@
         <tr>
             <th>Id</th>
             <th>Başlık</th>
-            <th>Oluşturulma Tarihi</th>
-            <th>Güncelleme Tarihi</th>
-            <th>Kategori</th>
             <th>İşlemler</th>
         </tr>
     </thead>
     <tbody>
         <?php
-        foreach($posts as $post):
+        foreach($categories as $category):
             ?>
             <tr>
-                <td><?=$post['id']?></td>
-                <td><?=$post['title']?></td>
-                <td><?=$post['created']?></td>
-                <td><?=$post['updated']?></td>
-                <td><?=$post['category_id']?></td>
-                <td><a href="/Cms/index.php/Posts/edit/<?=$post['id']?>">Güncelle</a>  <a href="/Cms/index.php/Posts/delete/<?=$post['id']?>">Sil</a></td>
+                <td><?=$category['id']?></td>
+                <td><?=$category['title']?></td>
+                <td><a href="/Cms/index.php/Categories/edit/<?=$category['id']?>">Güncelle</a>  <a href="/Cms/index.php/Categories/delete/<?=$category['id']?>">Sil</a></td>
             </tr>
             <?php
         endforeach;

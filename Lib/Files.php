@@ -51,25 +51,30 @@ class Files{
     * @param int $category_id Dosya kategorisinin benzersiz kimliği
     * @return bool eklendiyse doğru, eklenemediyse yanlış değer döndürsün
     */
-    public function add($filename){
-		
-		
-        // Önce veritabanı sorgumuzu hazırlayalım.
-        $query = $this->db->prepare("INSERT INTO posts SET filename=:dosyaadi");
+    public function add($filename=null){
+		if($filename!=null)
+        {
+            // Önce veritabanı sorgumuzu hazırlayalım.
+            $query = $this->db->prepare("INSERT INTO posts SET filename=:dosyaadi");
 	
-        $insert = $query->execute(array(
-            "dosyaadi"=>$filename,
-        ));
+            $insert = $query->execute(array(
+                "dosyaadi"=>$filename,
+            ));
 	
-        if($insert){
-            // Veritabanı işlemi başarılı ise sınıfın objesine ait değişkenleri değiştirelim
-            $this->id = $this->db->lastInsertId();
-            $this->filename = $filename;
+            if($insert){
+                // Veritabanı işlemi başarılı ise sınıfın objesine ait değişkenleri değiştirelim
+                $this->id = $this->db->lastInsertId();
+                $this->filename = $filename;
             
-            return true;
+                return true;
+            }
+            else{
+                return false;
+            }  
         }
-        else{
-            return false;
+        else
+        {
+            return array('render'=>true,'template'=>'admin');
         }
     }
 

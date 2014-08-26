@@ -46,6 +46,22 @@ class Categories{
         $this->db = $db;
     }
     
+    /**
+    * Sistemdeki bağlı bilgileri içeren dizi
+    *
+    * @var array
+    */
+    private $related;
+    
+    /**
+    * Bağlı
+    *
+    * @param PDO $db Bağlantı objesi
+    * @return void
+    */
+    public function getRelatedData($related){
+        $this->related = $related;
+    }
  
     /**
     * Kategori ekleyen metod, verilerin kaydedilmesini sağlar.
@@ -55,25 +71,30 @@ class Categories{
     * @param int $category_id Kategori kategorisinin benzersiz kimliği
     * @return bool eklendiyse doğru, eklenemediyse yanlış değer döndürsün
     */
-    public function add($title){
+    public function add($title=null){
 		
-		
-        // Önce veritabanı sorgumuzu hazırlayalım.
-        $query = $this->db->prepare("INSERT INTO categories SET title=:baslik");
+        if($title!=null)
+        {
+            // Önce veritabanı sorgumuzu hazırlayalım.
+            $query = $this->db->prepare("INSERT INTO categories SET title=:baslik");
 	
-        $insert = $query->execute(array(
-            "baslik"=>$title
-        ));
+            $insert = $query->execute(array(
+                "baslik"=>$title
+            ));
 	
-        if($insert){
-            // Veritabanı işlemi başarılı ise sınıfın objesine ait değişkenleri değiştirelim
-            $this->id = $this->db->lastInsertId();
-            $this->title = $title;
+            if($insert){
+                // Veritabanı işlemi başarılı ise sınıfın objesine ait değişkenleri değiştirelim
+                $this->id = $this->db->lastInsertId();
+                $this->title = $title;
             
-            return true;
+                return true;
+            }
+            else{
+                return false;
+            }  
         }
         else{
-            return false;
+            return array('render'=>true,'template'=>'admin');            
         }
     }
 
@@ -96,10 +117,11 @@ class Categories{
 		
             if($query){
                 $category = $query->fetch(PDO::FETCH_ASSOC);
+                
                 $result = array('category'=>$category);
                 
-                $this->id = $result['id'];
-                $this->title = $result['title'];
+                $this->id = $category['id'];
+                $this->title = $category['title'];
                 
                 return $result;
             }
@@ -107,6 +129,25 @@ class Categories{
 	
         // Eğer iki işlem de başarısız olduysa, false, yanlış değer döndürelim.
         return false;
+    }
+    
+    /**
+    * Tüm girdilerin listelenmesini sağlayan metod.
+    *
+    * @return bool listelenebildiyse doğru, listelenemediyse yanlış değer döndürsün
+    */
+    public function show(){
+		$query = $this->db->prepare("SELECT * FROM categories");
+        $query->execute();
+        if($query){
+            // Buradaki fetchAll metoduyla tüm değeleri diziye çektik.
+            $result = array('render'=>true,'template'=>'admin','categories'=>  $query->fetchAll(PDO::FETCH_ASSOC));
+            return $result;
+        }
+        else
+        {
+            return false;
+        }
     }
 	
     /**
@@ -137,23 +178,28 @@ class Categories{
     * @param int $id Kategorinin benzersiz index'i
     * @return bool düzenlendiyse doğru, eklenemediyse yanlış değer döndürsün
     */
-    public function edit($id, $title){
-        
-		
-        // Önce veritabanı sorgumuzu hazırlayalım.
-        $query = $this->db->prepare("UPDATE categories SET title=:baslik WHERE id=:id");
-	
-        $update = $query->execute(array(
-            "baslik"=>$title,
-            "id"=>$id
-        ));
-		
-        if ( $update ){
-             return true;
-        }
-        else
+    public function edit($id=null, $title=null){
+        if($title!=null)
         {
-            return false;
+            // Önce veritabanı sorgumuzu hazırlayalım.
+            $query = $this->db->prepare("UPDATE categories SET title=:baslik WHERE id=:id");
+	
+            $update = $query->execute(array(
+                "baslik"=>$title,
+                "id"=>$id
+            ));
+		
+            if ( $update ){
+                 return true;
+            }
+            else
+            {
+                return false;
+            }  
+        }
+        else{
+            $oldData = $this->view($id);
+            return  array('template'=>'admin','render'=>true,'category'=>$oldData['category']);
         }
     }
 
@@ -169,6 +215,7 @@ class Categories{
         $delete = $query->execute(array(
            'id' => $id
         ));
+        return array('template'=>'admin','render'=>false);
     }
 	
 }
