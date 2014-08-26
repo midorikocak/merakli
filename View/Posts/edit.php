@@ -12,18 +12,19 @@
 */
 ?>
 
-<form action="edit.php" method="post">
+<form action="/Cms/index.php/Posts/edit/<?=$post['id']?>" method="post">
+    <input type="hidden" name="id" id="id" value="<?=$post['id']?>" />
   <div class="row">
     <div class="large-12 columns">
       <label>Başlık
-        <input id="title" name="title" type="text" placeholder="large-12.columns" value="<?=$post['title']?>"/>
+        <input id="title" name="title" type="text" placeholder="Başlık" value="<?=$post['title']?>"/>
       </label>
     </div>
   </div>
   <div class="row">
     <div class="large-12 columns">
       <label>İçerik
-        <textarea id="content" name="content" placeholder="small-12.columns">value="<?=$post['content']?>"</textarea>
+        <textarea id="content" name="content" placeholder="İçerik"><?=$post['content']?></textarea>
       </label>
     </div>
   </div>
@@ -36,12 +37,12 @@
                     
                     <?php
                     if($category['id']==$post['category_id']){
-                        echo " selected "
+                        echo " selected ";
                     }
                     ?>
                     
                     ><?=$category['title']?></option>
-            <?php endforeach:?>
+            <?php endforeach;?>
         </select>
       </label>
     </div>
