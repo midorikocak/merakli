@@ -131,7 +131,7 @@ class Categories{
                 if($postQuery){
                     $categoryPosts = $postQuery->fetchAll(PDO::FETCH_ASSOC);
                 
-                    $result = array('posts'=>$categoryPosts,'render'=>true,'template'=>'public');
+                    $result = array('posts'=>$categoryPosts,'render'=>true,'template'=>'public','category'=>$category);
                     return $result;
                     // Yeni bir sorgu yapacağız ve o kategoriye ait girdileri alacağız.
                 
@@ -173,7 +173,7 @@ class Categories{
         if($query){
             // Buradaki fetchAll metoduyla tüm değeleri diziye çektik.
             $categories = $query->fetchAll(PDO::FETCH_ASSOC);
-            $result = array('categories'=>$categories);
+            $result = array('categories'=>$categories,'render'=>false,'template'=>'public');
             return $result;
         }
         else

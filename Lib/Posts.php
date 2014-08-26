@@ -195,7 +195,7 @@ class Posts{
         $query->execute();
         if($query){
             // Buradaki fetchAll metoduyla tüm değeleri diziye çektik.
-            $result = array('template'=>'public','posts'=>  $query->fetchAll(PDO::FETCH_ASSOC));
+            $result = array('render'=>true,'template'=>'public','posts'=>  $query->fetchAll(PDO::FETCH_ASSOC));
             return $result;
         }
         else

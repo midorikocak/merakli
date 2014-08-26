@@ -6,7 +6,14 @@
     
     $app = new \Midori\Cms\App();
     $app->connect($config['db']['host'],$config['db']['username'],$config['db']['password'],$config['db']['dbname']);
-    $request = str_replace($_SERVER['SCRIPT_NAME'], "", $_SERVER['REQUEST_URI']);
+
+    if(strpos($_SERVER['REQUEST_URI'],$_SERVER['SCRIPT_NAME'])!==false){
+        $request = str_replace($_SERVER['SCRIPT_NAME'], "", $_SERVER['REQUEST_URI']);
+    }
+    else{
+        $request = "/Posts/";
+    }
+
     if(!empty($_POST))
     {
         $data = $_POST;
@@ -18,7 +25,9 @@
     else{
         $data = "";
     }
-    
+    if(empty($request)){
+        $request = "/Posts/";
+    }
     echo $app->calculate($request,$data);
     
 ?>
