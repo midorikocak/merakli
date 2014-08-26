@@ -72,26 +72,26 @@ class App{
                 }
                 if($data['render']!=false)
                 {
-                    $content = array('content'=>$this->render('./View/'.$params[1].'/'.mb_strtolower($params[2]).'.php',$data));
+                    $content = array('related'=>$this->injectRelatedData(),'content'=>$this->render('./View/'.$params[1].'/'.mb_strtolower($params[2]).'.php',$data));
                     return $this->render('./www/'.$data['template'].'.php', $content);  
                 }
                 else
                 {
                     $data = $class->show();
-                    $content =  array('content'=>$this->render('./View/'.$params[1].'/show.php',$data));
+                    $content =  array('related'=>$this->injectRelatedData(),'content'=>$this->render('./View/'.$params[1].'/show.php',$data));
                     return $this->render('./www/'.$data['template'].'.php', $content);
                 }
             }
             else{
                 $data = $class->index();
-                $content =  array('content'=>$this->render('./View/'.$params[1].'/index.php',$data));
+                $content =  array('related'=>$this->injectRelatedData(),'content'=>$this->render('./View/'.$params[1].'/index.php',$data));
                 return $this->render('./www/'.$data['template'].'.php', $content);
             }
         }
         else{
             call_user_func_array ( array($class, $params[2]), $data );
             $data = $class->show();
-            $content =  array('content'=>$this->render('./View/'.$params[1].'/show.php',$data));
+            $content =  array('related'=>$this->injectRelatedData(),'content'=>$this->render('./View/'.$params[1].'/show.php',$data));
             return $this->render('./www/'.$data['template'].'.php', $content);
         }
         // var_dump($params);

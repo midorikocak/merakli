@@ -18,5 +18,7 @@
     else{
         $data = "";
     }
+    
     echo $app->calculate($request,$data);
+    
 ?>

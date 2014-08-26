@@ -16,11 +16,13 @@
         <div class="row">
             <div class="large-12 columns">
                 <ul class="nav">
-                  <li><a href="/">Home</a></li>
-                  <li><a href="/about/">About</a></li>
-                  <li><a href="/work/">Work</a></li>
-                  <li><a href="/clients/">Clients</a></li>
-                  <li><a href="/contact/">Contact</a></li>
+                    <?php
+                    foreach($related['categories'] as $category):
+                    ?>
+                    <li><a href="/Cms/index.php/Categories/View/<?=$category['id']?>"><?=$category['title']?></a></li>
+                    <?php
+                    endforeach;
+                    ?>
                 </ul>
             </div>
         </div>
