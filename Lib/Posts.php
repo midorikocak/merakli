@@ -203,6 +203,25 @@ class Posts{
             return false;
         }
     }
+    
+    /**
+    * Tüm girdilerin listelenmesini sağlayan metod.
+    *
+    * @return bool listelenebildiyse doğru, listelenemediyse yanlış değer döndürsün
+    */
+    public function show(){
+		$query = $this->db->prepare("SELECT * FROM posts");
+        $query->execute();
+        if($query){
+            // Buradaki fetchAll metoduyla tüm değeleri diziye çektik.
+            $result = array('template'=>'admin','posts'=>  $query->fetchAll(PDO::FETCH_ASSOC));
+            return $result;
+        }
+        else
+        {
+            return false;
+        }
+    }
 
 
     /**
@@ -249,6 +268,7 @@ class Posts{
         $delete = $query->execute(array(
            'id' => $id
         ));
+        return array('template'=>'admin','render'=>false);
     }
 	
 }
