@@ -194,37 +194,6 @@ class Files{
         }
     }
 
-
-    /**
-    * Dosya düzenleyen metod. Verilen Id bilginse göre, alınan bilgi ile sistemdeki bilgiyi değiştiren
-    * güncelleyen metod.
-    *
-    * @param int $id Dosyanın benzersiz index'i
-    * @return bool düzenlendiyse doğru, eklenemediyse yanlış değer döndürsün
-    */
-    public function edit($id=null, $filename=null){
-	    if($filename!=null){
-            // Önce veritabanı sorgumuzu hazırlayalım.
-            $query = $this->db->prepare("UPDATE files SET filename=:filename WHERE id=:id");
-	
-            $update = $query->execute(array(
-                "filename"=>$filename,
-            ));
-		
-            if ( $update ){
-                 return true;
-            }
-            else
-            {
-                return false;
-            }
-	    }
-        else{
-            $oldData = $this->view($id);
-            return  array('template'=>'admin','render'=>true,'file'=>$oldData['file']);
-        }
-    }
-
     /**
     * Dosya silen metod, verilerin silinmesini sağlar.
     * Geri dönüşü yoktur.

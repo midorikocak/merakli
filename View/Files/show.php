@@ -26,7 +26,7 @@
             <tr>
                 <td><?=$file['id']?></td>
                 <td><?=$file['filename']?></td>
-                <td><a href="/Cms/index.php/Files/edit/<?=$file['id']?>">Güncelle</a>  <a href="/Cms/index.php/Files/delete/<?=$file['id']?>">Sil</a></td>
+                <td><a href="/Cms/index.php/Files/delete/<?=$file['id']?>">Sil</a></td>
             </tr>
             <?php
         endforeach;
