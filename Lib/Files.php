@@ -95,6 +95,7 @@ class Files{
                   $rand = substr(md5(microtime()),rand(0,26),5);
                   move_uploaded_file($file["tmp_name"],
                   "./www/images/" . $rand . '.' . $file["name"]);
+                  chmod("./www/images/" . $rand . '.' . $file["name"], 0777);
                   // Önce veritabanı sorgumuzu hazırlayalım.
                   $query = $this->db->prepare("INSERT INTO files SET filename=:dosyaadi");
 
@@ -232,10 +233,15 @@ class Files{
     * @return bool silindiyse doğru, eklenemediyse yanlış değer döndürsün
     */
     public function delete($id){
+        $oldData = $this->view($id);
+        
+        unlink('./www/images/'.$oldData['file']['filename']);
+        
         $query = $this->db->prepare("DELETE FROM files WHERE id = :id");
         $delete = $query->execute(array(
            'id' => $id
         ));
+        
         return array('template'=>'admin','render'=>false);
     }
 	
