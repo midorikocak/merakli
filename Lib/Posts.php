@@ -144,7 +144,7 @@ class Posts{
             }
         }
         else{
-            return array('template'=>'admin','categories'=>$this->related['categories']);
+            return array('render'=>true,'template'=>'admin','categories'=>$this->related['categories']);
         }
     }
 
@@ -175,7 +175,7 @@ class Posts{
                 $this->updated = $post['updated'];
                 $this->category_id = $post['updated'];
                 
-                $result = array('template'=>'public','post'=>$post);
+                $result = array('template'=>'public','post'=>$post,'render'=>true);
                 
                 return $result;
             }
@@ -214,7 +214,7 @@ class Posts{
         $query->execute();
         if($query){
             // Buradaki fetchAll metoduyla tüm değeleri diziye çektik.
-            $result = array('template'=>'admin','posts'=>  $query->fetchAll(PDO::FETCH_ASSOC));
+            $result = array('render'=>true,'template'=>'admin','posts'=>  $query->fetchAll(PDO::FETCH_ASSOC));
             return $result;
         }
         else

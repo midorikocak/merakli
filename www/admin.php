@@ -29,24 +29,24 @@
                 <li class="has-dropdown">
                     <a href="#">Girdiler</a>
                     <ul class="dropdown">
-                        <li><a href="#">Tüm girdiler &rarr;</a></li>
-                        <li><a href="#">Yeni girdi</a></li>
+                        <li><a href="/Cms/index.php/Posts/show">Tüm girdiler &rarr;</a></li>
+                        <li><a href="/Cms/index.php/Posts/add">Yeni girdi</a></li>
                     </ul>
                 </li>
                 <li class="divider"></li>
                 <li class="has-dropdown">
                     <a href="#">Kategoriler</a>
                     <ul class="dropdown">
-                        <li><a href="#">Tüm kategoriler &rarr;</a></li>
-                        <li><a href="#">Yeni kategori</a></li>
+                        <li><a href="/Cms/index.php/Categories/show">Tüm kategoriler &rarr;</a></li>
+                        <li><a href="/Cms/index.php/Categories/add">Yeni kategori</a></li>
                     </ul>
                 </li>
                 <li class="divider"></li>
                 <li class="has-dropdown">
                     <a href="#">Dosyalar</a>
                     <ul class="dropdown">
-                        <li><a href="#">Tüm dosyalar &rarr;</a></li>
-                        <li><a href="#">Yeni dosya</a></li>
+                        <li><a href="/Cms/index.php/Files/show">Tüm dosyalar &rarr;</a></li>
+                        <li><a href="/Cms/index.php/Files/add">Yeni dosya</a></li>
                     </ul>
                 </li>
             </ul>
