@@ -10,6 +10,8 @@
 
 namespace Midori\Cms;
 
+use \PDO;
+
 class Categories{
 	
     /**

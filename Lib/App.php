@@ -42,20 +42,35 @@ class App{
         }
     }
     
+    public function injectRelatedData(){
+        $categories = new Categories();
+        $categories->connect($this->db);
+        return $categories->index();
+    }
+    
     public function calculate($request, $data)
     {
         // /posts/add gibi bir request geldi.
         $params = split("/", $request);;
         $className = __NAMESPACE__.'\\'.$params[1];
-        //var_dump($data);
         //call_user_func_array
+        $class = new $className();
+        $class->connect($this->db);
+        $class->getRelatedData($this->injectRelatedData());
+        
         if(empty($data))
         {
-            $class = new $className();
-            $class->connect($this->db);
             if($params[2]!=null)
             {
-                $data = $class->$params[2]($params[3]);
+                var_dump($params);
+                if(isset($params[3]))
+                {
+                    $data = $class->$params[2]($params[3]);
+                }
+                else
+                {
+                    $data = $class->$params[2]();
+                }
                 $content = array('content'=>$this->render('./View/'.$params[1].'/'.mb_strtolower($params[2]).'.php',$data));
                 return $this->render('./www/'.$data['template'].'.php', $content);
             }
@@ -66,7 +81,10 @@ class App{
             }
         }
         else{
-            var_dump($data);
+            call_user_func_array ( array($class, $params[2]), $data );
+            $data = $class->index();
+            $content =  array('content'=>$this->render('./View/'.$params[1].'/index.php',$data));
+            return $this->render('./www/'.$data['template'].'.php', $content);
         }
         // var_dump($params);
         // $posts = new Posts();

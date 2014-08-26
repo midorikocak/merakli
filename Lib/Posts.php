@@ -20,6 +20,13 @@ class Posts{
     * @var int
     */
     public $id;
+    
+    /**
+    * Sistemdeki bağlı bilgileri içeren dizi
+    *
+    * @var array
+    */
+    private $related;
  
     /**
     * Girdi başlığı
@@ -75,6 +82,16 @@ class Posts{
     }
     
     /**
+    * Bağlı
+    *
+    * @param PDO $db Bağlantı objesi
+    * @return void
+    */
+    public function getRelatedData($related){
+        $this->related = $related;
+    }
+    
+    /**
     * Şu anki tarihi döndüren yardımcı metod
     *
     * @return string tarihi mysql formatında döndürür
@@ -94,35 +111,40 @@ class Posts{
     * @param int $category_id Girdi kategorisinin benzersiz kimliği
     * @return bool eklendiyse doğru, eklenemediyse yanlış değer döndürsün
     */
-    public function add($title, $content, $category_id){
+    public function add($title=null, $content=null, $category_id=null){
+        if($title!=null)
+        {
+            // Tarih içeren alanları elle girmiyoruz. Sistemden doğrudan isteyen fonksiyonumuz var.
+            $date = $this->getDate();
 		
-        // Tarih içeren alanları elle girmiyoruz. Sistemden doğrudan isteyen fonksiyonumuz var.
-        $date = $this->getDate();
-		
-        // Önce veritabanı sorgumuzu hazırlayalım.
-        $query = $this->db->prepare("INSERT INTO posts SET title=:baslik, content=:icerik, created=:created, category_id=:category, updated=:updated");
+            // Önce veritabanı sorgumuzu hazırlayalım.
+            $query = $this->db->prepare("INSERT INTO posts SET title=:baslik, content=:icerik, created=:created, category_id=:category, updated=:updated");
 	
-        $insert = $query->execute(array(
-            "baslik"=>$title,
-            "icerik"=>$content,
-            "category"=>$category_id,
-            "created"=>$date,
-            "updated"=>$date
-        ));
+            $insert = $query->execute(array(
+                "baslik"=>$title,
+                "icerik"=>$content,
+                "category"=>$category_id,
+                "created"=>$date,
+                "updated"=>$date
+            ));
 	
-        if($insert){
-            // Veritabanı işlemi başarılı ise sınıfın objesine ait değişkenleri değiştirelim
-            $this->id = $this->db->lastInsertId();
-            $this->title = $title;
-            $this->content = $content;
-            $this->created = $date;
-            $this->updated = $date;
-            $this->category_id = $category_id;
+            if($insert){
+                // Veritabanı işlemi başarılı ise sınıfın objesine ait değişkenleri değiştirelim
+                $this->id = $this->db->lastInsertId();
+                $this->title = $title;
+                $this->content = $content;
+                $this->created = $date;
+                $this->updated = $date;
+                $this->category_id = $category_id;
             
-            return true;
+                return true;
+            }
+            else{
+                return false;
+            }
         }
         else{
-            return false;
+            return array('template'=>'admin','categories'=>$this->related['categories']);
         }
     }
 

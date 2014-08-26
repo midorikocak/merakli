@@ -12,18 +12,18 @@
 *
 */  
 ?>
-<form action="add.php" method="post">
+<form action="/Cms/index.php/Posts/add" method="post">
   <div class="row">
     <div class="large-12 columns">
       <label>Başlık
-        <input id="title" name="title" type="text" placeholder="large-12.columns" />
+        <input id="title" name="title" type="text" placeholder="Başlık" />
       </label>
     </div>
   </div>
   <div class="row">
     <div class="large-12 columns">
       <label>İçerik
-        <textarea id="content" name="content" placeholder="small-12.columns"></textarea>
+        <textarea id="content" name="content" placeholder="İçerik"></textarea>
       </label>
     </div>
   </div>
@@ -33,7 +33,7 @@
         <select id="category" name="category">
             <?php foreach ($categories as $category):?>
                 <option value="<?=$category['id']?>"><?=$category['title']?></option>
-            <?php endforeach:?>
+            <?php endforeach;?>
         </select>
       </label>
     </div>

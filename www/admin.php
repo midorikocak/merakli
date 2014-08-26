@@ -4,9 +4,9 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Merakli CMS Yönetim Paneli</title>
-    <link rel="stylesheet" href="css/foundation.css" />
-    <link rel="stylesheet" href="css/app.css" />
-    <script src="js/vendor/modernizr.js"></script>
+    <link rel="stylesheet" href="/Cms/www/css/foundation.css" />
+    <link rel="stylesheet" href="/Cms/www/css/app.css" />
+    <script src="/Cms/www/js/vendor/modernizr.js"></script>
 </head>
 <body>
     
@@ -58,49 +58,11 @@
             </ul>
         </section>
     </nav>
- 
- 
-    <div class="row admin-baslik">
-        <div class="large-3 columns">
-            <h3>Yeni yazı ekle</h3>
-            <p>Yeni yazı eklemek için bu formu ivedilikle doldurmalısınız.</p>
+    <div class="row">
+        <div class="large-12 columns">
+            <?php echo $content; ?>
         </div>
-        <div class="large-9 columns admin-icerik">
-
-<form action="add.php" method="post">
-  <div class="row">
-    <div class="large-12 columns">
-      <label>Başlık
-        <input id="title" name="title" type="text" placeholder="Başlık" />
-      </label>
     </div>
-  </div>
-  <div class="row">
-    <div class="large-12 columns">
-      <label>İçerik
-        <textarea id="content" name="content" placeholder="İçerik"></textarea>
-      </label>
-    </div>
-  </div>
-  <div class="row">
-    <div class="large-12 columns">
-      <label>Kategoriler
-        <select id="category" name="category">
-                <option value="<?php echo $category['id']; ?>">PHP</option>
-        </select>
-      </label>
-    </div>
-  </div>
-  <div class="row">
-      <div class="large-12 columns">
-          <button type="submit">Submit</button>
-      </div>
-  </div>
-</form>
-        </div>
- 
-    </div>
- 
  
     <footer class="row">
         <div class="large-12 columns">
@@ -115,8 +77,8 @@
  
 
     
-    <script src="js/vendor/jquery.js"></script>
-    <script src="js/foundation.min.js"></script>
+    <script src="/Cms/www/js/vendor/jquery.js"></script>
+    <script src="/Cms/www/js/foundation.min.js"></script>
     <script>
     $(document).foundation();
     </script>
