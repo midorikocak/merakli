@@ -10,6 +10,8 @@
 
 namespace Midori\Cms;
 
+use \PDO;
+
 class Files{
 	
     /**
@@ -25,6 +27,23 @@ class Files{
     * @var string
     */
     public $filename;
+    
+    /**
+    * Sistemdeki bağlı bilgileri içeren dizi
+    *
+    * @var array
+    */
+    private $related;
+    
+    /**
+    * Bağlı
+    *
+    * @param PDO $db Bağlantı objesi
+    * @return void
+    */
+    public function getRelatedData($related){
+        $this->related = $related;
+    }
 	
     /**
     * Veritabanı bağlantısını tutacak olan değişken.
@@ -51,26 +70,53 @@ class Files{
     * @param int $category_id Dosya kategorisinin benzersiz kimliği
     * @return bool eklendiyse doğru, eklenemediyse yanlış değer döndürsün
     */
-    public function add($filename=null){
-		if($filename!=null)
+    public function add($file=null){
+		if($file!=null)
         {
-            // Önce veritabanı sorgumuzu hazırlayalım.
-            $query = $this->db->prepare("INSERT INTO posts SET filename=:dosyaadi");
-	
-            $insert = $query->execute(array(
-                "dosyaadi"=>$filename,
-            ));
-	
-            if($insert){
-                // Veritabanı işlemi başarılı ise sınıfın objesine ait değişkenleri değiştirelim
-                $this->id = $this->db->lastInsertId();
-                $this->filename = $filename;
             
-                return true;
-            }
-            else{
+            $allowedExts = array("gif", "jpeg", "jpg", "png");
+            $temp = explode(".", $file["name"]);
+            $extension = end($temp);
+
+            if ((($file["type"] == "image/gif")
+            || ($file["type"] == "image/jpeg")
+            || ($file["type"] == "image/jpg")
+            || ($file["type"] == "image/pjpeg")
+            || ($file["type"] == "image/x-png")
+            || ($file["type"] == "image/png"))
+            && ($file["size"] < 2000000)
+            && in_array($extension, $allowedExts)) {
+              if ($file["error"] > 0) {
                 return false;
-            }  
+              } else {
+                if (file_exists("./www/images/" . $file["name"])) {
+                  return $file["name"] . " already exists. ";
+                } else {
+                  $rand = substr(md5(microtime()),rand(0,26),5);
+                  move_uploaded_file($file["tmp_name"],
+                  "./www/images/" . $rand . '.' . $file["name"]);
+                  // Önce veritabanı sorgumuzu hazırlayalım.
+                  $query = $this->db->prepare("INSERT INTO files SET filename=:dosyaadi");
+
+                  $insert = $query->execute(array(
+                      "dosyaadi"=>$rand.'.'.$file["name"]
+                  ));
+
+                  if($insert){
+                      // Veritabanı işlemi başarılı ise sınıfın objesine ait değişkenleri değiştirelim
+                      $this->id = $this->db->lastInsertId();
+                      $this->filename = $file["name"];
+
+                      return true;
+                  }
+                  else{
+                      return false;
+                  }
+                }
+              }
+            } else {
+              return "Invalid file";
+            }
         }
         else
         {
@@ -101,7 +147,7 @@ class Files{
                 $this->id = $file['id'];
                 $this->title = $file['filename'];
                 
-                $result = array('file'=>$file)
+                $result = array('file'=>$file);
                 return $result;
             }
         }
@@ -127,6 +173,25 @@ class Files{
             return false;
         }
     }
+    
+    /**
+    * Tüm girdilerin listelenmesini sağlayan metod.
+    *
+    * @return bool listelenebildiyse doğru, listelenemediyse yanlış değer döndürsün
+    */
+    public function show(){
+		$query = $this->db->prepare("SELECT * FROM files");
+        $query->execute();
+        if($query){
+            // Buradaki fetchAll metoduyla tüm değeleri diziye çektik.
+            $result = array('render'=>true,'template'=>'admin','files'=>  $query->fetchAll(PDO::FETCH_ASSOC));
+            return $result;
+        }
+        else
+        {
+            return false;
+        }
+    }
 
 
     /**
@@ -136,24 +201,26 @@ class Files{
     * @param int $id Dosyanın benzersiz index'i
     * @return bool düzenlendiyse doğru, eklenemediyse yanlış değer döndürsün
     */
-    public function edit($id, $filename){
-        
-        // Tarih içeren alanları elle girmiyoruz. Sistemden doğrudan isteyen fonksiyonumuz var.
-        $date = $this->getDate();
-		
-        // Önce veritabanı sorgumuzu hazırlayalım.
-        $query = $this->db->prepare("UPDATE files SET filename=:filename WHERE id=:id");
+    public function edit($id=null, $filename=null){
+	    if($filename!=null){
+            // Önce veritabanı sorgumuzu hazırlayalım.
+            $query = $this->db->prepare("UPDATE files SET filename=:filename WHERE id=:id");
 	
-        $update = $query->execute(array(
-            "filename"=>$filename,
-        ));
+            $update = $query->execute(array(
+                "filename"=>$filename,
+            ));
 		
-        if ( $update ){
-             return true;
-        }
-        else
-        {
-            return false;
+            if ( $update ){
+                 return true;
+            }
+            else
+            {
+                return false;
+            }
+	    }
+        else{
+            $oldData = $this->view($id);
+            return  array('template'=>'admin','render'=>true,'file'=>$oldData['file']);
         }
     }
 
@@ -169,6 +236,7 @@ class Files{
         $delete = $query->execute(array(
            'id' => $id
         ));
+        return array('template'=>'admin','render'=>false);
     }
 	
 }

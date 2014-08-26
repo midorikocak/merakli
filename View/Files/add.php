@@ -13,12 +13,17 @@
 */
 ?>
 
-<form action="add.php" method="post" enctype="multipart/form-data">
+<form action="/Cms/index.php/Files/add" method="post" enctype="multipart/form-data">
   <div class="row">
     <div class="large-12 columns">
       <label>Dosya
-        <input type="file" placeholder="large-12.columns" />
+        <input type="file" id="file" name="file" />
       </label>
     </div>
+  </div>
+  <div class="row">
+      <div class="large-12 columns">
+          <button type="submit">Submit</button>
+      </div>
   </div>
 </form>
