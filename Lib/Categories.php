@@ -99,7 +99,7 @@ class Categories{
     }
 
     /**
-    * Tek bir kategorinin gösterilmesini sağlayan method
+    * Tek bir kategordeki girdileri göstereceğiz
     *
     * @param int $id Kategorinin benzersiz index'i
     * @return array gösterilebildyise dizi türünde verileri döndürsün, gösterilemediyse false, yanlış değeri döndürsün
@@ -112,7 +112,7 @@ class Categories{
         }
         else{
             // Buradan anlıyoruz ki veri henüz çekilmemiş. Veriyi çekmeye başlayalım
-            $query = $this->db->prepare("SELECT * FROM posts WHERE id=:id");
+            $query = $this->db->prepare("SELECT * FROM categories WHERE id=:id");
             $query->execute(array(':id'=>$id));
 		
             if($query){
@@ -123,7 +123,19 @@ class Categories{
                 $this->id = $category['id'];
                 $this->title = $category['title'];
                 
-                return $result;
+                // Yeni bir sorgu yapacağız ve o kategoriye ait girdileri alacağız.
+                // Buradan anlıyoruz ki veri henüz çekilmemiş. Veriyi çekmeye başlayalım
+                $postQuery = $this->db->prepare("SELECT * FROM posts WHERE category_id=:category_id");
+                $postQuery->execute(array(':category_id'=>$id));
+		
+                if($postQuery){
+                    $categoryPosts = $postQuery->fetchAll(PDO::FETCH_ASSOC);
+                
+                    $result = array('posts'=>$categoryPosts,'render'=>true,'template'=>'public');
+                    return $result;
+                    // Yeni bir sorgu yapacağız ve o kategoriye ait girdileri alacağız.
+                
+                }
             }
         }
 	
