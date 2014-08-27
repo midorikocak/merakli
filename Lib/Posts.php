@@ -12,22 +12,9 @@ namespace Midori\Cms;
 
 use \PDO;
 
-class Posts{
+class Posts extends Assets{
 	
-    /**
-    * Girdinin tekil id'sini tutan değişken. Başka girdilerle karışmamasını sağlar
-    *
-    * @var int
-    */
-    public $id;
-    
-    /**
-    * Sistemdeki bağlı bilgileri içeren dizi
-    *
-    * @var array
-    */
-    private $related;
- 
+
     /**
     * Girdi başlığı
     *
@@ -63,33 +50,6 @@ class Posts{
     * @var string
     */
     private $updated;
-	
-    /**
-    * Veritabanı bağlantısını tutacak olan değişken.
-    *
-    * @var PDO
-    */
-    private $db = false;
-    
-    /**
-    * Bağlantı yapmaya yarayan metod
-    *
-    * @param PDO $db Bağlantı objesi
-    * @return void
-    */
-    public function connect($db){
-        $this->db = $db;
-    }
-    
-    /**
-    * Bağlı
-    *
-    * @param PDO $db Bağlantı objesi
-    * @return void
-    */
-    public function getRelatedData($related){
-        $this->related = $related;
-    }
     
     /**
     * Şu anki tarihi döndüren yardımcı metod

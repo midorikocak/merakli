@@ -43,8 +43,7 @@ class App{
     }
     
     public function injectRelatedData(){
-        $categories = new Categories();
-        $categories->connect($this->db);
+        $categories = new Categories($this->db);
         return $categories->index();
     }
     
@@ -54,8 +53,7 @@ class App{
         $params = split("/", $request);;
         $className = __NAMESPACE__.'\\'.$params[1];
         //call_user_func_array
-        $class = new $className();
-        $class->connect($this->db);
+        $class = new $className($this->db);
         $class->getRelatedData($this->injectRelatedData());
         
         if(empty($data))
