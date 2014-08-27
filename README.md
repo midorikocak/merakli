@@ -11,3 +11,8 @@ The atricle series are started on http://meraklibilisimci.com consisting 10 diff
 * Redirection and 404 page
 * API Documentation using PhpDocumentor
 * Adding articles to Doc folder
+
+## Installation
+* Create Cms folder on your server and add repository files into it.
+* Create a database called 'merakli' on your MySQL database, and run db/merakli.sql on it.
+* After that you have to change Config/config.inc.php and add your database login settings.
