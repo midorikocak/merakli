@@ -7,7 +7,6 @@ The atricle series are started on http://meraklibilisimci.com consisting 10 diff
 ##Things to do
 * Pagination
 * Authorization & Login
-* OOP Conecpts
 * Redirection and 404 page
 * API Documentation using PhpDocumentor
 * Adding articles to Doc folder
