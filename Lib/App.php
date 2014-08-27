@@ -94,10 +94,6 @@ class App{
             $content =  array('related'=>$this->injectRelatedData(),'content'=>$this->render('./View/'.$params[1].'/show.php',$data));
             return $this->render('./www/'.$data['template'].'.php', $content);
         }
-        // var_dump($params);
-        // $posts = new Posts();
-        // $posts->connect($this->db);
-        // return $posts->view(1);
     }
     
     public function render($file, $vars){
