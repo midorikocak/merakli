@@ -30,5 +30,3 @@
         $request = "/Posts/";
     }
     echo $app->calculate($request,$data);
-    
-?>

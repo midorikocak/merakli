@@ -46,6 +46,7 @@ class Users extends Assets
      *
      * @param string $username Yönetici kullanıcı adı
      * @param string $password Yönetici parola
+     * @param string $password2 Yönetici parola kontrol değeri
      * @param string $email Yönetici e-posta
      * @return bool eklendiyse doğru, eklenemediyse yanlış değer döndürsün
      */
@@ -169,6 +170,7 @@ class Users extends Assets
      * @param int $id Kategorinin benzersiz index'i
      * @param string $username Yönetici kullanıcı adı
      * @param string $password Yönetici parola
+     * @param string $password2 Yönetici parola kontrol değeri
      * @param string $email Yönetici e-posta
      * @return bool düzenlendiyse doğru, eklenemediyse yanlış değer döndürsün
      */
