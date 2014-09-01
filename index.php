@@ -2,7 +2,7 @@
     require 'Vendor/autoload.php';
     require 'Config/config.inc.php';
     require 'Lib/App.php';
-    
+    session_start();
     
     $app = new \Midori\Cms\App();
     $app->connect($config['db']['host'],$config['db']['username'],$config['db']['password'],$config['db']['dbname']);

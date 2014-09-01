@@ -43,7 +43,7 @@ abstract class Assets{
     *
     * @var array
     */
-    private $related;
+    public $related;
     
     public function __construct($db){
         $this->db = $db;

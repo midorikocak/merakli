@@ -155,6 +155,18 @@ class Files extends Assets{
     }
 
     /**
+     * Dosya düzenleyen metod
+     *
+     * Dosyaların düzenlenmesini istemiyoruz. Bu yüzden metodumuzun içi boş.
+     *
+     * @return void
+     */
+    public function edit(){
+        return void;
+    }
+
+
+    /**
     * Dosya silen metod, verilerin silinmesini sağlar.
     * Geri dönüşü yoktur.
     *

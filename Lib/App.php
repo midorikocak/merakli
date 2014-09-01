@@ -50,12 +50,16 @@ class App{
     public function calculate($request, $data)
     {
         // /posts/add gibi bir request geldi.
-        $params = split("/", $request);;
+        $params = split("/", $request);
         $className = __NAMESPACE__.'\\'.$params[1];
         //call_user_func_array
         $class = new $className($this->db);
         $class->getRelatedData($this->injectRelatedData());
-        
+
+        // Bu sınıfı tamamen değiştirmemiz gerek. Kullanıcının oturum açıp açmadığını
+        // açtıysa, oturum bilgilerine göre neyin nasıl görüntüleneceğini belirlemeliyiz.
+        //  Mesajlar uçuyordu halloldu
+
         if(empty($data))
         {
             if($params[2]!=null)
@@ -68,34 +72,77 @@ class App{
                 {
                     $data = $class->$params[2]();
                 }
+                if(isset($data['message']))
+                {
+                    $message=$data['message'];
+                }
+                else{
+                    $message = null;
+                }
                 if($data['render']!=false)
                 {
-                    $content = array('related'=>$this->injectRelatedData(),'content'=>$this->render('./View/'.$params[1].'/'.mb_strtolower($params[2]).'.php',$data));
-                    return $this->render('./www/'.$data['template'].'.php', $content);  
+                    $content = array('message'=>$message,'related'=>$this->injectRelatedData(),'content'=>$this->render('./View/'.$params[1].'/'.mb_strtolower($params[2]).'.php',$data));
+                    return $this->render('./www/'.$data['template'].'.php', $content);
                 }
                 else
                 {
-                    $data = $class->show();
-                    $content =  array('related'=>$this->injectRelatedData(),'content'=>$this->render('./View/'.$params[1].'/show.php',$data));
+                    if(isset($data['message']))
+                    {
+                        $message=$data['message'];
+                    }
+                    else{
+                        $message = null;
+                    }
+                    if($class->show()!=false){
+                        // login sayfasına gitsin
+                        $data = $class->show();
+                        $content =  array('message'=>$message,'related'=>$this->injectRelatedData(),'content'=>$this->render('./View/'.$params[1].'/show.php',$data));
+                    }
+                    else{
+                        $content =  array('message'=>$message,'related'=>$this->injectRelatedData(),'content'=>$this->render('./View/'.$params[1].'/login.php',$data));
+                    }
                     return $this->render('./www/'.$data['template'].'.php', $content);
                 }
             }
             else{
+
                 $data = $class->index();
-                $content =  array('related'=>$this->injectRelatedData(),'content'=>$this->render('./View/'.$params[1].'/index.php',$data));
+                if(isset($data['message']))
+                {
+                    $message=$data['message'];
+                }
+                else{
+                    $message = null;
+                }
+                $content =  array('message'=>$message,'related'=>$this->injectRelatedData(),'content'=>$this->render('./View/'.$params[1].'/index.php',$data));
                 return $this->render('./www/'.$data['template'].'.php', $content);
             }
         }
         else{
-            call_user_func_array ( array($class, $params[2]), $data );
-            $data = $class->show();
-            $content =  array('related'=>$this->injectRelatedData(),'content'=>$this->render('./View/'.$params[1].'/show.php',$data));
+            $data = call_user_func_array ( array($class, $params[2]), $data );
+
+            if(isset($data['message']))
+            {
+                $message=$data['message'];
+            }
+            else{
+                $message=null;
+            }
+
+            if($class->show()!=false){
+                // login sayfasına gitsin
+                $data = $class->show();
+                $content =  array('message'=>$message,'related'=>$this->injectRelatedData(),'content'=>$this->render('./View/'.$params[1].'/show.php',$data));
+            }
+            else
+            {
+                $content =  array('message'=>$message,'related'=>$this->injectRelatedData(),'content'=>$this->render('./View/'.$params[1].'/login.php',$data));
+            }
             return $this->render('./www/'.$data['template'].'.php', $content);
         }
     }
     
     public function render($file, $vars){
-        
         if (is_array($vars) && !empty($vars)) {
             extract($vars);
         }

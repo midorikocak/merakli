@@ -51,8 +51,15 @@
                 </li>
             </ul>
             <ul class="right">
-                <li class="divider"></li>
-                <li><a href="#">Admin</a></li>
+                <li class="has-dropdown">
+                    <a href="#">Admin</a>
+                    <ul class="dropdown">
+                        <li><a href="/Cms/index.php/Users/show">Tüm Kullanıcılar &rarr;</a></li>
+                        <li><a href="/Cms/index.php/Users/add">Yeni Kullanıcı</a></li>
+                        <li><a href="/Cms/index.php/Users/edit/<?=$_SESSION['id']?>">Profilim</a></li>
+                        <li><a href="/Cms/index.php/Users/logout">Çıkış yap</a></li>
+                    </ul>
+                </li>
                 <li class="divider"></li>
                 <li><a href="#">Ayarlar</a></li>
             </ul>
@@ -60,7 +67,7 @@
     </nav>
     <div class="row">
         <?php
-        if($message!=null):
+        if(isset($message)):
         ?>
         <div data-alert class="alert-box">
             <?=$message?>

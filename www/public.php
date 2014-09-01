@@ -29,7 +29,7 @@
     </header>
     <div class="row">
         <?php
-        if($message!=null):
+        if(isset($message)):
             ?>
             <div data-alert class="alert-box">
                 <?=$message?>
