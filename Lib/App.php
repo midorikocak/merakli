@@ -12,6 +12,10 @@ namespace Midori\Cms;
 use Midori\Cms;
 use \PDO;
 
+/**
+ * Class App
+ * @package Midori\Cms
+ */
 class App{
     
     /**
@@ -41,12 +45,24 @@ class App{
             return $e->getMessage();
         }
     }
-    
+
+    /**
+     * Nesnelere bağlı olan bilgileri çektiğimiz metod
+     *
+     * @return bool
+     */
     public function injectRelatedData(){
         $categories = new Categories($this->db);
         return $categories->index();
     }
-    
+
+    /**
+     * Sistemdeki bütün görüntüleme hesaplama işlemlerini yapan metod
+     *
+     * @param $request
+     * @param $data
+     * @return string
+     */
     public function calculate($request, $data)
     {
         // /posts/add gibi bir request geldi.
@@ -97,11 +113,12 @@ class App{
                         // login sayfasına gitsin
                         $data = $class->show();
                         $content =  array('message'=>$message,'related'=>$this->injectRelatedData(),'content'=>$this->render('./View/'.$params[1].'/show.php',$data));
+                        return $this->render('./www/'.$data['template'].'.php', $content);
                     }
                     else{
-                        $content =  array('message'=>$message,'related'=>$this->injectRelatedData(),'content'=>$this->render('./View/'.$params[1].'/login.php',$data));
+                        $content =  array('message'=>$message,'related'=>$this->injectRelatedData(),'content'=>$this->render('./View/Users/login.php',$data));
+                        return $this->render('./www/public.php', $content);
                     }
-                    return $this->render('./www/'.$data['template'].'.php', $content);
                 }
             }
             else{
@@ -136,12 +153,19 @@ class App{
             }
             else
             {
-                $content =  array('message'=>$message,'related'=>$this->injectRelatedData(),'content'=>$this->render('./View/'.$params[1].'/login.php',$data));
+                $content =  array('message'=>$message,'related'=>$this->injectRelatedData(),'content'=>$this->render('./View/Users/login.php',$data));
             }
             return $this->render('./www/'.$data['template'].'.php', $content);
         }
     }
-    
+
+    /**
+     * Tema dosyalarının ihtiyaç duyulan değişkenlerle gösterilmesini sağlayan metod
+     *
+     * @param $file
+     * @param $vars
+     * @return string
+     */
     public function render($file, $vars){
         if (is_array($vars) && !empty($vars)) {
             extract($vars);

@@ -12,6 +12,10 @@ namespace Midori\Cms;
 
 use \PDO;
 
+/**
+ * Class Categories
+ * @package Midori\Cms
+ */
 class Categories extends Assets{
 	
 
@@ -31,6 +35,9 @@ class Categories extends Assets{
     * @return bool eklendiyse doğru, eklenemediyse yanlış değer döndürsün
     */
     public function add($title=null){
+        if(!$this->checkLogin()){
+            return false;
+        }
 		
         if($title!=null)
         {
@@ -108,6 +115,9 @@ class Categories extends Assets{
     * @return bool listelenebildiyse doğru, listelenemediyse yanlış değer döndürsün
     */
     public function show(){
+        if(!$this->checkLogin()){
+            return false;
+        }
 		$query = $this->db->prepare("SELECT * FROM categories");
         $query->execute();
         if($query){
@@ -150,6 +160,9 @@ class Categories extends Assets{
     * @return bool düzenlendiyse doğru, eklenemediyse yanlış değer döndürsün
     */
     public function edit($id=null, $title=null){
+        if(!$this->checkLogin()){
+            return false;
+        }
         if($title!=null)
         {
             // Önce veritabanı sorgumuzu hazırlayalım.
@@ -182,6 +195,9 @@ class Categories extends Assets{
     * @return bool silindiyse doğru, eklenemediyse yanlış değer döndürsün
     */
     public function delete($id){
+        if(!$this->checkLogin()){
+            return false;
+        }
         $query = $this->db->prepare("DELETE FROM categories WHERE id = :id");
         $delete = $query->execute(array(
            'id' => $id

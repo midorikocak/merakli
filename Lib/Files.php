@@ -31,6 +31,9 @@ class Files extends Assets{
     * @return bool eklendiyse doğru, eklenemediyse yanlış değer döndürsün
     */
     public function add($file=null){
+        if(!$this->checkLogin()){
+            return false;
+        }
 		if($file!=null)
         {
             
@@ -123,6 +126,9 @@ class Files extends Assets{
     * @return bool listelenebildiyse doğru, listelenemediyse yanlış değer döndürsün
     */
     public function index(){
+        if(!$this->checkLogin()){
+            return false;
+        }
 		$query = $this->db->prepare("SELECT * FROM files");
         $query->execute();
         if($query){
@@ -141,6 +147,9 @@ class Files extends Assets{
     * @return bool listelenebildiyse doğru, listelenemediyse yanlış değer döndürsün
     */
     public function show(){
+        if(!$this->checkLogin()){
+            return false;
+        }
 		$query = $this->db->prepare("SELECT * FROM files");
         $query->execute();
         if($query){
@@ -162,6 +171,9 @@ class Files extends Assets{
      * @return void
      */
     public function edit(){
+        if(!$this->checkLogin()){
+            return false;
+        }
         return void;
     }
 

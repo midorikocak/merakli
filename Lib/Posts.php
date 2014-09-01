@@ -72,6 +72,9 @@ class Posts extends Assets{
     * @return bool eklendiyse doğru, eklenemediyse yanlış değer döndürsün
     */
     public function add($title=null, $content=null, $category_id=null){
+        if(!$this->checkLogin()){
+            return false;
+        }
         if($title!=null)
         {
             // Tarih içeren alanları elle girmiyoruz. Sistemden doğrudan isteyen fonksiyonumuz var.
@@ -170,6 +173,9 @@ class Posts extends Assets{
     * @return bool listelenebildiyse doğru, listelenemediyse yanlış değer döndürsün
     */
     public function show(){
+        if(!$this->checkLogin()){
+            return false;
+        }
 		$query = $this->db->prepare("SELECT * FROM posts");
         $query->execute();
         if($query){
@@ -192,6 +198,9 @@ class Posts extends Assets{
     * @return bool düzenlendiyse doğru, eklenemediyse yanlış değer döndürsün
     */
     public function edit($id=null, $title=null, $content=null, $category_id=null){
+        if(!$this->checkLogin()){
+            return false;
+        }
         if($title!=null)
         {
             
@@ -231,6 +240,9 @@ class Posts extends Assets{
     * @return bool silindiyse doğru, eklenemediyse yanlış değer döndürsün
     */
     public function delete($id){
+        if(!$this->checkLogin()){
+            return false;
+        }
         $query = $this->db->prepare("DELETE FROM posts WHERE id = :id");
         $delete = $query->execute(array(
            'id' => $id

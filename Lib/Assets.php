@@ -12,6 +12,10 @@ namespace Midori\Cms;
 
 use \PDO;
 
+/**
+ * Class Assets
+ * @package Midori\Cms
+ */
 abstract class Assets{
 	
     /**
@@ -44,9 +48,32 @@ abstract class Assets{
     * @var array
     */
     public $related;
-    
+
+    /**
+     * Sınıftan nesne oluşturulduğunda otomatik çalışan metod
+     * Burada sınıfın çalışması için veritabanı sınıfı isteniyor.
+     *
+     * @param $db
+     */
     public function __construct($db){
         $this->db = $db;
+    }
+
+    /**
+     * Sistemde oturum açılıp açılmadığını gösteren metod
+     *
+     * @return bool
+     */
+    public function checkLogin()
+    {
+        // Burada tekrar oturum kontrolü yapıyoruz:
+        if(!isset($_SESSION['username'])){
+            return false;
+            //return array('render'=>false,'template'=>'public','message'=>'Lütfen oturum açınız!');
+        }
+        else{
+            return true;
+        }
     }
     
     /**

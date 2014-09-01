@@ -11,6 +11,10 @@ namespace Midori\Cms;
 
 use \PDO;
 
+/**
+ * Class Users
+ * @package Midori\Cms
+ */
 class Users extends Assets{
 	
 
@@ -34,19 +38,6 @@ class Users extends Assets{
     * @var string
     */
     private $password;
-
- 
-    public function checkLogin()
-    {
-        // Burada tekrar oturum kontrolü yapıyoruz:
-        if(!isset($_SESSION['username'])){
-            return false;
-            //return array('render'=>false,'template'=>'public','message'=>'Lütfen oturum açınız!');
-        }
-        else{
-            return true;
-        }
-    }
  
     /**
     * Kullanıcı ekleyen metod, verilerin kaydedilmesini sağlar. Sistemde hiç kullanıcı yoksa
@@ -283,6 +274,9 @@ class Users extends Assets{
     * @return bool silindiyse doğru, eklenemediyse yanlış değer döndürsün
     */
     public function delete($id){
+        if(!$this->checkLogin()){
+            return false;
+        }
         $query = $this->db->prepare("DELETE FROM users WHERE id = :id");
         $delete = $query->execute(array(
            'id' => $id
