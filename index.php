@@ -6,6 +6,7 @@
     
     $app = new \Midori\Cms\App();
     $app->connect($config['db']['host'],$config['db']['username'],$config['db']['password'],$config['db']['dbname']);
+    $app->getSettings();
 
     if(strpos($_SERVER['REQUEST_URI'],$_SERVER['SCRIPT_NAME'])!==false){
         $request = str_replace($_SERVER['SCRIPT_NAME'], "", $_SERVER['REQUEST_URI']);

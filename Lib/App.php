@@ -25,6 +25,13 @@ class App{
     */
     private $db = false;
 
+    /**
+     * Sistem ayarlarını çeken değişken.
+     *
+     * @var array
+     */
+    private $settings = false;
+
     
     /**
     * Veritabanına bağlanmaya yarayan kurucu metod
@@ -49,11 +56,22 @@ class App{
     /**
      * Nesnelere bağlı olan bilgileri çektiğimiz metod
      *
-     * @return bool
+     * @return array
      */
     public function injectRelatedData(){
         $categories = new Categories($this->db);
         return $categories->index();
+    }
+
+    /**
+     * Tüm sitedeki ayarları çektiğimiz metod
+     *
+     * @return array
+     */
+    public function getSettings(){
+        $settings = new Settings($this->db);
+        $setting = $settings->view();
+        $this->settings = $setting['setting'];
     }
 
     /**
@@ -95,7 +113,16 @@ class App{
                 else{
                     $message = null;
                 }
-                if($data['render']!=false)
+
+                if(isset($data['renderFile'])){
+                    $params[2] = $data['renderFile'];
+                    $renderFile = $data['renderFile'];
+                }
+                else{
+                    $renderFile = 'show';
+                }
+
+                if(isset($data['render']) && $data['render']!=false)
                 {
                     $content = array('message'=>$message,'related'=>$this->injectRelatedData(),'content'=>$this->render('./View/'.$params[1].'/'.mb_strtolower($params[2]).'.php',$data));
                     return $this->render('./www/'.$data['template'].'.php', $content);
@@ -112,7 +139,7 @@ class App{
                     if($class->show()!=false){
                         // login sayfasına gitsin
                         $data = $class->show();
-                        $content =  array('message'=>$message,'related'=>$this->injectRelatedData(),'content'=>$this->render('./View/'.$params[1].'/show.php',$data));
+                        $content =  array('message'=>$message,'related'=>$this->injectRelatedData(),'content'=>$this->render('./View/'.$params[1].'/'.$renderFile.'.php',$data));
                         return $this->render('./www/'.$data['template'].'.php', $content);
                     }
                     else{
@@ -123,7 +150,18 @@ class App{
             }
             else{
 
+
                 $data = $class->index();
+
+                if(isset($data['renderFile'])){
+                    $params[2] = $data['renderFile'];
+                    $renderFile = $data['renderFile'];
+                }
+                else{
+                    $renderFile = 'index';
+                }
+
+
                 if(isset($data['message']))
                 {
                     $message=$data['message'];
@@ -131,12 +169,20 @@ class App{
                 else{
                     $message = null;
                 }
-                $content =  array('message'=>$message,'related'=>$this->injectRelatedData(),'content'=>$this->render('./View/'.$params[1].'/index.php',$data));
+                $content =  array('message'=>$message,'related'=>$this->injectRelatedData(),'content'=>$this->render('./View/'.$params[1].'/'.$renderFile.'.php',$data));
                 return $this->render('./www/'.$data['template'].'.php', $content);
             }
         }
         else{
             $data = call_user_func_array ( array($class, $params[2]), $data );
+
+            if(isset($data['renderFile'])){
+                $params[2] = $data['renderFile'];
+                $renderFile = $data['renderFile'];
+            }
+            else{
+                $renderFile = 'show';
+            }
 
             if(isset($data['message']))
             {
@@ -149,7 +195,7 @@ class App{
             if($class->show()!=false){
                 // login sayfasına gitsin
                 $data = $class->show();
-                $content =  array('message'=>$message,'related'=>$this->injectRelatedData(),'content'=>$this->render('./View/'.$params[1].'/show.php',$data));
+                $content =  array('message'=>$message,'related'=>$this->injectRelatedData(),'content'=>$this->render('./View/'.$params[1].'/'.$renderFile.'.php',$data));
             }
             else
             {
@@ -169,6 +215,11 @@ class App{
     public function render($file, $vars){
         if (is_array($vars) && !empty($vars)) {
             extract($vars);
+        }
+
+        if($this->settings!=false && !isset($title))
+        {
+            extract($this->settings);
         }
         
         ob_start();

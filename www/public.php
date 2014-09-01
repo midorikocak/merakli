@@ -11,7 +11,9 @@
   <body>
     <header>
         <div class="row">
-            <div class="large-3 large-centered columns page-title"><h1>Site Başlığı</h1></div>
+            <div class="large-3 large-centered columns page-title"><h1><?=$title?></h1>
+            <small><?=$description?></small>
+            </div>
         </div>
         <div class="row">
             <div class="large-12 columns">
@@ -42,7 +44,7 @@
     </div>
     <footer class="row genel-footer">
         <div class="large-12 columns">
-            COPYRIGHT 2014 meraklibilisimci.com
+            <?=$copyright?>
         </div>
     </footer>
     <script src="/Cms/www/js/vendor/jquery.js"></script>

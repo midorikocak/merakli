@@ -61,7 +61,7 @@
                     </ul>
                 </li>
                 <li class="divider"></li>
-                <li><a href="#">Ayarlar</a></li>
+                <li><a href="/Cms/index.php/Settings/add">Ayarlar</a></li>
             </ul>
         </section>
     </nav>
