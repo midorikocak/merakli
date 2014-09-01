@@ -1,2 +1,12 @@
 /www/images
 *.codekit
+
+nbproject/private/private.properties
+
+*.bak
+
+nbproject/private/private.xml
+
+nbproject/project.properties
+
+nbproject/project.xml
