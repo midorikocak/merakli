@@ -93,9 +93,9 @@ class Settings extends Assets{
     }
 
     /**
-    * Tek bir kullanıcı verisini edit işlemine yani profil sayfasına gönderen metod. Render edilmesin
+    * Tek bir ayar verisini edit işlemine yani ayar sayfasına gönderen metod. Render edilmesin
     *
-    * @param int $id Kullanıcının benzersiz index'i
+    * @param int $id ayarın benzersiz index'i
     * @return array gösterilebildyise dizi türünde verileri döndürsün, gösterilemediyse false, yanlış değeri döndürsün
     */
     public function view($id=null){
@@ -129,7 +129,7 @@ class Settings extends Assets{
     }
     
     /**
-    * Tüm ayarların listelenmesini sağlayan metod.
+    * Tüm ayarların listelenmesini sağlayan metod. Edit temasını kullanır.
     *
     * @return bool listelenebildiyse doğru, listelenemediyse yanlış değer döndürsün
     */
@@ -155,10 +155,9 @@ class Settings extends Assets{
 
 
     /**
-    * Kullanıcıyı düzenlemeye yarar. Verilen Id bilginse göre, alınan bilgi ile sistemdeki bilgiyi değiştiren
-    * güncelleyen metod. Bu sayfa aynı zamanda kullanıcının profil sayfası olarak da görünmeli. View metodundan
-    * hazır verileri alıp göstersin.
-    *
+    * Ayarı düzenlemeye yarar. Verilen Id bilginse göre, alınan bilgi ile sistemdeki bilgiyi değiştiren
+    * güncelleyen metod.
+     *
     * @param int $id Kategorinin benzersiz index'i
     * @param string $username Yönetici kullanıcı adı
     * @param string $username Yönetici parola
@@ -197,7 +196,7 @@ class Settings extends Assets{
     }
 
     /**
-    * Kullanıcı silen metod, verilerin silinmesini sağlar.
+    * Ayar silen metod, verilerin silinmesini sağlar. Ayar silinemeyeceği için içi boş.
     * Geri dönüşü yoktur.
     *
     * @param int $id Kategorinin benzersiz index'i
