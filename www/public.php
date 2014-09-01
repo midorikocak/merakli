@@ -28,6 +28,16 @@
         </div>
     </header>
     <div class="row">
+        <?php
+        if($message!=null):
+            ?>
+            <div data-alert class="alert-box">
+                <?=$message?>
+                <a href="#" class="close">&times;</a>
+            </div>
+        <?php
+        endif;
+        ?>
 <?php echo $content; ?>
     </div>
     <footer class="row genel-footer">

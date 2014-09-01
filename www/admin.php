@@ -59,6 +59,16 @@
         </section>
     </nav>
     <div class="row">
+        <?php
+        if($message!=null):
+        ?>
+        <div data-alert class="alert-box">
+            <?=$message?>
+            <a href="#" class="close">&times;</a>
+        </div>
+        <?php
+        endif;
+        ?>
         <div class="large-12 columns">
             <?php echo $content; ?>
         </div>
