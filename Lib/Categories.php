@@ -42,16 +42,17 @@ class Categories extends Assets
         }
 
         if ($title != null) {
-            // Önce veritabanı sorgumuzu hazırlayalım.
-            $query = $this->db->prepare("INSERT INTO categories SET title=:baslik");
+            
 
-            $insert = $query->execute(array(
-                "baslik" => $title
-            ));
+            // insert
+            $insert = $this->db->insert('categories')
+                        ->set(array(
+                             'title' => $title,
+                        ));
 
             if ($insert) {
                 // Veritabanı işlemi başarılı ise sınıfın objesine ait değişkenleri değiştirelim
-                $this->id = $this->db->lastInsertId();
+                $this->id = $this->db->lastId();
                 $this->title = $title;
 
                 return true;
@@ -77,22 +78,26 @@ class Categories extends Assets
             return array("id" => $this->id, "title" => $this->title);
         } else {
             // Buradan anlıyoruz ki veri henüz çekilmemiş. Veriyi çekmeye başlayalım
-            $query = $this->db->prepare("SELECT * FROM categories WHERE id=:id");
-            $query->execute(array(':id' => $id));
-
+            
+            $query = $db->select('categories')
+                        ->where('id', $id)
+                        ->run();
+            
             if ($query) {
-                $category = $query->fetch(PDO::FETCH_ASSOC);
+                $category = $query;
 
                 $this->id = $category['id'];
                 $this->title = $category['title'];
 
                 // Yeni bir sorgu yapacağız ve o kategoriye ait girdileri alacağız.
                 // Buradan anlıyoruz ki veri henüz çekilmemiş. Veriyi çekmeye başlayalım
-                $postQuery = $this->db->prepare("SELECT * FROM posts WHERE category_id=:category_id");
-                $postQuery->execute(array(':category_id' => $id));
+                
+                $postQuery = $db->select('posts')
+                            ->where('category_id', $id)
+                            ->run();
 
                 if ($postQuery) {
-                    $categoryPosts = $postQuery->fetchAll(PDO::FETCH_ASSOC);
+                    $categoryPosts = $postQuery;
 
                     $result = array('posts' => $categoryPosts, 'render' => true, 'template' => 'public', 'category' => $category);
                     return $result;
@@ -116,11 +121,13 @@ class Categories extends Assets
         if (!$this->checkLogin()) {
             return false;
         }
-        $query = $this->db->prepare("SELECT * FROM categories");
-        $query->execute();
+        
+        $query = $this->db->select('categories')
+                    ->run();
+        
         if ($query) {
             // Buradaki fetchAll metoduyla tüm değeleri diziye çektik.
-            $result = array('render' => true, 'template' => 'admin', 'categories' => $query->fetchAll(PDO::FETCH_ASSOC));
+            $result = array('render' => true, 'template' => 'admin', 'categories' => $query);
             return $result;
         } else {
             return false;
@@ -134,11 +141,11 @@ class Categories extends Assets
      */
     public function index()
     {
-        $query = $this->db->prepare("SELECT * FROM categories");
-        $query->execute();
+        $query = $this->db->select('categories')
+                    ->run();
         if ($query) {
             // Buradaki fetchAll metoduyla tüm değeleri diziye çektik.
-            $categories = $query->fetchAll(PDO::FETCH_ASSOC);
+            $categories = $query;
             $result = array('categories' => $categories, 'render' => false, 'template' => 'public');
             return $result;
         } else {
@@ -161,12 +168,12 @@ class Categories extends Assets
         }
         if ($title != null) {
             // Önce veritabanı sorgumuzu hazırlayalım.
-            $query = $this->db->prepare("UPDATE categories SET title=:baslik WHERE id=:id");
-
-            $update = $query->execute(array(
-                "baslik" => $title,
-                "id" => $id
-            ));
+            
+            $update = $db->update('categories')
+                        ->where('id', $id)
+                        ->set(array(
+                             'title' => $title
+                        ));
 
             if ($update) {
                 return true;
@@ -191,10 +198,11 @@ class Categories extends Assets
         if (!$this->checkLogin()) {
             return false;
         }
-        $query = $this->db->prepare("DELETE FROM categories WHERE id = :id");
-        $query->execute(array(
-            'id' => $id
-        ));
+        
+        $query = $db->delete('categories')
+                    ->where('id', $id)
+                    ->done();
+        
         return array('template' => 'admin', 'render' => false);
     }
 

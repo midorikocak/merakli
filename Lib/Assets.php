@@ -36,10 +36,10 @@ abstract class Assets
     /**
      * Bağlantı yapmaya yarayan metod
      *
-     * @param PDO $db Bağlantı objesi
+     * @param BasicDb $db Bağlantı objesi
      * @return void
      */
-    protected function connect($db)
+    protected function getDb($db)
     {
         $this->db = $db;
     }

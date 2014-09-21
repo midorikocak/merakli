@@ -1,11 +1,14 @@
 <?php
-    require 'Vendor/autoload.php';
+
+    require_once 'Vendor/autoload.php';
+    require_once 'Vendor/BasicDB/basicdb.php';
     require 'Config/config.inc.php';
     require 'Lib/App.php';
     session_start();
     
     $app = new \Midori\Cms\App();
-    $app->connect($config['db']['host'],$config['db']['username'],$config['db']['password'],$config['db']['dbname']);
+    $db = new BasicDB($config['db']['host'], $config['db']['dbname'], $config['db']['username'], $config['db']['password']);
+    $app->getDb($db);
     $app->getSettings();
 
     if(strpos($_SERVER['REQUEST_URI'],$_SERVER['SCRIPT_NAME'])!==false){
