@@ -128,7 +128,7 @@ class Posts extends Assets
                 ->where('id',$id)
                     ->run();
             if ($query) {
-                $post = $query;
+                $post = $query[0];
 
                 $this->id = $post['id'];
                 $this->title = $post['title'];

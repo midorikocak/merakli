@@ -84,7 +84,7 @@ class Categories extends Assets
                         ->run();
             
             if ($query) {
-                $category = $query;
+                $category = $query[0];
 
                 $this->id = $category['id'];
                 $this->title = $category['title'];
@@ -92,7 +92,7 @@ class Categories extends Assets
                 // Yeni bir sorgu yapacağız ve o kategoriye ait girdileri alacağız.
                 // Buradan anlıyoruz ki veri henüz çekilmemiş. Veriyi çekmeye başlayalım
                 
-                $postQuery = $db->select('posts')
+                $postQuery = $this->db->select('posts')
                             ->where('category_id', $id)
                             ->run();
 
