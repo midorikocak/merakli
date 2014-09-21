@@ -106,9 +106,8 @@ class Settings extends Assets
 
             // Buradan anlıyoruz ki veri henüz çekilmemiş. Veriyi çekmeye başlayalım
             $query = $this->db->select('settings')
-                            ->limit(1)
+                            ->limit(1,1)
                         ->run();
-            $query->execute();
             if ($query) {
                 $setting = $query;
 
