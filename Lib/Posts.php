@@ -83,7 +83,7 @@ class Posts extends Assets
             $date = $this->getDate();
 
             // insert
-            $insert = $this->db->insert('categories')
+            $insert = $this->db->insert('posts')
                         ->set(array(
                             "title" => $title,
                             "content" => $content,

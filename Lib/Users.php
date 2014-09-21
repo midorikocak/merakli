@@ -142,7 +142,7 @@ class Users extends Assets
         if (!$this->checkLogin()) {
             return false;
         }
-        $query = $this->db->select('categories')
+        $query = $this->db->select('users')
                     ->run();
 
         if ($query) {
@@ -191,7 +191,7 @@ class Users extends Assets
 
         if ($id != null && $username != null && $password != null && $email != null) {
             
-            $update = $this->db->update('categories')
+            $update = $this->db->update('user')
                         ->where('id', $id)
                         ->set(array(
                             "username" => $username,
@@ -230,7 +230,6 @@ class Users extends Assets
 
             if ($query) {
                 $user = $query;
-
                 // Kullanıcı adı veya parolası hatalıysa
                 if (!$user) {
                     return array('template' => 'public', 'render' => true, 'message' => 'Hatalı kullanıcı adı veya parola.');
