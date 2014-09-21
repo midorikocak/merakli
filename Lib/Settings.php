@@ -65,18 +65,17 @@ class Settings extends Assets
                 return false;
             }
 
-            // Önce veritabanı sorgumuzu hazırlayalım.
-            $query = $this->db->prepare("INSERT INTO settings SET title=:baslik, description=:aciklama, copyright=:altbilgi");
-
-            $insert = $query->execute(array(
-                "baslik" => $title,
-                "aciklama" => $description,
-                "altbilgi" => $copyright
-            ));
+            // insert
+            $insert = $this->db->insert('settings')
+                        ->set(array(
+                             'title' => $title,
+                             'description'=>$description,
+                             'copyright'=>$copyright
+                        ));
 
             if ($insert) {
                 // Veritabanı işlemi başarılı ise sınıfın objesine ait değişkenleri değiştirelim
-                $this->id = $this->db->lastInsertId();
+                $this->id = $this->db->lastId();
                 $this->title = $title;
                 $this->description = $description;
                 $this->copyright = $copyright;
@@ -85,6 +84,7 @@ class Settings extends Assets
             } else {
                 return false;
             }
+            
         } else {
             return array('render' => true, 'template' => 'admin');
         }
@@ -105,10 +105,12 @@ class Settings extends Assets
         } else {
 
             // Buradan anlıyoruz ki veri henüz çekilmemiş. Veriyi çekmeye başlayalım
-            $query = $this->db->prepare("SELECT * FROM settings LIMIT 1");
+            $query = $this->db->select('settings')
+                            ->limit(1)
+                        ->run();
             $query->execute();
             if ($query) {
-                $setting = $query->fetch(PDO::FETCH_ASSOC);
+                $setting = $query;
 
                 $this->id = $setting['id'];
                 $this->title = $setting['title'];
@@ -170,21 +172,21 @@ class Settings extends Assets
         $oldData = $this->view();
         $id = $oldData['setting']['id'];
         if ($title != null) {
-            // Önce veritabanı sorgumuzu hazırlayalım.
-            $query = $this->db->prepare("UPDATE settings SET title=:baslik, description=:aciklama, copyright=:altbilgi WHERE id=:id");
-
-            $update = $query->execute(array(
-                "id" => $id,
-                "baslik" => $title,
-                "aciklama" => $description,
-                "altbilgi" => $copyright
-            ));
+            
+            $update = $this->db->update('settings')
+                        ->where('id', $id)
+                        ->set(array(
+                            "title" => $title,
+                            "description" => $description,
+                            "copyright" => $copyright
+                        ));
 
             if ($update) {
                 return true;
             } else {
                 return false;
             }
+
         } else {
             return array('template' => 'admin', 'render' => true, 'setting' => $oldData['setting']);
         }

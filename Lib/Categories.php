@@ -79,7 +79,7 @@ class Categories extends Assets
         } else {
             // Buradan anlıyoruz ki veri henüz çekilmemiş. Veriyi çekmeye başlayalım
             
-            $query = $db->select('categories')
+            $query = $this->db->select('categories')
                         ->where('id', $id)
                         ->run();
             
@@ -169,7 +169,7 @@ class Categories extends Assets
         if ($title != null) {
             // Önce veritabanı sorgumuzu hazırlayalım.
             
-            $update = $db->update('categories')
+            $update = $this->db->update('categories')
                         ->where('id', $id)
                         ->set(array(
                              'title' => $title
@@ -199,7 +199,7 @@ class Categories extends Assets
             return false;
         }
         
-        $query = $db->delete('categories')
+        $query = $this->db->delete('categories')
                     ->where('id', $id)
                     ->done();
         

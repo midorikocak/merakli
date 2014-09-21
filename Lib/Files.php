@@ -62,15 +62,17 @@ class Files extends Assets
                             "./www/images/" . $rand . '.' . $file["name"]);
                         chmod("./www/images/" . $rand . '.' . $file["name"], 0777);
                         // Önce veritabanı sorgumuzu hazırlayalım.
-                        $query = $this->db->prepare("INSERT INTO files SET filename=:dosyaadi");
-
-                        $insert = $query->execute(array(
-                            "dosyaadi" => $rand . '.' . $file["name"]
-                        ));
+                        
+                        
+                        // insert
+                        $insert = $this->db->insert('files')
+                                    ->set(array(
+                                         'filename' => $rand . '.' . $file["name"],
+                                    ));
 
                         if ($insert) {
                             // Veritabanı işlemi başarılı ise sınıfın objesine ait değişkenleri değiştirelim
-                            $this->id = $this->db->lastInsertId();
+                            $this->id = $this->db->lastId();
                             $this->filename = $file["name"];
 
                             return true;
@@ -100,12 +102,14 @@ class Files extends Assets
         if ($id == $this->id) {
             return array("id" => $this->id, "filename" => $this->filename);
         } else {
-            // Buradan anlıyoruz ki veri henüz çekilmemiş. Veriyi çekmeye başlayalım
-            $query = $this->db->prepare("SELECT * FROM files WHERE id=:id");
-            $query->execute(array(':id' => $id));
-
+            
+            
+            $query = $this->db->select('files')
+                        ->where('id', $id)
+                        ->run();
+            
             if ($query) {
-                $file = $query->fetch(PDO::FETCH_ASSOC);
+                $file = $query;
 
                 $this->id = $file['id'];
                 $this->filename = $file['filename'];
@@ -129,11 +133,11 @@ class Files extends Assets
         if (!$this->checkLogin()) {
             return false;
         }
-        $query = $this->db->prepare("SELECT * FROM files");
-        $query->execute();
+        $query = $this->db->select('files')
+                    ->run();
         if ($query) {
             // Buradaki fetchAll metoduyla tüm değeleri diziye çektik.
-            return array('files' => $query->fetchAll(PDO::FETCH_ASSOC));
+            return array('files' => $query);
         } else {
             return false;
         }
@@ -149,11 +153,11 @@ class Files extends Assets
         if (!$this->checkLogin()) {
             return false;
         }
-        $query = $this->db->prepare("SELECT * FROM files");
-        $query->execute();
+        $query = $this->db->select('files')
+                    ->run();
         if ($query) {
             // Buradaki fetchAll metoduyla tüm değeleri diziye çektik.
-            $result = array('render' => true, 'template' => 'admin', 'files' => $query->fetchAll(PDO::FETCH_ASSOC));
+            $result = array('render' => true, 'template' => 'admin', 'files' => $query);
             return $result;
         } else {
             return false;
@@ -188,11 +192,10 @@ class Files extends Assets
         $oldData = $this->view($id);
 
         unlink('./www/images/' . $oldData['file']['filename']);
-
-        $query = $this->db->prepare("DELETE FROM files WHERE id = :id");
-        $query->execute(array(
-            'id' => $id
-        ));
+        
+        $query = $db->delete('files')
+                    ->where('id', $id)
+                    ->done();
 
         return array('template' => 'admin', 'render' => false);
     }

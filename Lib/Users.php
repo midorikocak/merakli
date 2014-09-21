@@ -65,17 +65,19 @@ class Users extends Assets
         // 3 değişkenin de boş olmaması gerekiyor
         if ($username != null && $email != null && $password != null) {
             // Önce veritabanı sorgumuzu hazırlayalım.
-            $query = $this->db->prepare("INSERT INTO users SET username=:kullaniciadi, password=:parola, email=:eposta");
+            
 
-            $insert = $query->execute(array(
-                "kullaniciadi" => $username,
-                "parola" => md5($password),
-                "eposta" => $email,
-            ));
+            // insert
+            $insert = $this->db->insert('users')
+                        ->set(array(
+                            "username" => $username,
+                            "password" => md5($password),
+                            "email" => $email,
+                        ));
 
             if ($insert) {
                 // Veritabanı işlemi başarılı ise sınıfın objesine ait değişkenleri değiştirelim
-                $this->id = $this->db->lastInsertId();
+                $this->id = $this->db->lastId();
                 $this->username = $username;
                 $this->password = $password;
                 $this->email = $email;
@@ -107,11 +109,13 @@ class Users extends Assets
             return array("id" => $this->id, "username" => $this->username, "email" => $this->email, "password" => $this->password,);
         } else {
             // Buradan anlıyoruz ki veri henüz çekilmemiş. Veriyi çekmeye başlayalım
-            $query = $this->db->prepare("SELECT * FROM users WHERE id=:id");
-            $query->execute(array(':id' => $id));
-
+            
+            $query = $this->db->select('users')
+                        ->where('id', $id)
+                        ->run();
+            
             if ($query) {
-                $user = $query->fetch(PDO::FETCH_ASSOC);
+                $user = $query;
 
                 $this->id = $user['id'];
                 $this->username = $user['username'];
@@ -138,12 +142,12 @@ class Users extends Assets
         if (!$this->checkLogin()) {
             return false;
         }
+        $query = $this->db->select('categories')
+                    ->run();
 
-        $query = $this->db->prepare("SELECT * FROM users");
-        $query->execute();
         if ($query) {
             // Buradaki fetchAll metoduyla tüm değeleri diziye çektik.
-            $result = array('render' => true, 'template' => 'admin', 'users' => $query->fetchAll(PDO::FETCH_ASSOC));
+            $result = array('render' => true, 'template' => 'admin', 'users' => $query);
             return $result;
         } else {
             return false;
@@ -186,15 +190,14 @@ class Users extends Assets
         }
 
         if ($id != null && $username != null && $password != null && $email != null) {
-            // Önce veritabanı sorgumuzu hazırlayalım.
-            $query = $this->db->prepare("UPDATE users SET username=:kullaniciadi, password=:parola, email=:eposta WHERE id=:id");
-
-            $update = $query->execute(array(
-                "id" => $id,
-                "kullaniciadi" => $password,
-                "parola" => md5($password),
-                "eposta" => $email
-            ));
+            
+            $update = $this->db->update('categories')
+                        ->where('id', $id)
+                        ->set(array(
+                            "username" => $username,
+                            "password" => md5($password),
+                            "email" => $email
+                        ));
 
             if ($update) {
                 return true;
@@ -219,15 +222,14 @@ class Users extends Assets
     {
         if (!$this->checkLogin()) {
             // Buradan anlıyoruz ki veri henüz oturum açılmamış.
-            $query = $this->db->prepare("SELECT * FROM users WHERE username=:kullaniciadi AND password=:parola");
-
-            $query->execute(array(
-                'kullaniciadi' => $username,
-                'parola' => md5($password),
-            ));
+            
+            $query = $this->db->select('users')
+                        ->where('username', $username)
+                        ->where('password', md5($password))
+                        ->run();
 
             if ($query) {
-                $user = $query->fetch(PDO::FETCH_ASSOC);
+                $user = $query;
 
                 // Kullanıcı adı veya parolası hatalıysa
                 if (!$user) {
@@ -274,10 +276,11 @@ class Users extends Assets
         if (!$this->checkLogin()) {
             return false;
         }
-        $query = $this->db->prepare("DELETE FROM users WHERE id = :id");
-        $query->execute(array(
-            'id' => $id
-        ));
+        
+        $query = $this->db->delete('users')
+                    ->where('id', $id)
+                    ->done();
+        
         return array('template' => 'admin', 'render' => false);
     }
 

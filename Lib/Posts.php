@@ -82,16 +82,15 @@ class Posts extends Assets
             // Tarih içeren alanları elle girmiyoruz. Sistemden doğrudan isteyen fonksiyonumuz var.
             $date = $this->getDate();
 
-            // Önce veritabanı sorgumuzu hazırlayalım.
-            $query = $this->db->prepare("INSERT INTO posts SET title=:baslik, content=:icerik, created=:created, category_id=:category, updated=:updated");
-
-            $insert = $query->execute(array(
-                "baslik" => $title,
-                "icerik" => $content,
-                "category" => $category_id,
-                "created" => $date,
-                "updated" => $date
-            ));
+            // insert
+            $insert = $this->db->insert('categories')
+                        ->set(array(
+                            "title" => $title,
+                            "content" => $content,
+                            "category_id" => $category_id,
+                            "created" => $date,
+                            "updated" => $date
+                        ));
 
             if ($insert) {
                 // Veritabanı işlemi başarılı ise sınıfın objesine ait değişkenleri değiştirelim
@@ -125,11 +124,11 @@ class Posts extends Assets
             return array("id" => $this->id, "title" => $this->title, "content" => $this->content, "category_id" => $this->category_id, "created" => $this->created, "updated" => $this->updated);
         } else {
             // Buradan anlıyoruz ki veri henüz çekilmemiş. Veriyi çekmeye başlayalım
-            $query = $this->db->prepare("SELECT * FROM posts WHERE id=:id");
-            $query->execute(array(':id' => $id));
-
+            $query = $this->db->select('posts')
+                ->where('id'=>$id)
+                    ->run();
             if ($query) {
-                $post = $query->fetch(PDO::FETCH_ASSOC);
+                $post = $query;
 
                 $this->id = $post['id'];
                 $this->title = $post['title'];
@@ -155,11 +154,12 @@ class Posts extends Assets
      */
     public function index()
     {
-        $query = $this->db->prepare("SELECT * FROM posts");
-        $query->execute();
+        $query = $this->db->select('posts')
+                ->run();
+
         if ($query) {
             // Buradaki fetchAll metoduyla tüm değeleri diziye çektik.
-            $result = array('render' => true, 'template' => 'public', 'posts' => $query->fetchAll(PDO::FETCH_ASSOC));
+            $result = array('render' => true, 'template' => 'public', 'posts' => $query);
             return $result;
         } else {
             return false;
@@ -176,11 +176,11 @@ class Posts extends Assets
         if (!$this->checkLogin()) {
             return false;
         }
-        $query = $this->db->prepare("SELECT * FROM posts");
-        $query->execute();
+        $query = $this->db->select('posts')
+                ->run();
         if ($query) {
             // Buradaki fetchAll metoduyla tüm değeleri diziye çektik.
-            $result = array('render' => true, 'template' => 'admin', 'posts' => $query->fetchAll(PDO::FETCH_ASSOC));
+            $result = array('render' => true, 'template' => 'admin', 'posts' => $query);
             return $result;
         } else {
             return false;
@@ -204,23 +204,23 @@ class Posts extends Assets
 
             // Tarih içeren alanları elle girmiyoruz. Sistemden doğrudan isteyen fonksiyonumuz var.
             $date = $this->getDate();
-
-            // Önce veritabanı sorgumuzu hazırlayalım.
-            $query = $this->db->prepare("UPDATE posts SET title=:baslik, content=:icerik, category_id=:category, updated=:updated WHERE id=:id");
-
-            $update = $query->execute(array(
-                "baslik" => $title,
-                "icerik" => $content,
-                "category" => $category_id,
-                "updated" => $date,
-                "id" => $id
-            ));
+            
+            $update = $this->db->update('posts')
+                        ->where('id', $id)
+                        ->set(array(
+                            "title" => $title,
+                            "content" => $content,
+                            "category_id" => $category_id,
+                            "updated" => $date,
+                            "id" => $id
+                        ));
 
             if ($update) {
                 return true;
             } else {
                 return false;
             }
+
         } else {
             $oldData = $this->view($id);
             return array('template' => 'admin', 'render' => true, 'categories' => $this->related['categories'], 'post' => $oldData['post']);
@@ -239,9 +239,9 @@ class Posts extends Assets
         if (!$this->checkLogin()) {
             return false;
         }
-        $query = $this->db->prepare("DELETE FROM posts WHERE id = :id");
-        $query->execute(array(
-            'id' => $id
+        $query = $this->db->delete('posts')
+                    ->where('id', $id)
+                    ->done();
         ));
         return array('template' => 'admin', 'render' => false);
     }
