@@ -115,7 +115,7 @@ class Users extends Assets
                         ->run();
             
             if ($query) {
-                $user = $query;
+                $user = $query[0];
 
                 $this->id = $user['id'];
                 $this->username = $user['username'];
@@ -229,7 +229,7 @@ class Users extends Assets
                         ->run();
 
             if ($query) {
-                $user = $query;
+                $user = $query[0];
                 // Kullanıcı adı veya parolası hatalıysa
                 if (!$user) {
                     return array('template' => 'public', 'render' => true, 'message' => 'Hatalı kullanıcı adı veya parola.');
