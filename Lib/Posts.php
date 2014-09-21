@@ -125,7 +125,7 @@ class Posts extends Assets
         } else {
             // Buradan anlıyoruz ki veri henüz çekilmemiş. Veriyi çekmeye başlayalım
             $query = $this->db->select('posts')
-                ->where('id'=>$id)
+                ->where('id',$id)
                     ->run();
             if ($query) {
                 $post = $query;
@@ -242,7 +242,6 @@ class Posts extends Assets
         $query = $this->db->delete('posts')
                     ->where('id', $id)
                     ->done();
-        ));
         return array('template' => 'admin', 'render' => false);
     }
 
