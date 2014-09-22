@@ -20,6 +20,12 @@ AUTO_INCREMENT = 5
 DEFAULT CHARACTER SET = utf8
 COLLATE = utf8_turkish_ci;
 
+INSERT INTO `categories` (`id`, `title`) VALUES
+(1, 'PHP'),
+(2, 'jQuery Nedir?'),
+(3, 'SQL'),
+(4, 'Diğer');
+
 
 -- -----------------------------------------------------
 -- Table `merakli`.`files`
@@ -56,6 +62,13 @@ AUTO_INCREMENT = 6
 DEFAULT CHARACTER SET = utf8
 COLLATE = utf8_turkish_ci;
 
+INSERT INTO `posts` (`id`, `title`, `content`, `category_id`, `created`, `updated`) VALUES
+(1, 'PHP Nedir?', 'PHP (açılımı PHP: Hypertext Preprocessor) geniş bir kitle tarafından kullanılan, özellikle sanal yöreler üzerinde geliştirme için tasarlanmış HTML içine gömülebilen bir betik dilidir.', 1, '2014-08-18 00:00:00', '2014-08-18 00:00:00'),
+(3, 'OOP''ye giriş', 'OOP''yi çok severiz. OOP kullanmamak çok sıkıntı çıkarır, spaghetti insanın midesini bozar.', 1, '2014-08-23 11:46:55', '2014-08-23 13:20:23'),
+(5, 'Nesne Yönelimli Programlama nasıl yapılmalı', 'İnce eleyip sık dokuyarak', 1, '2014-08-26 18:53:07', '2014-08-26 18:53:07'),
+(6, 'jQuery Nedir?', 'Jquery', 2, '2014-09-21 17:17:42', '2014-09-21 17:17:42');
+
+
 
 -- -----------------------------------------------------
 -- Table `merakli`.`users`
@@ -68,6 +81,10 @@ CREATE TABLE IF NOT EXISTS `merakli`.`users` (
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
+INSERT INTO `users` (`id`, `username`, `email`, `password`) VALUES
+(1, 'username', 'mtkocak@mtkocak.net', '5f4dcc3b5aa765d61d8327deb882cf99');
+
+
 
 -- -----------------------------------------------------
 -- Table `merakli`.`settings`
@@ -79,6 +96,9 @@ CREATE TABLE IF NOT EXISTS `merakli`.`settings` (
   `copyright` TEXT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
+
+INSERT INTO `settings` (`id`, `title`, `description`, `copyright`) VALUES
+(1, 'Merakli Bilişimci', 'Merakli İnternet Mühendisinden meraklılara geliyor', 'Copyright 2014 Meraklibilismci.com');
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
