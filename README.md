@@ -12,7 +12,7 @@ The atricle series are started on http://meraklibilisimci.com consisting 10 diff
 * Adding articles to Doc folder
 
 ## Installation
-* Create Cms folder on your server and add repository files into it.
+* Create Cms folder on your server and add repository files into it. ATTENTION!! Foldername has to be Cms!!! ATTENTION
 * Create a database called 'merakli' on your MySQL database, and run db/merakli.sql on it.
 * After that you have to change Config/config.inc.php and add your database login settings.
 * Admin url is merakli/index.php/Users/login
