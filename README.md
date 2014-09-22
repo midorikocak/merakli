@@ -15,3 +15,6 @@ The atricle series are started on http://meraklibilisimci.com consisting 10 diff
 * Create Cms folder on your server and add repository files into it.
 * Create a database called 'merakli' on your MySQL database, and run db/merakli.sql on it.
 * After that you have to change Config/config.inc.php and add your database login settings.
+* Admin url is merakli/index.php/Users/login
+* username is username
+* password is password
