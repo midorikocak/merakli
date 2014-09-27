@@ -87,6 +87,22 @@ class App
         // /posts/add gibi bir request geldi.
         $params = split("/", $request);
         $className = __NAMESPACE__ . '\\' . $params[1];
+
+        if(in_array($params[1],array('js','images','css')))
+        {
+            if($params[1]=='css')
+            {
+                header("Content-type: text/css");
+            }
+            elseif($params[1]=='js')
+            {
+                header("Content-type:".mime_content_type('www/'.$request));
+            }
+            else{
+
+            }
+            return file_get_contents('www/'.$request);
+        }
         //call_user_func_array
         $class = new $className($this->db);
         $class->getRelatedData($this->injectRelatedData());

@@ -4,9 +4,9 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Merakli CMS Yönetim Paneli</title>
-    <link rel="stylesheet" href="/Cms/www/css/foundation.css" />
-    <link rel="stylesheet" href="/Cms/www/css/app.css" />
-    <script src="/Cms/www/js/vendor/modernizr.js"></script>
+    <link rel="stylesheet" href="css/foundation.css" />
+    <link rel="stylesheet" href="css/app.css" />
+    <script src="js/vendor/modernizr.js"></script>
 </head>
 <body>
     
@@ -94,8 +94,8 @@
  
 
     
-    <script src="/Cms/www/js/vendor/jquery.js"></script>
-    <script src="/Cms/www/js/foundation.min.js"></script>
+    <script src="js/vendor/jquery.js"></script>
+    <script src="js/foundation.min.js"></script>
     <script>
     $(document).foundation();
     </script>

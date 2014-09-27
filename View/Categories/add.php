@@ -10,7 +10,7 @@
 */
 ?>
 
-<form action="/Cms/index.php/Categories/add" method="post">
+<form action="add" method="post">
     <div class="row">
     <div class="large-12 columns">
       <label>Başlık

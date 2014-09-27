@@ -12,7 +12,7 @@
 *
 */  
 ?>
-<form action="/Cms/index.php/Posts/add" method="post">
+<form action="add" method="post">
   <div class="row">
     <div class="large-12 columns">
       <label>Başlık

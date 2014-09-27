@@ -1,10 +1,11 @@
 <?php
-
     require_once 'Vendor/autoload.php';
     require_once 'Vendor/BasicDB/basicdb.php';
     require 'Config/config.inc.php';
     require 'Lib/App.php';
     session_start();
+
+    $directoryName = basename(dirname(__FILE__));
     
     $app = new \Midori\Cms\App();
     $db = new BasicDB($config['db']['host'], $config['db']['dbname'], $config['db']['username'], $config['db']['password']);
@@ -15,7 +16,18 @@
         $request = str_replace($_SERVER['SCRIPT_NAME'], "", $_SERVER['REQUEST_URI']);
     }
     else{
-        $request = "/Posts/";
+        $requests = explode('/',$_SERVER['REQUEST_URI']);
+
+        if($requests[1]==$directoryName){
+            unset($requests[1]);
+
+            $request = implode('/',$requests);
+
+            if($request=="/")
+            {
+                $request .= "Posts/";
+            }
+        }
     }
 
     if(!empty($_POST))

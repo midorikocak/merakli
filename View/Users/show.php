@@ -28,7 +28,7 @@
                 <td><?=$user['id']?></td>
                 <td><?=$user['username']?></td>
                 <td><?=$user['email']?></td>
-                <td><a href="/Cms/index.php/Users/edit/<?=$user['id']?>">Güncelle</a>  <a href="/Cms/index.php/Users/delete/<?=$user['id']?>">Sil</a></td>
+                <td><a href="edit/<?=$user['id']?>">Güncelle</a>  <a href="delete/<?=$user['id']?>">Sil</a></td>
             </tr>
             <?php
         endforeach;

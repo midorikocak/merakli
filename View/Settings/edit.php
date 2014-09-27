@@ -7,7 +7,7 @@
 *
 */
 ?>
-<form action="/Cms/index.php/Settings/edit" method="post">
+<form action="edit" method="post">
     <div class="row">
         <div class="large-12 columns">
             <label>Site Başlığı

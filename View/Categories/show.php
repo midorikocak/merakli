@@ -26,7 +26,7 @@
             <tr>
                 <td><?=$category['id']?></td>
                 <td><?=$category['title']?></td>
-                <td><a href="/Cms/index.php/Categories/edit/<?=$category['id']?>">Güncelle</a>  <a href="/Cms/index.php/Categories/delete/<?=$category['id']?>">Sil</a></td>
+                <td><a href="edit/<?=$category['id']?>">Güncelle</a>  <a href="delete/<?=$category['id']?>">Sil</a></td>
             </tr>
             <?php
         endforeach;

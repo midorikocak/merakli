@@ -13,7 +13,7 @@
 */
 ?>
 
-<form action="/Cms/index.php/Files/add" method="post" enctype="multipart/form-data">
+<form action="add" method="post" enctype="multipart/form-data">
   <div class="row">
     <div class="large-12 columns">
       <label>Dosya
