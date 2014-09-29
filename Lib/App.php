@@ -87,21 +87,22 @@ class App
         // /posts/add gibi bir request geldi.
         $params = split("/", $request);
         $className = __NAMESPACE__ . '\\' . $params[1];
-
-        if(in_array($params[1],array('js','images','css')))
+        $extension =  explode('.',end($params));
+        if(in_array(end($extension),array('js','images','css')))
         {
-            if($params[1]=='css')
+            if(end($extension)=='css')
             {
                 header("Content-type: text/css");
             }
-            elseif($params[1]=='js')
+            elseif(end($extension)=='js')
             {
-                header("Content-type:".mime_content_type('www/'.$request));
+                echo end($extension);
+                header("Content-type: application/javascript");
             }
             else{
-
+                header("Content-type:".mime_content_type('www/'.$request));
             }
-            return file_get_contents('www/'.$request);
+            return file_get_contents('www/'.end($extension).'/'.end($params));
         }
         //call_user_func_array
         $class = new $className($this->db);

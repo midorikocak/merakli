@@ -12,6 +12,8 @@
     $app->getDb($db);
     $app->getSettings();
 
+//var_dump($_SERVER);
+
     if(strpos($_SERVER['REQUEST_URI'],$_SERVER['SCRIPT_NAME'])!==false){
         $request = str_replace($_SERVER['SCRIPT_NAME'], "", $_SERVER['REQUEST_URI']);
     }

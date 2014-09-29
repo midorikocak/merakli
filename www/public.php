@@ -21,7 +21,7 @@
                     <?php
                     foreach($related['categories'] as $category):
                     ?>
-                    <li><a href="Categories/View/<?=$category['id']?>"><?=$category['title']?></a></li>
+                    <li><a href="http://<?php echo $_SERVER['HTTP_HOST'].$_SERVER['SCRIPT_NAME']; ?>/Categories/View/<?=$category['id']?>"><?=$category['title']?></a></li>
                     <?php
                     endforeach;
                     ?>
