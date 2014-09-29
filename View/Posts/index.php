@@ -15,7 +15,7 @@ if(sizeof($posts>0)):
         ?>
         <article>
             <h2><?php echo $post['title']; ?></h2>
-            <p><?=substr($post['content'],0,40)?>... <a href="<?= LINK_PREFIX ?>/Posts/View/<?=$post['id']?>">Devamını Oku</a></p>
+            <p><?=substr(strip_tags($post['content']),0,40)?>... <a href="View/<?=$post['id']?>">Devamını Oku</a></p>
             <small><?=$post['created']?></small>
         </article>
         <?php
