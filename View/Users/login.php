@@ -12,7 +12,7 @@
 ?>
 <div class="row">
   <div class="small-6 large-centered columns">
-      <form action="login" method="post">
+      <form action="http://<?php echo $_SERVER['HTTP_HOST'].$_SERVER['SCRIPT_NAME']; ?>/Users/login" method="post">
         <div class="row">
           <div class="large-12 columns">
             <label>Kullanıcı adı

@@ -29,24 +29,24 @@
                 <li class="has-dropdown">
                     <a href="#">Girdiler</a>
                     <ul class="dropdown">
-                        <li><a href="/Cms/index.php/Posts/show">Tüm girdiler &rarr;</a></li>
-                        <li><a href="/Cms/index.php/Posts/add">Yeni girdi</a></li>
+                        <li><a href="http://<?php echo $_SERVER['HTTP_HOST'].$_SERVER['SCRIPT_NAME']; ?>/Posts/show">Tüm girdiler &rarr;</a></li>
+                        <li><a href="http://<?php echo $_SERVER['HTTP_HOST'].$_SERVER['SCRIPT_NAME']; ?>/Posts/add">Yeni girdi</a></li>
                     </ul>
                 </li>
                 <li class="divider"></li>
                 <li class="has-dropdown">
                     <a href="#">Kategoriler</a>
                     <ul class="dropdown">
-                        <li><a href="/Cms/index.php/Categories/show">Tüm kategoriler &rarr;</a></li>
-                        <li><a href="/Cms/index.php/Categories/add">Yeni kategori</a></li>
+                        <li><a href="http://<?php echo $_SERVER['HTTP_HOST'].$_SERVER['SCRIPT_NAME']; ?>/Categories/show">Tüm kategoriler &rarr;</a></li>
+                        <li><a href="http://<?php echo $_SERVER['HTTP_HOST'].$_SERVER['SCRIPT_NAME']; ?>/Categories/add">Yeni kategori</a></li>
                     </ul>
                 </li>
                 <li class="divider"></li>
                 <li class="has-dropdown">
                     <a href="#">Dosyalar</a>
                     <ul class="dropdown">
-                        <li><a href="/Cms/index.php/Files/show">Tüm dosyalar &rarr;</a></li>
-                        <li><a href="/Cms/index.php/Files/add">Yeni dosya</a></li>
+                        <li><a href="http://<?php echo $_SERVER['HTTP_HOST'].$_SERVER['SCRIPT_NAME']; ?>/Files/show">Tüm dosyalar &rarr;</a></li>
+                        <li><a href="http://<?php echo $_SERVER['HTTP_HOST'].$_SERVER['SCRIPT_NAME']; ?>/Files/add">Yeni dosya</a></li>
                     </ul>
                 </li>
             </ul>
@@ -54,14 +54,14 @@
                 <li class="has-dropdown">
                     <a href="#">Admin</a>
                     <ul class="dropdown">
-                        <li><a href="/Cms/index.php/Users/show">Tüm Kullanıcılar &rarr;</a></li>
-                        <li><a href="/Cms/index.php/Users/add">Yeni Kullanıcı</a></li>
-                        <li><a href="/Cms/index.php/Users/edit/<?=$_SESSION['id']?>">Profilim</a></li>
-                        <li><a href="/Cms/index.php/Users/logout">Çıkış yap</a></li>
+                        <li><a href="http://<?php echo $_SERVER['HTTP_HOST'].$_SERVER['SCRIPT_NAME']; ?>/Users/show">Tüm Kullanıcılar &rarr;</a></li>
+                        <li><a href="http://<?php echo $_SERVER['HTTP_HOST'].$_SERVER['SCRIPT_NAME']; ?>/Users/add">Yeni Kullanıcı</a></li>
+                        <li><a href="http://<?php echo $_SERVER['HTTP_HOST'].$_SERVER['SCRIPT_NAME']; ?>/Users/edit/<?=$_SESSION['id']?>">Profilim</a></li>
+                        <li><a href="http://<?php echo $_SERVER['HTTP_HOST'].$_SERVER['SCRIPT_NAME']; ?>/Users/logout">Çıkış yap</a></li>
                     </ul>
                 </li>
                 <li class="divider"></li>
-                <li><a href="/Cms/index.php/Settings/add">Ayarlar</a></li>
+                <li><a href="http://<?php echo $_SERVER['HTTP_HOST'].$_SERVER['SCRIPT_NAME']; ?>/Settings/add">Ayarlar</a></li>
             </ul>
         </section>
     </nav>
