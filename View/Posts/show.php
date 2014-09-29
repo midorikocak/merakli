@@ -32,7 +32,7 @@
                 <td><?=$post['created']?></td>
                 <td><?=$post['updated']?></td>
                 <td><?=$post['category_id']?></td>
-                <td><a href="edit/<?=$post['id']?>">Güncelle</a>  <a href="delete/<?=$post['id']?>">Sil</a></td>
+                <td><a href="<?= LINK_PREFIX ?>/Posts/Edit/<?=$post['id']?>">Güncelle</a>  <a href="<?= LINK_PREFIX ?>/Posts/Delete/<?=$post['id']?>">Sil</a></td>
             </tr>
             <?php
         endforeach;

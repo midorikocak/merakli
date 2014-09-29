@@ -12,7 +12,7 @@
 */
 ?>
 
-<form action="edit/<?=$post['id']?>" method="post">
+<form action="<?= LINK_PREFIX ?>/Posts/Edit/<?=$post['id']?>" method="post">
     <input type="hidden" name="id" id="id" value="<?=$post['id']?>" />
   <div class="row">
     <div class="large-12 columns">

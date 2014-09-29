@@ -12,7 +12,7 @@
 *
 */  
 ?>
-<form action="add" method="post">
+<form action="<?= LINK_PREFIX ?>/Posts/add" method="post">
   <div class="row">
     <div class="large-12 columns">
       <label>Başlık

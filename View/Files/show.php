@@ -26,7 +26,7 @@
             <tr>
                 <td><?=$file['id']?></td>
                 <td><?=$file['filename']?></td>
-                <td><a href="delete/<?=$file['id']?>">Sil</a></td>
+                <td><a href="<?= LINK_PREFIX ?>/Files/Delete/<?=$file['id']?>">Sil</a></td>
             </tr>
             <?php
         endforeach;

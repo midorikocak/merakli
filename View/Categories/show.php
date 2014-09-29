@@ -26,7 +26,7 @@
             <tr>
                 <td><?=$category['id']?></td>
                 <td><?=$category['title']?></td>
-                <td><a href="edit/<?=$category['id']?>">Güncelle</a>  <a href="delete/<?=$category['id']?>">Sil</a></td>
+                <td><a href="<?= LINK_PREFIX ?>/Categories/Edit/<?=$category['id']?>">Güncelle</a>  <a href="<?= LINK_PREFIX ?>/Categories/Delete/<?=$category['id']?>">Sil</a></td>
             </tr>
             <?php
         endforeach;

@@ -12,7 +12,7 @@
 */
 ?>
 
-<form action="edit/<?=$category['id']?>" method="post">
+<form action="<?= LINK_PREFIX ?>/Categories/Edit/<?=$category['id']?>" method="post">
     <input type="hidden" name="id" id="id" value="<?=$category['id']?>" />
   <div class="row">
     <div class="large-12 columns">

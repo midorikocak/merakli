@@ -10,7 +10,7 @@
 */
 ?>
 
-<form action="add" method="post">
+<form action="<?= LINK_PREFIX ?>/Categories/Add" method="post">
     <div class="row">
     <div class="large-12 columns">
       <label>Başlık

@@ -7,7 +7,7 @@
 *
 */
 ?>
-<form action="edit" method="post">
+<form action="<?= LINK_PREFIX ?>/Settings/Edit" method="post">
     <div class="row">
         <div class="large-12 columns">
             <label>Site Başlığı
