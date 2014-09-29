@@ -99,7 +99,13 @@
     <script src="<?=FILE_PREFIX?>js/foundation.min.js"></script>
     <script>
     $(document).foundation();
-    </script>
+    $('.image_list_element').click(function(){
+            var imageToAdd = "<img src='"+$(this).attr('src')+"' />";
+            var oldValue = $('#content').val();
 
+            $('#content').val(oldValue+imageToAdd);
+
+        });
+    </script>
 </body>
 </html>

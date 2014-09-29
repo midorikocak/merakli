@@ -105,8 +105,15 @@ class Posts extends Assets
             } else {
                 return false;
             }
+
+
         } else {
-            return array('render' => true, 'template' => 'admin', 'categories' => $this->related['categories']);
+            $files = $this->db->select('files')
+                ->run();
+            if(empty($files)){
+                $files = array();
+            }
+            return array('render' => true, 'template' => 'admin', 'files'=>$files ,'categories' => $this->related['categories']);
         }
     }
 
