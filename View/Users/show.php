@@ -28,7 +28,7 @@
                 <td><?=$user['id']?></td>
                 <td><?=$user['username']?></td>
                 <td><?=$user['email']?></td>
-                <td><a href="<?= LINK_PREFIX ?>Users/Edit/<?=$user['id']?>">Güncelle</a>  <a href="<?= LINK_PREFIX ?>/Users/Delete/<?=$user['id']?>">Sil</a></td>
+                <td><a href="<?= LINK_PREFIX ?>/Users/Edit/<?=$user['id']?>">Güncelle</a>  <a href="<?= LINK_PREFIX ?>/Users/Delete/<?=$user['id']?>">Sil</a></td>
             </tr>
             <?php
         endforeach;
