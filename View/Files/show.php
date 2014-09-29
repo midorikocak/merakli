@@ -10,26 +10,34 @@
 *
 */
 ?>
-<h2>Dosyalar</h2>
-<table>
-    <thead>
-        <tr>
-            <th>Id</th>
-            <th>Dosya Adı</th>
-            <th>İşlemler</th>
-        </tr>
-    </thead>
-    <tbody>
+<div class="row">
+    <div class="large-4 columns">
+        <form action="<?= LINK_PREFIX ?>/Files/add" method="post" enctype="multipart/form-data">
+            <div class="row">
+                <div class="large-12 columns">
+                    <label>Dosya
+                        <input type="file" id="file" name="file" />
+                    </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="large-12 columns">
+                    <button type="submit">Submit</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="large-8 columns">
         <?php
-        foreach($files as $file):
+        for($i=0;$i<count($files);$i++)
+        {
             ?>
-            <tr>
-                <td><?=$file['id']?></td>
-                <td><?=$file['filename']?></td>
-                <td><a href="<?= LINK_PREFIX ?>/Files/Delete/<?=$file['id']?>">Sil</a></td>
-            </tr>
+            <div class="large-3 columns media">
+                <img src="<?=FILE_PREFIX?>/images/<?=$files[$i]['filename']?>" alt="<?=$files[$i]['id']?>" /><br/>
+                <a href="<?= LINK_PREFIX ?>/Files/Delete/<?=$files[$i]['id']?>">Sil</a>
+            </div>
             <?php
-        endforeach;
+        }
         ?>
-    </tbody>
-</table>
+    </div>
+</div>

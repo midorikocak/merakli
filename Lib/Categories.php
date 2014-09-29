@@ -72,7 +72,6 @@ class Categories extends Assets
      */
     public function view($id)
     {
-
         // Eğer daha önceden sorgu işlemi yapıldıysa, sınıf objesine yazılmıştır.
         if ($id == $this->id) {
             return array("id" => $this->id, "title" => $this->title);
@@ -99,11 +98,14 @@ class Categories extends Assets
                 if ($postQuery) {
                     $categoryPosts = $postQuery;
 
-                    $result = array('posts' => $categoryPosts, 'render' => true, 'template' => 'public', 'category' => $category);
-                    return $result;
                     // Yeni bir sorgu yapacağız ve o kategoriye ait girdileri alacağız.
 
                 }
+                else{
+                    $categoryPosts=array();
+                }
+                $result = array('posts' => $categoryPosts, 'render' => true, 'template' => 'public', 'category' => $category);
+                return $result;
             }
         }
 

@@ -12,7 +12,8 @@
     $app->getDb($db);
     $app->getSettings();
 
-    define('LINK_PREFIX','http://'.$_SERVER['HTTP_HOST'].$_SERVER['SCRIPT_NAME']);
+    define('LINK_PREFIX','http://'.$_SERVER['HTTP_HOST'].'/'.$directoryName);
+    define('FILE_PREFIX','http://'.$_SERVER['HTTP_HOST'].'/'.$directoryName.'/www/');
 
     if(strpos($_SERVER['REQUEST_URI'],$_SERVER['SCRIPT_NAME'])!==false){
         $request = str_replace($_SERVER['SCRIPT_NAME'], "", $_SERVER['REQUEST_URI']);

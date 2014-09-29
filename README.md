@@ -17,3 +17,11 @@ The atricle series are started on http://meraklibilisimci.com consisting 10 diff
 * Admin url is merakli/index.php/Users/login
 * username is username
 * password is password
+
+## Todos
+* Media Gallery
+* See files as thumbnails
+* See gallery as thumbnails when editing post (lightbox)
+* Add clicked item to text
+* Media gallery upload
+* Show file info

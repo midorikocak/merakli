@@ -88,22 +88,7 @@ class App
         $params = split("/", $request);
         $className = __NAMESPACE__ . '\\' . $params[1];
         $extension =  explode('.',end($params));
-        if(in_array(end($extension),array('js','images','css')))
-        {
-            if(end($extension)=='css')
-            {
-                header("Content-type: text/css");
-            }
-            elseif(end($extension)=='js')
-            {
-                echo end($extension);
-                header("Content-type: application/javascript");
-            }
-            else{
-                header("Content-type:".mime_content_type('www/'.$request));
-            }
-            return file_get_contents('www/'.end($extension).'/'.end($params));
-        }
+
         //call_user_func_array
         $class = new $className($this->db);
         $class->getRelatedData($this->injectRelatedData());

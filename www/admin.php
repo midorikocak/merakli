@@ -4,9 +4,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Merakli CMS Yönetim Paneli</title>
-    <link rel="stylesheet" href="css/foundation.css" />
-    <link rel="stylesheet" href="css/app.css" />
-    <script src="js/vendor/modernizr.js"></script>
+    <link rel="stylesheet" href="<?=FILE_PREFIX?>css/foundation.css" />
+    <link rel="stylesheet" href="<?=FILE_PREFIX?>css/app.css" />
+    <link rel="stylesheet" href="<?=FILE_PREFIX?>css/app.css" />
+    <link rel="stylesheet" src="<?=FILE_PREFIX?>css/wysiwyg-color.css" />
 </head>
 <body>
     
@@ -91,13 +92,14 @@
             </div>
         </div>
     </footer>
- 
+
 
     
-    <script src="js/vendor/jquery.js"></script>
-    <script src="js/foundation.min.js"></script>
+    <script src="<?=FILE_PREFIX?>js/vendor/jquery.js"></script>
+    <script src="<?=FILE_PREFIX?>js/foundation.min.js"></script>
     <script>
     $(document).foundation();
     </script>
+
 </body>
 </html>

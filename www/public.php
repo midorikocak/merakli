@@ -4,9 +4,9 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Site Başlığı</title>
-    <link rel="stylesheet" href="css/foundation.css" />
-    <link rel="stylesheet" href="css/app.css" />
-    <script src="js/vendor/modernizr.js"></script>
+    <link rel="stylesheet" href="<?=FILE_PREFIX?>css/foundation.css" />
+    <link rel="stylesheet" href="<?=FILE_PREFIX?>css/app.css" />
+    <script src="<?=FILE_PREFIX?>js/vendor/modernizr.js"></script>
   </head>
   <body>
     <header>
@@ -47,8 +47,8 @@
             <?=$copyright?>
         </div>
     </footer>
-    <script src="js/vendor/jquery.js"></script>
-    <script src="js/foundation.min.js"></script>
+    <script src="<?=FILE_PREFIX?>js/vendor/jquery.js"></script>
+    <script src="<?=FILE_PREFIX?>js/foundation.min.js"></script>
     <script>
       $(document).foundation();
     </script>

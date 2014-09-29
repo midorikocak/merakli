@@ -158,10 +158,10 @@ class Files extends Assets
         if ($query) {
             // Buradaki fetchAll metoduyla tüm değeleri diziye çektik.
             $result = array('render' => true, 'template' => 'admin', 'files' => $query);
-            return $result;
         } else {
-            return false;
+            $result = array('render' => true, 'template' => 'admin', 'files' => array());
         }
+        return $result;
     }
 
     /**
@@ -193,7 +193,7 @@ class Files extends Assets
 
         unlink('./www/images/' . $oldData['file']['filename']);
         
-        $query = $db->delete('files')
+        $query = $this->db->delete('files')
                     ->where('id', $id)
                     ->done();
 
