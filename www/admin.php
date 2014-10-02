@@ -97,6 +97,18 @@
     
     <script src="<?=FILE_PREFIX?>js/vendor/jquery.js"></script>
     <script src="<?=FILE_PREFIX?>js/foundation.min.js"></script>
+    <script type="text/javascript" src="<?=FILE_PREFIX?>/js/tinymce/tinymce.min.js"></script>
+    <script type="text/javascript">
+        tinymce.init({
+            selector: "#content",
+            plugins: [
+                "advlist autolink lists link image charmap print preview anchor",
+                "searchreplace visualblocks code fullscreen",
+                "insertdatetime media table contextmenu paste moxiemanager"
+            ],
+            toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image"
+        });
+    </script>
     <script>
     $(document).foundation();
     $('.image_list_element').click(function(){
