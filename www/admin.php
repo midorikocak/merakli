@@ -107,6 +107,7 @@
                 "insertdatetime media table contextmenu paste moxiemanager"
             ],
             file_browser_callback: function(field_name, url, type, win) {
+                alert('osman');
                 if(type=='image') $('#my_form input').click();
             },
             toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image"
