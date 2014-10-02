@@ -106,6 +106,9 @@
                 "searchreplace visualblocks code fullscreen",
                 "insertdatetime media table contextmenu paste moxiemanager"
             ],
+            file_browser_callback: function(field_name, url, type, win) {
+                if(type=='image') $('#my_form input').click();
+            },
             toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image"
         });
     </script>
@@ -113,10 +116,7 @@
     $(document).foundation();
     $('.image_list_element').click(function(){
             var imageToAdd = "<img src='"+$(this).attr('src')+"' />";
-            var oldValue = $('#content').val();
-
-            $('#content').val(oldValue+imageToAdd);
-
+            tinyMCE.execCommand('mceInsertContent', false, imageToAdd);
         });
     </script>
 </body>
