@@ -75,7 +75,7 @@ class Files extends Assets
                             $this->id = $this->db->lastId();
                             $this->filename = $file["name"];
 
-                            return $file["name"];
+                            return array('render'=>false, 'file'=> $file["name"]);
                         } else {
                             return false;
                         }
