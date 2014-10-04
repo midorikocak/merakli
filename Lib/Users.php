@@ -1,8 +1,8 @@
 <?php
 /**
- * Tüm sistemdeki kullanıcıları yönetecek olan kategori sınıfıdır.
+ * The class which administers all users in the system.
  *
- * Sistemdeki yöneticilerin oturum açmalarını, parola değiştirmelerini sağlayan sınıf.
+ * The class which provides the administrators to login and change passwords.
  *
  * @author     Midori Kocak <mtkocak@mtkocak.net>
  */
@@ -20,40 +20,39 @@ class Users extends Assets
 
 
     /**
-     * Yönetici kullanıcı adı
+     * Administrator user name
      *
      * @var string
      */
     public $username;
 
     /**
-     * Yönetici e-postası
+     * Administrator e-mail
      *
      * @var string
      */
     public $email;
 
     /**
-     * Yönetici parolası
+     * Administrator password
      *
      * @var string
      */
     private $password;
 
     /**
-     * Kullanıcı ekleyen metod, verilerin kaydedilmesini sağlar. Sistemde hiç kullanıcı yoksa
-     * public olsun, kullanıcı varsa admin temasını işlesin. (render etsin)
+     * If the system has no users make it public, if it does let it render the admin theme.
      *
-     * @param string $username Yönetici kullanıcı adı
-     * @param string $password Yönetici parola
-     * @param string $password2 Yönetici parola kontrol değeri
-     * @param string $email Yönetici e-posta
-     * @return bool eklendiyse doğru, eklenemediyse yanlış değer döndürsün
+     * @param string $username Administrator user name
+     * @param string $password Administrator password
+     * @param string $password2 Administrator password control value
+     * @param string $email Administrator e-mail
+     * @return bool if added return true, if not return false
      */
     public function add($username = null, $email = null, $password = null, $password2 = null)
     {
         $users = $this->index();
-        // Login olup olmadığımızı ve sistemde kullanıcı olup olmadığını kontrol eden metod.
+        // The method which checks if we're logged in and if there exists any users in the system.
         if (!$this->checkLogin()) {
             return false;
         }
@@ -62,10 +61,10 @@ class Users extends Assets
             return false;
         }
 
-        // 3 değişkenin de boş olmaması gerekiyor
+        // 3 variables must not be empty
         if ($username != null && $email != null && $password != null) {
-            // Önce veritabanı sorgumuzu hazırlayalım.
-            
+            // Let's first prepare our database query.
+
 
             // insert
             $insert = $this->db->insert('users')
@@ -76,7 +75,7 @@ class Users extends Assets
                         ));
 
             if ($insert) {
-                // Veritabanı işlemi başarılı ise sınıfın objesine ait değişkenleri değiştirelim
+                // If the database action is successful, let's change the variables belonging to the class object
                 $this->id = $this->db->lastId();
                 $this->username = $username;
                 $this->password = $password;
@@ -92,28 +91,28 @@ class Users extends Assets
     }
 
     /**
-     * Tek bir kullanıcı verisini edit işlemine yani profil sayfasına gönderen metod. Render edilmesin
+     * The method which edits a single user data and sends to the profile page. Must not be rendered
      *
-     * @param int $id Kullanıcının benzersiz index'i
-     * @return array gösterilebildyise dizi türünde verileri döndürsün, gösterilemediyse false, yanlış değeri döndürsün
+     * @param int $id Unique index of the user
+     * @return array if it renders properly return array data, if not return false
      */
     public function view($id)
     {
 
-        // Login olup olmadığımızı ve sistemde kullanıcı olup olmadığını kontrol eden metod.
+        // The method which checks if we're logged in and if there's any users in the system.
         if (!$this->checkLogin()) {
             return false;
         }
-        // Eğer daha önceden sorgu işlemi yapıldıysa, sınıf objesine yazılmıştır.
+        // If an query is sent, the class object has been written.
         if ($id == $this->id) {
             return array("id" => $this->id, "username" => $this->username, "email" => $this->email, "password" => $this->password,);
         } else {
-            // Buradan anlıyoruz ki veri henüz çekilmemiş. Veriyi çekmeye başlayalım
-            
+            // From here we understand that the data isn't pulled yet. Let's start pulling the data
+
             $query = $this->db->select('users')
                         ->where('id', $id)
                         ->run();
-            
+
             if ($query) {
                 $user = $query[0];
 
@@ -126,19 +125,19 @@ class Users extends Assets
             }
         }
 
-        // Eğer iki işlem de başarısız olduysa, false, yanlış değer döndürelim.
+        // If both actions fail, return false.
         return false;
     }
 
     /**
-     * Tüm kullanıcıların listelenmesini sağlayan metod.
+     * The method which lists all users.
      *
-     * @return bool listelenebildiyse doğru, listelenemediyse yanlış değer döndürsün
+     * @return bool if it lists return true, if not return false
      */
     public function show()
     {
 
-        // Login olup olmadığımızı ve sistemde kullanıcı olup olmadığını kontrol eden metod.
+        // The method which checks if we're logged in and if any user exists in the system.
         if (!$this->checkLogin()) {
             return false;
         }
@@ -146,7 +145,7 @@ class Users extends Assets
                     ->run();
 
         if ($query) {
-            // Buradaki fetchAll metoduyla tüm değeleri diziye çektik.
+            // With the fetchAll method we've pulled all values to the array.
             $result = array('render' => true, 'template' => 'admin', 'users' => $query);
             return $result;
         } else {
@@ -155,10 +154,10 @@ class Users extends Assets
     }
 
     /**
-     * Kullanıcıların listelenmesini sağlayan metod. Bu metodu liste çekmek için kullandık
-     * Bu metod da view metodu gibi render edilmiyor.
+     * The method which lists users. We used this method for pulling a list
+     * This method isn't rendered like the view method.
      *
-     * @return bool listelenebildiyse doğru, listelenemediyse yanlış değer döndürsün
+     * @return bool if it lists return true, if not return false
      */
     public function index()
     {
@@ -167,20 +166,20 @@ class Users extends Assets
 
 
     /**
-     * Kullanıcıyı düzenlemeye yarar. Verilen Id bilginse göre, alınan bilgi ile sistemdeki bilgiyi değiştiren
-     * güncelleyen metod. Bu sayfa aynı zamanda kullanıcının profil sayfası olarak da görünmeli. View metodundan
-     * hazır verileri alıp göstersin.
+     * Edits the user. With the given id and information it edits and updates the
+     * information in the system. This page should be also considered the user profile page.
+     * It should pull and render prepared data from the view method.
      *
-     * @param int $id Kategorinin benzersiz index'i
-     * @param string $username Yönetici kullanıcı adı
-     * @param string $password Yönetici parola
-     * @param string $password2 Yönetici parola kontrol değeri
-     * @param string $email Yönetici e-posta
-     * @return bool düzenlendiyse doğru, eklenemediyse yanlış değer döndürsün
+     * @param int $id Unique index of category
+     * @param string $username Administrator user name
+     * @param string $password Administrator password
+     * @param string $password2 Administrator password control value
+     * @param string $email Administrator e-mail
+     * @return bool if it's edited return true, if not return false
      */
     public function edit($id = null, $username = null, $password = null, $password2 = null, $email = null)
     {
-        // Login olup olmadığımızı ve sistemde kullanıcı olup olmadığını kontrol eden metod.
+        // The method which checks if we're logged in and if any users exists in the system.
         if (!$this->checkLogin()) {
             return false;
         }
@@ -190,7 +189,7 @@ class Users extends Assets
         }
 
         if ($id != null && $username != null && $password != null && $email != null) {
-            
+
             $update = $this->db->update('user')
                         ->where('id', $id)
                         ->set(array(
@@ -212,7 +211,7 @@ class Users extends Assets
 
 
     /**
-     * Kullanıcı girişi yapan metod
+     * The method which loggs in the user
      *
      * @param $username
      * @param $password
@@ -221,8 +220,8 @@ class Users extends Assets
     public function login($username = null, $password = null)
     {
         if (!$this->checkLogin()) {
-            // Buradan anlıyoruz ki veri henüz oturum açılmamış.
-            
+            // From here we understand that the data hasn't logged in yet
+
             $query = $this->db->select('users')
                         ->where('username', $username)
                         ->where('password', md5($password))
@@ -230,7 +229,7 @@ class Users extends Assets
 
             if ($query) {
                 $user = $query[0];
-                // Kullanıcı adı veya parolası hatalıysa
+                // If the user name or password is wrong
                 if (!$user) {
                     return array('template' => 'public', 'render' => true, 'message' => 'Hatalı kullanıcı adı veya parola.');
                 }
@@ -239,7 +238,7 @@ class Users extends Assets
                 $this->$username = $user['username'];
                 $this->$password = $user['password'];
 
-                // Session işlerini hallediyoruz.
+                // We complete the session stuff.
 
                 $_SESSION['username'] = $user['username'];
                 $_SESSION['id'] = $user['id'];
@@ -254,7 +253,7 @@ class Users extends Assets
 
 
     /**
-     * Kullanıcının sistemden çıkmasını sağlayan metod
+     * The method which loggs out the user from the system.
      *
      */
     public function logout()
@@ -264,26 +263,25 @@ class Users extends Assets
     }
 
     /**
-     * Kullanıcı silen metod, verilerin silinmesini sağlar.
-     * Geri dönüşü yoktur.
+     * The method which deletes the user, deletes the data.
+     * This is not reversable.
      *
-     * @param int $id Kategorinin benzersiz index'i
-     * @return bool silindiyse doğru, eklenemediyse yanlış değer döndürsün
+     * @param int $id Unique index of category
+     * @return bool if it's deleted return true, if not return false
      */
     public function delete($id)
     {
         if (!$this->checkLogin()) {
             return false;
         }
-        
+
         $query = $this->db->delete('users')
                     ->where('id', $id)
                     ->done();
-        
+
         return array('template' => 'admin', 'render' => false);
     }
 
 }
 
 ?>
-

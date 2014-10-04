@@ -1,9 +1,8 @@
 <?php
 /**
- * Tüm sistemdeki kategorileri yönetecek olan kategori sınıfıdır.
+ * The category class which will administer all categories in the system.
  *
- * Sistemdeki kategorilerin düzenlenmesini, silinmesini, görüntülenmesini,
- * listelenmesini ve eklenmesini kontrol eden sınıftır.
+ * The class which edits, deletes, renders, lists and adds categories to the system.
  *
  * @author     Midori Kocak <mtkocak@mtkocak.net>
  */
@@ -21,19 +20,19 @@ class Categories extends Assets
 
 
     /**
-     * Kategori başlığı
+     * Category title
      *
      * @var string
      */
     public $title;
 
     /**
-     * Kategori ekleyen metod, verilerin kaydedilmesini sağlar.
+     * The method which adds a category, saves the data.
      *
-     * @param string $title Kategori başlığı
-     * @param string $content Kategori içeriği
-     * @param int $category_id Kategori kategorisinin benzersiz kimliği
-     * @return bool eklendiyse doğru, eklenemediyse yanlış değer döndürsün
+     * @param string $title Category title
+     * @param string $content Category content
+     * @param int $category_id The category categories unique identity
+     * @return bool if added return true, if not return false
      */
     public function add($title = null)
     {
@@ -42,7 +41,7 @@ class Categories extends Assets
         }
 
         if ($title != null) {
-            
+
 
             // insert
             $insert = $this->db->insert('categories')
@@ -51,7 +50,7 @@ class Categories extends Assets
                         ));
 
             if ($insert) {
-                // Veritabanı işlemi başarılı ise sınıfın objesine ait değişkenleri değiştirelim
+                // If the database action is successful, let's change the variables belonging to the class object
                 $this->id = $this->db->lastId();
                 $this->title = $title;
 
@@ -65,32 +64,32 @@ class Categories extends Assets
     }
 
     /**
-     * Tek bir kategordeki girdileri göstereceğiz
+     * We are going to show all inputs in a single category
      *
-     * @param int $id Kategorinin benzersiz index'i
-     * @return array gösterilebildyise dizi türünde verileri döndürsün, gösterilemediyse false, yanlış değeri döndürsün
+     * @param int $id Unique index of category
+     * @return array if it renders properly return array data, if not return false
      */
     public function view($id)
     {
-        // Eğer daha önceden sorgu işlemi yapıldıysa, sınıf objesine yazılmıştır.
+        // If an query is sent, the class object has been written.
         if ($id == $this->id) {
             return array("id" => $this->id, "title" => $this->title);
         } else {
-            // Buradan anlıyoruz ki veri henüz çekilmemiş. Veriyi çekmeye başlayalım
-            
+            // From here we can understand that the data isn't pulled yet. Let's start pulling the data
+
             $query = $this->db->select('categories')
                         ->where('id', $id)
                         ->run();
-            
+
             if ($query) {
                 $category = $query[0];
 
                 $this->id = $category['id'];
                 $this->title = $category['title'];
 
-                // Yeni bir sorgu yapacağız ve o kategoriye ait girdileri alacağız.
-                // Buradan anlıyoruz ki veri henüz çekilmemiş. Veriyi çekmeye başlayalım
-                
+                // We're going to make a new query and recieve all inputs of the given category.
+                // From here we can understand that the data isn't pulled yet. Let's start pulling the data
+
                 $postQuery = $this->db->select('posts')
                             ->where('category_id', $id)
                             ->run();
@@ -98,7 +97,7 @@ class Categories extends Assets
                 if ($postQuery) {
                     $categoryPosts = $postQuery;
 
-                    // Yeni bir sorgu yapacağız ve o kategoriye ait girdileri alacağız.
+                    // We're going to make a new query and recieve all inputs of the given category.
 
                 }
                 else{
@@ -109,26 +108,26 @@ class Categories extends Assets
             }
         }
 
-        // Eğer iki işlem de başarısız olduysa, false, yanlış değer döndürelim.
+        // If both actions fail, return false
         return false;
     }
 
     /**
-     * Tüm girdilerin listelenmesini sağlayan metod.
+     * The method which lists all the inputs.
      *
-     * @return bool listelenebildiyse doğru, listelenemediyse yanlış değer döndürsün
+     * @return bool if it lists return true, if not return false
      */
     public function show()
     {
         if (!$this->checkLogin()) {
             return false;
         }
-        
+
         $query = $this->db->select('categories')
                     ->run();
-        
+
         if ($query) {
-            // Buradaki fetchAll metoduyla tüm değeleri diziye çektik.
+            // With the fetchAll method we pull all the values to the array.
             $result = array('render' => true, 'template' => 'admin', 'categories' => $query);
             return $result;
         } else {
@@ -137,16 +136,16 @@ class Categories extends Assets
     }
 
     /**
-     * Tüm kategorilerin listelenmesini sağlayan metod.
+     * The method which lists all the categories.
      *
-     * @return bool listelenebildiyse doğru, listelenemediyse yanlış değer döndürsün
+     * @return bool if it lists return true, if not return false
      */
     public function index()
     {
         $query = $this->db->select('categories')
                     ->run();
         if ($query) {
-            // Buradaki fetchAll metoduyla tüm değeleri diziye çektik.
+            // With the fetchAll method we pull all the values to the array.
             $categories = $query;
             $result = array('categories' => $categories, 'render' => false, 'template' => 'public');
             return $result;
@@ -157,11 +156,11 @@ class Categories extends Assets
 
 
     /**
-     * Kategori düzenleyen metod. Verilen Id bilginse göre, alınan bilgi ile sistemdeki bilgiyi değiştiren
-     * güncelleyen metod.
+     * The method which updates categories. With the given id and information it
+     * changes and updates the information in the system.
      *
-     * @param int $id Kategorinin benzersiz index'i
-     * @return bool düzenlendiyse doğru, eklenemediyse yanlış değer döndürsün
+     * @param int $id Kategorinin benzersiz index'i Unique index of category
+     * @return bool if updated return true, if not return false
      */
     public function edit($id = null, $title = null)
     {
@@ -169,8 +168,8 @@ class Categories extends Assets
             return false;
         }
         if ($title != null) {
-            // Önce veritabanı sorgumuzu hazırlayalım.
-            
+            // Let's first prepare our database query.
+
             $update = $this->db->update('categories')
                         ->where('id', $id)
                         ->set(array(
@@ -189,26 +188,25 @@ class Categories extends Assets
     }
 
     /**
-     * Kategori silen metod, verilerin silinmesini sağlar.
-     * Geri dönüşü yoktur.
+     * The method which deleted the category, deleted the data.
+     * This is not reversable.
      *
-     * @param int $id Kategorinin benzersiz index'i
-     * @return bool silindiyse doğru, eklenemediyse yanlış değer döndürsün
+     * @param int $id Unique index of category
+     * @return bool if deleted return true, if not return false
      */
     public function delete($id)
     {
         if (!$this->checkLogin()) {
             return false;
         }
-        
+
         $query = $this->db->delete('categories')
                     ->where('id', $id)
                     ->done();
-        
+
         return array('template' => 'admin', 'render' => false);
     }
 
 }
 
 ?>
-

@@ -1,9 +1,8 @@
 <?php
 /**
- * Tüm sistemdeki dosyaları yönetecek olan dosya sınıfıdır.
+ * The class which administers all files in the system.
  *
- * Sistemdeki dosyaların düzenlenmesini, silinmesini, görüntülenmesini,
- * listelenmesini ve eklenmesini kontrol eden sınıftır.
+ * The class which edits, deletes, renders, lists and adds files in the system.
  *
  * @author     Midori Kocak <mtkocak@mtkocak.net>
  */
@@ -16,7 +15,7 @@ class Files extends Assets
 {
 
     /**
-     * Dosya ismi
+     * File name
      *
      * @var string
      */
@@ -24,12 +23,12 @@ class Files extends Assets
 
 
     /**
-     * Dosya ekleyen metod, verilerin kaydedilmesini sağlar.
+     * The method which adds the file, saves the data.
      *
-     * @param string $title Dosya başlığı
-     * @param string $content Dosya içeriği
-     * @param int $category_id Dosya kategorisinin benzersiz kimliği
-     * @return bool eklendiyse doğru, eklenemediyse yanlış değer döndürsün
+     * @param string $title File title
+     * @param string $content File content
+     * @param int $category_id Unique identity of file category
+     * @return bool if added return true, if not return false
      */
     public function add($file = null)
     {
@@ -61,9 +60,9 @@ class Files extends Assets
                         move_uploaded_file($file["tmp_name"],
                             "./www/images/" . $rand . '.' . $file["name"]);
                         chmod("./www/images/" . $rand . '.' . $file["name"], 0777);
-                        // Önce veritabanı sorgumuzu hazırlayalım.
-                        
-                        
+                        // Let's first prepare our database query.
+
+
                         // insert
                         $insert = $this->db->insert('files')
                                     ->set(array(
@@ -71,7 +70,7 @@ class Files extends Assets
                                     ));
 
                         if ($insert) {
-                            // Veritabanı işlemi başarılı ise sınıfın objesine ait değişkenleri değiştirelim
+                            // If the database action is successful, let's change the variables belonging to the class object
                             $this->id = $this->db->lastId();
                             $this->filename = $file["name"];
 
@@ -90,24 +89,24 @@ class Files extends Assets
     }
 
     /**
-     * Tek bir dosyanın gösterilmesini sağlayan method
+     * The method which renders a single file
      *
-     * @param int $id Dosyanın benzersiz index'i
-     * @return array gösterilebildyise dizi türünde verileri döndürsün, gösterilemediyse false, yanlış değeri döndürsün
+     * @param int $id Unique index of file
+     * @return array if it renders properly return array data, if not return false
      */
     public function view($id)
     {
 
-        // Eğer daha önceden sorgu işlemi yapıldıysa, sınıf objesine yazılmıştır.
+        // If an query is sent, the class object has been written.
         if ($id == $this->id) {
             return array("id" => $this->id, "filename" => $this->filename);
         } else {
-            
-            
+
+
             $query = $this->db->select('files')
                         ->where('id', $id)
                         ->run();
-            
+
             if ($query) {
                 $file = $query;
 
@@ -119,14 +118,14 @@ class Files extends Assets
             }
         }
 
-        // Eğer iki işlem de başarısız olduysa, false, yanlış değer döndürelim.
+        // If both actions fail, return false
         return false;
     }
 
     /**
-     * Tüm dosyaların listelenmesini sağlayan metod.
+     * The method which lists all files.
      *
-     * @return bool listelenebildiyse doğru, listelenemediyse yanlış değer döndürsün
+     * @return bool if it's listed return true, if not return false
      */
     public function index()
     {
@@ -136,7 +135,7 @@ class Files extends Assets
         $query = $this->db->select('files')
                     ->run();
         if ($query) {
-            // Buradaki fetchAll metoduyla tüm değeleri diziye çektik.
+            // With the fetchAll method we pull all the values to the array.
             return array('files' => $query);
         } else {
             return false;
@@ -144,9 +143,9 @@ class Files extends Assets
     }
 
     /**
-     * Tüm girdilerin listelenmesini sağlayan metod.
+     * The method which lists all the inputs.
      *
-     * @return bool listelenebildiyse doğru, listelenemediyse yanlış değer döndürsün
+     * @return bool if it's listed return true, if not return false
      */
     public function show()
     {
@@ -156,7 +155,7 @@ class Files extends Assets
         $query = $this->db->select('files')
                     ->run();
         if ($query) {
-            // Buradaki fetchAll metoduyla tüm değeleri diziye çektik.
+            // With the fetchAll method we pull all the values to the array.
             $result = array('render' => true, 'template' => 'admin', 'files' => $query);
         } else {
             $result = array('render' => true, 'template' => 'admin', 'files' => array());
@@ -165,9 +164,9 @@ class Files extends Assets
     }
 
     /**
-     * Dosya düzenleyen metod
+     * The method which edits thhe file
      *
-     * Dosyaların düzenlenmesini istemiyoruz. Bu yüzden metodumuzun içi boş.
+     * We don't want to edit the files. That's wht our method is empty.
      *
      * @return bool
      */
@@ -181,18 +180,18 @@ class Files extends Assets
 
 
     /**
-     * Dosya silen metod, verilerin silinmesini sağlar.
-     * Geri dönüşü yoktur.
+     * The method which deletes the file, deletes the data.
+     * This is not reversable.
      *
-     * @param int $id Dosyanın benzersiz index'i
-     * @return bool silindiyse doğru, eklenemediyse yanlış değer döndürsün
+     * @param int $id Unique index of file
+     * @return bool if deleted return true, if not return false
      */
     public function delete($id)
     {
         $oldData = $this->view($id);
 
         unlink('./www/images/' . $oldData['file']['filename']);
-        
+
         $query = $this->db->delete('files')
                     ->where('id', $id)
                     ->done();
@@ -203,4 +202,3 @@ class Files extends Assets
 }
 
 ?>
-

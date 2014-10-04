@@ -1,8 +1,8 @@
 <?php
 /**
- * Tüm sistemdeki ayarları yönetecek sınıftır.
+ * The class which administers the settings in the system.
  *
- * Sistemin kurulumunu yapan ve ayarları yöneten sınıf. Sadece tek bir ayar olmasına izin vermeli.
+ * The class which sets up the system and settings. Only a single setting should be allowed.
  *
  * @author     Midori Kocak <mtkocak@mtkocak.net>
  */
@@ -16,34 +16,34 @@ class Settings extends Assets
 
 
     /**
-     * Site Başlığı
+     * Site title
      *
      * @var string
      */
     public $title;
 
     /**
-     * Site açıklaması
+     * Site description
      *
      * @var string
      */
     public $description;
 
     /**
-     * Site altbilgisi
+     * Site copyright
      *
      * @var string
      */
     public $copyright;
 
     /**
-     * Sisteme ayar ekleyen metod. Bir nevi kurulum da denilebilir.
-     * Ancak önce sistemde ayar olup olmadığını kontrol etmeli, ayar varsa, hata vermelidir.
+     * Sisteme ayar ekleyen metod. The method which adds a setting to the system. It can also be called the installation.
+     * It should check if a setting already exists, if so it should return an error.
      *
-     * @param string $title Site başlığı
-     * @param string $description Yönetici parola
-     * @param string $copyright Yönetici e-posta
-     * @return bool eklendiyse doğru, eklenemediyse yanlış değer döndürsün
+     * @param string $title Site title
+     * @param string $description Administrator password
+     * @param string $copyright Administrator e-mail
+     * @return bool if added return true, if not return false
      */
     public function add($title = null, $description = null, $copyright = null)
     {
@@ -74,7 +74,7 @@ class Settings extends Assets
                         ));
 
             if ($insert) {
-                // Veritabanı işlemi başarılı ise sınıfın objesine ait değişkenleri değiştirelim
+                // If the database action is successful, let's change the variables belonging to the class object
                 $this->id = $this->db->lastId();
                 $this->title = $title;
                 $this->description = $description;
@@ -84,27 +84,27 @@ class Settings extends Assets
             } else {
                 return false;
             }
-            
+
         } else {
             return array('render' => true, 'template' => 'admin');
         }
     }
 
     /**
-     * Tek bir ayar verisini edit işlemine yani ayar sayfasına gönderen metod. Render edilmesin
+     * The method which edits a single setting and which sends to the settings page. Should not render
      *
-     * @param int $id ayarın benzersiz index'i
-     * @return array gösterilebildyise dizi türünde verileri döndürsün, gösterilemediyse false, yanlış değeri döndürsün
+     * @param int $id Unique index of setting
+     * @return array if it renders properly return array data, if not return false
      */
     public function view($id = null)
     {
 
-        // Eğer daha önceden sorgu işlemi yapıldıysa, sınıf objesine yazılmıştır.
+        // If an query is sent, the class object has been written.
         if ($id != null && $id == $this->id) {
             return array("id" => $this->id, "title" => $this->title, "description" => $this->description, "copyright" => $this->copyright);
         } else {
 
-            // Buradan anlıyoruz ki veri henüz çekilmemiş. Veriyi çekmeye başlayalım
+            // From here we understand that data is pulled yet. Let's start pulling the data
             $query = $this->db->select('settings')
                             ->limit(0,1)
                         ->run();
@@ -121,14 +121,14 @@ class Settings extends Assets
             }
         }
 
-        // Eğer işlem başarısız olduysa, false, yanlış değer döndürelim.
+        // If both actions fail, return false.
         return false;
     }
 
     /**
-     * Tüm ayarların listelenmesini sağlayan metod. Edit temasını kullanır.
+     * The method which lists all settings. Uses the edit theme.
      *
-     * @return bool listelenebildiyse doğru, listelenemediyse yanlış değer döndürsün
+     * @return bool if it lists return true, if not return false
      */
     public function show()
     {
@@ -140,9 +140,9 @@ class Settings extends Assets
     }
 
     /**
-     * Kullanıcıların listelenmesini sağlayan metod. Bu metod boş olmalı
+     * The method which lists users. This method must be empty
      *
-     * @return bool listelenebildiyse doğru, listelenemediyse yanlış değer döndürsün
+     * @return bool if it lists return true, if not return false
      */
     public function index()
     {
@@ -154,14 +154,14 @@ class Settings extends Assets
 
 
     /**
-     * Ayarı düzenlemeye yarar. Verilen Id bilginse göre, alınan bilgi ile sistemdeki bilgiyi değiştiren
-     * güncelleyen metod.
+     * Ayarı düzenlemeye yarar. With the given id and information it edits
+     * the information in the system.
      *
-     * @param int $id Kategorinin benzersiz index'i
-     * @param string $username Yönetici kullanıcı adı
-     * @param string $username Yönetici parola
-     * @param string $username Yönetici e-posta
-     * @return bool düzenlendiyse doğru, eklenemediyse yanlış değer döndürsün
+     * @param int $id Unique index of the category
+     * @param string $username Administrator user name
+     * @param string $username Administrator password
+     * @param string $username Administrator e-mail
+     * @return bool if edited return true, if not return false
      */
     public function edit($title = null, $description = null, $copyright = null)
     {
@@ -171,7 +171,7 @@ class Settings extends Assets
         $oldData = $this->view();
         $id = $oldData['setting']['id'];
         if ($title != null) {
-            
+
             $update = $this->db->update('settings')
                         ->where('id', $id)
                         ->set(array(
@@ -192,11 +192,11 @@ class Settings extends Assets
     }
 
     /**
-     * Ayar silen metod, verilerin silinmesini sağlar. Ayar silinemeyeceği için içi boş.
-     * Geri dönüşü yoktur.
+     * Ayar silinemeyeceği için içi boş. The method which deleted a setting, deltes data.
+     * This is not reversable.
      *
-     * @param int $id Kategorinin benzersiz index'i
-     * @return bool silindiyse doğru, eklenemediyse yanlış değer döndürsün
+     * @param int $id Unique index of category
+     * @return bool if it's deleted return true, if not return false
      */
     public function delete($id = null)
     {
@@ -206,4 +206,3 @@ class Settings extends Assets
 }
 
 ?>
-
