@@ -1,8 +1,8 @@
 <?php
 /**
- * Uygulamamızı çalıştıracak olan sınıf
+ * The class which is going to run our application
  *
- * Sistemdeki tüm sınıfların içermeleri gereken veritabanı ve diğer bilgileri tutan sınıf.
+ * The class which holds database and other information which is used in all classes in the system.
  *
  * @author   Midori Kocak <mtkocak@mtkocak.net>
  */
@@ -20,14 +20,14 @@ class App
 {
 
     /**
-     * Veritabanı bağlantısını tutacak olan değişken.
+     * The variable which holds the database connection.
      *
      * @var PDO
      */
     private $db = false;
 
     /**
-     * Sistem ayarlarını çeken değişken.
+     * The variable which pulls the system settings.
      *
      * @var array
      */
@@ -35,9 +35,9 @@ class App
 
 
     /**
-     * Veritabanına bağlanmaya yarayan kurucu metod
+     * The contruct method which helps connect to the database
      *
-     * @param BasicDBObject $dbConnection Veritabanı işlemleri sınıfı
+     * @param BasicDBObject $dbConnection Database actions list
      * @return BasicDB object or False.
      */
     public function getDb($dbConnection)
@@ -64,7 +64,7 @@ class App
     }
 
     /**
-     * Tüm sitedeki ayarları çektiğimiz metod
+     * The method which we pull all settings for the whole site
      *
      * @return array
      */
@@ -76,7 +76,7 @@ class App
     }
 
     /**
-     * Sistemdeki bütün görüntüleme hesaplama işlemlerini yapan metod
+     * The method which processes all view calculations in the system
      *
      * @param $request
      * @param $data
@@ -84,7 +84,7 @@ class App
      */
     public function calculate($request, $data)
     {
-        // /posts/add gibi bir request geldi.
+        // a request like /posts/add is requested.
         $params = split("/", $request);
         $className = __NAMESPACE__ . '\\' . $params[1];
         $extension =  explode('.',end($params));
@@ -93,9 +93,9 @@ class App
         $class = new $className($this->db);
         $class->getRelatedData($this->injectRelatedData());
 
-        // Bu sınıfı tamamen değiştirmemiz gerek. Kullanıcının oturum açıp açmadığını
-        // açtıysa, oturum bilgilerine göre neyin nasıl görüntüleneceğini belirlemeliyiz.
-        //  Mesajlar uçuyordu halloldu
+        // We have to completely change this class. It has to check if the user is
+        // logged in, if so it should render the view based on the session information.
+        // Messages were flying it's fixed now
 
         if (empty($data)) {
             if ($params[2] != null) {
@@ -127,7 +127,7 @@ class App
                         $message = null;
                     }
                     if ($class->show() != false) {
-                        // login sayfasına gitsin
+                        // render the login page
                         $data = $class->show();
                         $content = array('message' => $message, 'related' => $this->injectRelatedData(), 'content' => $this->render('./View/' . $params[1] . '/' . $renderFile . '.php', $data));
                         return $this->render('./www/' . $data['template'] . '.php', $content);
@@ -174,7 +174,7 @@ class App
             }
 
             if ($class->show() != false) {
-                // login sayfasına gitsin
+                // render the login page
                 $data = $class->show();
                 $content = array('message' => $message, 'related' => $this->injectRelatedData(), 'content' => $this->render('./View/' . $params[1] . '/' . $renderFile . '.php', $data));
             } else {
@@ -185,7 +185,7 @@ class App
     }
 
     /**
-     * Tema dosyalarının ihtiyaç duyulan değişkenlerle gösterilmesini sağlayan metod
+     * The method which reveals the theme files with the necessary variables
      *
      * @param $file
      * @param $vars

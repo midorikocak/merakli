@@ -1,9 +1,9 @@
 <?php
 /**
- * Tüm sistemdeki kategorileri yönetecek olan kategori sınıfıdır.
+ * The category class which administers all categories in the system.
  *
- * Sistemdeki kategorilerin düzenlenmesini, silinmesini, görüntülenmesini,
- * listelenmesini ve eklenmesini kontrol eden sınıftır.
+ * The class which edits, deletes, renders, lists and adds categories to
+ * to the system.
  *
  * @author     Midori Kocak <mtkocak@mtkocak.net>
  */
@@ -20,21 +20,22 @@ abstract class Assets
 {
 
     /**
-     * Kategorinin tekil id'sini tutan değişken. Başka kategorilerle karışmamasını sağlar
+     * The variable which holds the category singular id. It prevents interference with other
+     * categories.
      *
      * @var int
      */
     public $id;
 
     /**
-     * Veritabanı bağlantısını tutacak olan değişken.
+     * The variable which is going to hold the database connection.
      *
      * @var PDO
      */
     protected $db = false;
 
     /**
-     * Bağlantı yapmaya yarayan metod
+     * The method which provides the connection
      *
      * @param BasicDb $db Bağlantı objesi
      * @return void
@@ -45,15 +46,15 @@ abstract class Assets
     }
 
     /**
-     * Sistemdeki bağlı bilgileri içeren dizi
+     * An array which holds all information in the system
      *
      * @var array
      */
     public $related;
 
     /**
-     * Sınıftan nesne oluşturulduğunda otomatik çalışan metod
-     * Burada sınıfın çalışması için veritabanı sınıfı isteniyor.
+     * The method which automatically runs after the class is initialized as an object
+     * Over here, the class asks for the database class before it runs.
      *
      * @param $db
      */
@@ -63,13 +64,13 @@ abstract class Assets
     }
 
     /**
-     * Sistemde oturum açılıp açılmadığını gösteren metod
+     * The method which reveals if the user is logged in or not in the system
      *
      * @return bool
      */
     public function checkLogin()
     {
-        // Burada tekrar oturum kontrolü yapıyoruz:
+        // We recheck if the user is logged in:
         if (!isset($_SESSION['username'])) {
             return false;
             //return array('render'=>false,'template'=>'public','message'=>'Lütfen oturum açınız!');
@@ -79,7 +80,7 @@ abstract class Assets
     }
 
     /**
-     * Bağlı
+     * Connected
      *
      * @param PDO $db Bağlantı objesi
      * @return void
@@ -90,58 +91,57 @@ abstract class Assets
     }
 
     /**
-     * Kategori ekleyen metod, verilerin kaydedilmesini sağlar.
+     * The method which adds categories, saves the data.
      *
-     * @param string $title Kategori başlığı
-     * @param string $content Kategori içeriği
-     * @param int $category_id Kategori kategorisinin benzersiz kimliği
-     * @return bool eklendiyse doğru, eklenemediyse yanlış değer döndürsün
+     * @param string $title Category title
+     * @param string $content Category content
+     * @param int $category_id The category categories unique identity
+     * @return bool if added true, if not returns false
      */
     abstract public function add();
 
     /**
-     * Tek bir kategordeki girdileri göstereceğiz
+     * We are going to show all inputs in a single category
      *
-     * @param int $id Kategorinin benzersiz index'i
-     * @return array gösterilebildyise dizi türünde verileri döndürsün, gösterilemediyse false, yanlış değeri döndürsün
+     * @param int $id Unique index of category
+     * @return array if it renders properly return array data, if not return false
      */
     abstract public function view($id);
 
     /**
-     * Tüm girdilerin listelenmesini sağlayan metod.
+     * The method which lists all inputs.
      *
-     * @return bool listelenebildiyse doğru, listelenemediyse yanlış değer döndürsün
+     * @return bool if it's listed return true, if not return false
      */
     abstract public function show();
 
     /**
-     * Tüm kategorilerin listelenmesini sağlayan metod.
+     * The method which lists all categories.
      *
-     * @return bool listelenebildiyse doğru, listelenemediyse yanlış değer döndürsün
+     * @return bool if it's listed return true, if not return false
      */
     abstract public function index();
 
 
     /**
-     * Kategori düzenleyen metod. Verilen Id bilginse göre, alınan bilgi ile sistemdeki bilgiyi değiştiren
-     * güncelleyen metod.
+     * The method which updates categories. With the given id and information it
+     * changes and updates the information in the system.
      *
-     * @param int $id Kategorinin benzersiz index'i
-     * @return bool düzenlendiyse doğru, eklenemediyse yanlış değer döndürsün
+     * @param int $id Unique index of category
+     * @return bool if changed return true, if not return false
      */
     abstract public function edit();
 
 
     /**
-     * Kategori silen metod, verilerin silinmesini sağlar.
-     * Geri dönüşü yoktur.
+     * The method which deleted categories, helps removing data.
+     * This is not reversable.
      *
-     * @param int $id Kategorinin benzersiz index'i
-     * @return bool silindiyse doğru, eklenemediyse yanlış değer döndürsün
+     * @param int $id Unique index of category
+     * @return bool if deleted return true, if not return false
      */
     abstract public function delete($id);
 
 }
 
 ?>
-

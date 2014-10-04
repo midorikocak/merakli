@@ -1,9 +1,8 @@
 <?php
 /**
- * Tüm sistemdeki girdileri yönetecek olan girdi sınıfıdır.
+ * The class which administers all inputs in the system.
  *
- * Sistemdeki girdilerin düzenlenmesini, silinmesini, görüntülenmesini,
- * listelenmesini ve eklenmesini kontrol eden sınıftır.
+ * The class which edits, deletes, renders, lists and adds inputs in the system.
  *
  * @author     Midori Kocak <mtkocak@mtkocak.net>
  */
@@ -17,21 +16,21 @@ class Posts extends Assets
 
 
     /**
-     * Girdi başlığı
+     * Input title
      *
      * @var string
      */
     public $title;
 
     /**
-     * Girdinin içeriği
+     * Input content
      *
      * @var string
      */
     public $content;
 
     /**
-     * Girdinin ait olduğu benzersiz kategori kimliği
+     * Unique category identity of the input
      *
      * @var int
      */
@@ -39,23 +38,23 @@ class Posts extends Assets
 
 
     /**
-     * Girdinin hangi tarihte oluşturulduğunu gösteren değişken
+     * The variable which reveals the creation date of the input
      *
      * @var string
      */
     private $created;
 
     /**
-     * Girdinin hangi tarihte güncellendiğini gösteren değişken
+     * The variable which reveals the update date of the input
      *
      * @var string
      */
     private $updated;
 
     /**
-     * Şu anki tarihi döndüren yardımcı metod
+     * The helper method which return the current date
      *
-     * @return string tarihi mysql formatında döndürür
+     * @return string returns the date in mysql format
      */
     public function getDate()
     {
@@ -66,12 +65,12 @@ class Posts extends Assets
     }
 
     /**
-     * Girdi ekleyen metod, verilerin kaydedilmesini sağlar.
+     * The method which add inputs, saves the data.
      *
-     * @param string $title Girdi başlığı
-     * @param string $content Girdi içeriği
-     * @param int $category_id Girdi kategorisinin benzersiz kimliği
-     * @return bool eklendiyse doğru, eklenemediyse yanlış değer döndürsün
+     * @param string $title Input title
+     * @param string $content Input content
+     * @param int $category_id Unique identity of input category
+     * @return bool if added return true, if not return false
      */
     public function add($title = null, $content = null, $category_id = null)
     {
@@ -79,7 +78,7 @@ class Posts extends Assets
             return false;
         }
         if ($title != null) {
-            // Tarih içeren alanları elle girmiyoruz. Sistemden doğrudan isteyen fonksiyonumuz var.
+            // We don't manually add field which contain dates. We have functions which directly ask the system.
             $date = $this->getDate();
 
             // insert
@@ -93,7 +92,7 @@ class Posts extends Assets
                         ));
 
             if ($insert) {
-                // Veritabanı işlemi başarılı ise sınıfın objesine ait değişkenleri değiştirelim
+                // If the database action is successful, let's change the variables belonging to the class object
                 $this->id = $this->db->lastInsertId();
                 $this->title = $title;
                 $this->content = $content;
@@ -118,19 +117,19 @@ class Posts extends Assets
     }
 
     /**
-     * Tek bir girdinin gösterilmesini sağlayan method
+     * The method which renders a single input
      *
-     * @param int $id Girdinin benzersiz index'i
-     * @return array gösterilebildyise dizi türünde verileri döndürsün, gösterilemediyse false, yanlış değeri döndürsün
+     * @param int $id Girdinin benzersiz index'i Unique index of the input
+     * @return array if it renders properly return array data, if not return false
      */
     public function view($id)
     {
 
-        // Eğer daha önceden sorgu işlemi yapıldıysa, sınıf objesine yazılmıştır.
+        //  If an query is sent, the class object has been written.
         if ($id == $this->id) {
             return array("id" => $this->id, "title" => $this->title, "content" => $this->content, "category_id" => $this->category_id, "created" => $this->created, "updated" => $this->updated);
         } else {
-            // Buradan anlıyoruz ki veri henüz çekilmemiş. Veriyi çekmeye başlayalım
+            // From here we understand that data is pulled yet. Let's start pulling the data
             $query = $this->db->select('posts')
                 ->where('id',$id)
                     ->run();
@@ -150,14 +149,14 @@ class Posts extends Assets
             }
         }
 
-        // Eğer iki işlem de başarısız olduysa, false, yanlış değer döndürelim.
+        // If both actions fail, return false
         return false;
     }
 
     /**
-     * Tüm girdilerin listelenmesini sağlayan metod.
+     * The method which lists all inputs.
      *
-     * @return bool listelenebildiyse doğru, listelenemediyse yanlış değer döndürsün
+     * @return bool if it lists return true, if not return false
      */
     public function index()
     {
@@ -165,7 +164,7 @@ class Posts extends Assets
                 ->run();
 
         if ($query) {
-            // Buradaki fetchAll metoduyla tüm değeleri diziye çektik.
+            // With the fetchAll method we pull all the values to the array.
             $result = array('render' => true, 'template' => 'public', 'posts' => $query);
             return $result;
         } else {
@@ -174,9 +173,9 @@ class Posts extends Assets
     }
 
     /**
-     * Tüm girdilerin listelenmesini sağlayan metod.
+     * The method which lists all inputs.
      *
-     * @return bool listelenebildiyse doğru, listelenemediyse yanlış değer döndürsün
+     * @return bool if it lists return true, if not return false
      */
     public function show()
     {
@@ -186,7 +185,7 @@ class Posts extends Assets
         $query = $this->db->select('posts')
                 ->run();
         if ($query) {
-            // Buradaki fetchAll metoduyla tüm değeleri diziye çektik.
+            // With the fetchAll method we pull all the values to the array.
             $result = array('render' => true, 'template' => 'admin', 'posts' => $query);
             return $result;
         } else {
@@ -196,11 +195,11 @@ class Posts extends Assets
 
 
     /**
-     * Girdi düzenleyen metod. Verilen Id bilginse göre, alınan bilgi ile sistemdeki bilgiyi değiştiren
-     * güncelleyen metod.
+     * The method which edits the input. With the given id and information it edits
+     * the information in the system.
      *
-     * @param int $id Girdinin benzersiz index'i
-     * @return bool düzenlendiyse doğru, eklenemediyse yanlış değer döndürsün
+     * @param int $id Unique index of input
+     * @return bool if edited return true, if not return false
      */
     public function edit($id = null, $title = null, $content = null, $category_id = null)
     {
@@ -209,9 +208,9 @@ class Posts extends Assets
         }
         if ($title != null) {
 
-            // Tarih içeren alanları elle girmiyoruz. Sistemden doğrudan isteyen fonksiyonumuz var.
+            // We don't manually add field which contain dates. We have functions which directly ask the system.
             $date = $this->getDate();
-            
+
             $update = $this->db->update('posts')
                         ->where('id', $id)
                         ->set(array(
@@ -235,11 +234,11 @@ class Posts extends Assets
     }
 
     /**
-     * Girdi silen metod, verilerin silinmesini sağlar.
-     * Geri dönüşü yoktur.
+     * The method which deleted inputs, deletes the data.
+     * This is not reversable.
      *
-     * @param int $id Girdinin benzersiz index'i
-     * @return bool silindiyse doğru, eklenemediyse yanlış değer döndürsün
+     * @param int $id Unique if of input
+     * @return bool if deleted return true, if not return false
      */
     public function delete($id)
     {
@@ -255,4 +254,3 @@ class Posts extends Assets
 }
 
 ?>
-
