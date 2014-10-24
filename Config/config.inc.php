@@ -9,13 +9,12 @@
 * @author     Midori Kocak <mtkocak@mtkocak.net>
 */
 
-$config = array(
-    "db"=> array(
-        "dbname"=>"merakli",
-        "host"=>"localhost",
-        "username"=>"root",
-        "password"=>"midori"
-    )
+$config = array (
+  'db' => 
+  array (
+    'host' => '127.0.0.1',
+    'dbname' => 'merakli',
+    'username' => 'root',
+    'password' => 'midori',
+  ),
 );
-
-?>

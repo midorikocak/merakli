@@ -74,6 +74,29 @@ class App
         $setting = $settings->view();
         $this->settings = $setting['setting'];
     }
+    
+    public function installDatabase($config=null)
+    {
+    $comments = "";
+    $tokens = token_get_all(file_get_contents('./Config/config.inc.php'));
+    foreach($tokens as $token)
+    {
+    if($token[0] == T_COMMENT || $token[0] == T_DOC_COMMENT) {
+        $comments.= $token[1]."\n";
+    }
+    
+    }
+    
+    if($config!=null)
+    {
+        file_put_contents('./Config/config.inc.php','<?php'."\n".$comments."\n".'$config = '.var_export($config, true).';');
+        header('Location:'.LINK_PREFIX);
+    }
+    else
+    {
+        return $this->render('./View/Install/database.php', '');
+    }
+    }
 
     /**
      * Sistemdeki bütün görüntüleme hesaplama işlemlerini yapan metod
