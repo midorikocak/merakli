@@ -1,4 +1,4 @@
-<?php
+ <?php
 /**
  * Uygulamamızı çalıştıracak olan sınıf
  *
@@ -85,7 +85,7 @@ class App
     public function calculate($request, $data)
     {
         // /posts/add gibi bir request geldi.
-        $params = split("/", $request);
+        $params = explode("/", $request);
         $className = __NAMESPACE__ . '\\' . $params[1];
         $extension =  explode('.',end($params));
 
