@@ -2,7 +2,6 @@
     require_once 'Vendor/autoload.php';
     require_once 'Vendor/BasicDB/basicdb.php';
     require 'Config/config.inc.php';
-    require 'Lib/App.php';
     session_start();
 
     $directoryName = basename(dirname(__FILE__));
