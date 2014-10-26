@@ -3,7 +3,10 @@
     require_once 'Vendor/autoload.php';
     require_once 'Vendor/BasicDB/basicdb.php';
     require 'Config/config.inc.php';
-    session_start();
+    $sess_name = session_name();
+    if (session_start()) {
+    	setcookie($sess_name, session_id(), null, '/', null, null, true);
+    }
 
     $directoryName = basename(dirname(__FILE__));
     define('LINK_PREFIX','http://'.$_SERVER['HTTP_HOST'].'/'.$directoryName);
