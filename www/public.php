@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Site Başlığı</title>
+    <title><?=$title?></title>
     <link rel="stylesheet" href="<?=FILE_PREFIX?>css/foundation.css" />
     <link rel="stylesheet" href="<?=FILE_PREFIX?>css/app.css" />
     <script src="<?=FILE_PREFIX?>js/vendor/modernizr.js"></script>
