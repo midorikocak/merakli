@@ -54,8 +54,42 @@
     try {
         $db = new BasicDB($config['db']['host'], $config['db']['dbname'], $config['db']['username'], $config['db']['password']);
         $app->getDb($db);
-        $app->getSettings();
-        echo $app->calculate($request,$data);
+        
+        if($app->getUsers()==false)
+        {
+            if(!isset($_POST['user'])){
+                echo $app->installUser();
+            }
+            else
+            {
+                if(isset($_POST['user']['username']) && preg_match('/^\w{5,}$/', $_POST['user']['username']) && filter_var($_POST['user']['email'], FILTER_VALIDATE_EMAIL)){
+                    $_POST['user']['username'] = filter_var($_POST['user']['username'], FILTER_SANITIZE_MAGIC_QUOTES);
+                    
+                    if(isset($_POST['user']['password1']) && isset($_POST['user']['password2']) && ($_POST['user']['password1'] == $_POST['user']['password2'])){
+                        echo $app->installUser($_POST['user']);
+                    }
+                    else{
+                        echo $app->installUser();
+                    }
+                }
+                else{
+                    echo $app->installUser();
+                }
+            }
+        }
+        elseif(!$app->getSettings())
+        {
+            if(isset($_POST['setting'])){
+                echo $app->installSettings($_POST['setting']);
+            }
+            else{
+                echo $app->installSettings();
+            }
+        }
+        else
+        {
+            echo $app->calculate($request,$data);
+        }
     } catch (Exception $e) {
         if($e->getCode()==1049)
         {
@@ -68,7 +102,7 @@
             }
             
             if(isset($_POST['db']['username']) && preg_match('/^\w{5,}$/', $_POST['db']['username']) ){
-                $_POST['db']['password'] = filter_var($_POST['db']['password'], FILTER_SANITIZE_MAGIC_QUOTES);
+                $_POST['db']['username'] = filter_var($_POST['db']['username'], FILTER_SANITIZE_MAGIC_QUOTES);
             }
             
             if(isset($_POST['db']['password'])){
@@ -84,10 +118,8 @@
             }
         }
     }
-
-
     
     
     $endTime = microtime(true);
     $elapsed = $endTime - $startTime;
-    echo "Execution time : $elapsed seconds";
+    //echo "Execution time : $elapsed seconds"; // Uncomment for debugging

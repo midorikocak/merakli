@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Site Başlığı</title>
+    <title>Database Setup</title>
     <link rel="stylesheet" href="<?=FILE_PREFIX?>css/foundation.css" />
     <link rel="stylesheet" href="<?=FILE_PREFIX?>css/install.css" />
     <link href='http://fonts.googleapis.com/css?family=PT+Sans&subset=latin,latin-ext' rel='stylesheet' type='text/css'>

@@ -1,11 +1,11 @@
 <?php
 /**
- * Uygulamamızı çalıştıracak olan sınıf
- *
- * Sistemdeki tüm sınıfların içermeleri gereken veritabanı ve diğer bilgileri tutan sınıf.
- *
- * @author   Midori Kocak <mtkocak@mtkocak.net>
- */
+* Uygulamamızı çalıştıracak olan sınıf
+*
+* Sistemdeki tüm sınıfların içermeleri gereken veritabanı ve diğer bilgileri tutan sınıf.
+*
+* @author   Midori Kocak <mtkocak@mtkocak.net>
+*/
 
 namespace Midori\Cms;
 
@@ -13,33 +13,33 @@ use Midori\Cms;
 use \PDO;
 
 /**
- * Class App
- * @package Midori\Cms
- */
+* Class App
+* @package Midori\Cms
+*/
 class App
 {
 
     /**
-     * Veritabanı bağlantısını tutacak olan değişken.
-     *
-     * @var PDO
-     */
+    * Veritabanı bağlantısını tutacak olan değişken.
+    *
+    * @var PDO
+    */
     private $db = false;
 
     /**
-     * Sistem ayarlarını çeken değişken.
-     *
-     * @var array
-     */
+    * Sistem ayarlarını çeken değişken.
+    *
+    * @var array
+    */
     private $settings = false;
-
+    
 
     /**
-     * Veritabanına bağlanmaya yarayan kurucu metod
-     *
-     * @param BasicDBObject $dbConnection Veritabanı işlemleri sınıfı
-     * @return BasicDB object or False.
-     */
+    * Veritabanına bağlanmaya yarayan kurucu metod
+    *
+    * @param BasicDBObject $dbConnection Veritabanı işlemleri sınıfı
+    * @return BasicDB object or False.
+    */
     public function getDb($dbConnection)
     {
         if(!$dbConnection){
@@ -53,10 +53,10 @@ class App
     }
 
     /**
-     * Nesnelere bağlı olan bilgileri çektiğimiz metod
-     *
-     * @return array
-     */
+    * Nesnelere bağlı olan bilgileri çektiğimiz metod
+    *
+    * @return array
+    */
     public function injectRelatedData()
     {
         $categories = new Categories($this->db);
@@ -64,47 +64,110 @@ class App
     }
 
     /**
-     * Tüm sitedeki ayarları çektiğimiz metod
-     *
-     * @return array
-     */
+    * Tüm sitedeki ayarları çektiğimiz metod
+    *
+    * @return array
+    */
     public function getSettings()
     {
         $settings = new Settings($this->db);
         $setting = $settings->view();
         $this->settings = $setting['setting'];
+        if($this->settings !=null){
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    
+    public function installSettings($settings = null)
+    {
+        if($settings==null)
+        {
+            return $this->render('./View/Install/settings.php', '');
+        }
+        else
+        {
+            $insert = $this->db->insert('settings')
+                        ->set(array(
+                             'title' => $settings['title'],
+                             'description'=>$settings['description'],
+                             'copyright'=>$settings['copyright']
+                        ));
+        
+            if ($insert) {
+                header('Location:'.LINK_PREFIX);
+            } else {
+                return $this->render('./View/Install/setting.php', '');
+            }
+        }
+    }
+    
+    public function getUsers()
+    {
+        $user = $this->db->select('users')
+                    ->run();
+        if(!$user){
+            return false;
+        }
+        return true;
     }
     
     public function installDatabase($config=null)
     {
-    $comments = "";
-    $tokens = token_get_all(file_get_contents('./Config/config.inc.php'));
-    foreach($tokens as $token)
-    {
-    if($token[0] == T_COMMENT || $token[0] == T_DOC_COMMENT) {
-        $comments.= $token[1]."\n";
+        $comments = "";
+        $tokens = token_get_all(file_get_contents('./Config/config.inc.php'));
+        foreach($tokens as $token)
+        {
+            if($token[0] == T_COMMENT || $token[0] == T_DOC_COMMENT) {
+                $comments.= $token[1]."\n";
+            }
+    
+        }
+    
+        if($config!=null)
+        {
+            file_put_contents('./Config/config.inc.php','<?php'."\n".$comments."\n".'$config = '.var_export($config, true).';');
+            header('Location:'.LINK_PREFIX);
+        }
+        else
+        {
+            return $this->render('./View/Install/database.php', '');
+        }
     }
     
-    }
-    
-    if($config!=null)
+    public function installUser($userInfo = null)
     {
-        file_put_contents('./Config/config.inc.php','<?php'."\n".$comments."\n".'$config = '.var_export($config, true).';');
-        header('Location:'.LINK_PREFIX);
-    }
-    else
-    {
-        return $this->render('./View/Install/database.php', '');
-    }
+        if($userInfo==null)
+        {
+            return $this->render('./View/Install/user.php', '');
+        }
+        else
+        {
+                    $insert = $this->db->insert('users')
+                        ->set(array(
+                            "username" => $userInfo['username'],
+                            "password" => md5($userInfo['password1']),
+                            "email" => $userInfo['email'],
+                        ));
+
+            if ($insert) {
+                header('Location:'.LINK_PREFIX);
+            } else {
+                return $this->render('./View/Install/user.php', '');
+            }
+        }
     }
 
     /**
-     * Sistemdeki bütün görüntüleme hesaplama işlemlerini yapan metod
-     *
-     * @param $request
-     * @param $data
-     * @return string
-     */
+    * Sistemdeki bütün görüntüleme hesaplama işlemlerini yapan metod
+    *
+    * @param $request
+    * @param $data
+    * @return string
+    */
     public function calculate($request, $data)
     {
         // /posts/add gibi bir request geldi.
@@ -208,12 +271,12 @@ class App
     }
 
     /**
-     * Tema dosyalarının ihtiyaç duyulan değişkenlerle gösterilmesini sağlayan metod
-     *
-     * @param $file
-     * @param $vars
-     * @return string
-     */
+    * Tema dosyalarının ihtiyaç duyulan değişkenlerle gösterilmesini sağlayan metod
+    *
+    * @param $file
+    * @param $vars
+    * @return string
+    */
     public function render($file, $vars)
     {
         if (is_array($vars) && !empty($vars)) {
