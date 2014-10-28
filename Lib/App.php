@@ -10,7 +10,6 @@
 namespace Midori\Cms;
 
 use Midori\Cms;
-use \PDO;
 
 /**
 * Class App
