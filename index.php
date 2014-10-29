@@ -77,9 +77,9 @@ try {
                         header('Location:'.LINK_PREFIX.'/categories/add');
                     }
                     
-                    if ($noPosts && mb_strtolower($_SERVER['REQUEST_URI'])!='/'.$directoryName.'/posts/add' && mb_strtolower($_SERVER['REQUEST_URI'])!='/'.$directoryName.'/users/logout'){
-                        header('Location:'.LINK_PREFIX.'/posts/add');
-                    }
+                    //if ($noPosts && mb_strtolower($_SERVER['REQUEST_URI'])!='/'.$directoryName.'/posts/add' && mb_strtolower($_SERVER['REQUEST_URI'])!='/'.$directoryName.'/users/logout'){
+                      //  header('Location:'.LINK_PREFIX.'/posts/add');
+                    //}
                     echo $app->calculate($request, $data);
                 }
             } else {
