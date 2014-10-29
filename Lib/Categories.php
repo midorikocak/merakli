@@ -132,7 +132,7 @@ class Categories extends Assets
             $result = array('render' => true, 'template' => 'admin', 'categories' => $query);
             return $result;
         } else {
-            return false;
+            return array('render' => true, 'template' => 'admin', 'categories' => array());
         }
     }
 

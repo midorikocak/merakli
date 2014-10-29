@@ -15,15 +15,15 @@
       <form action="<?= LINK_PREFIX ?>/Users/login" method="post">
         <div class="row">
           <div class="large-12 columns">
-            <label>Kullanıcı adı
-              <input id="username" name="username" type="text" placeholder="Kullanıcı adı" />
+            <label>Username
+              <input id="username" name="username" type="text" placeholder="Username" />
             </label>
           </div>
         </div>
         <div class="row">
           <div class="large-12 columns">
-            <label>Parola
-              <input id="password" name="password" type="password" placeholder="Parola" />
+            <label>Password
+              <input id="password" name="password" type="password" placeholder="Password" />
             </label>
           </div>
         </div>

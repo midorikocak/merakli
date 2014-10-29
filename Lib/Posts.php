@@ -190,7 +190,7 @@ class Posts extends Assets
             $result = array('render' => true, 'template' => 'admin', 'posts' => $query);
             return $result;
         } else {
-            return false;
+            return array('render' => true, 'template' => 'admin', 'posts' => array());
         }
     }
 

@@ -56,12 +56,29 @@ class App
     *
     * @return array
     */
-    public function injectRelatedData()
+    public function getCategories()
     {
         $categories = new Categories($this->db);
         return $categories->index();
     }
-
+    
+    public function getPosts()
+    {
+        $posts = new Posts($this->db);
+        return $posts->index();
+    }
+    
+    public function login($data=null){
+        $users = new Users($this->db);
+        if($data!=null)
+        {
+            return $users->login($data['username'],$data['password']);
+        }
+        else {
+            echo $this->render('./View/Install/login.php', '');
+        }
+    }
+    
     /**
     * Tüm sitedeki ayarları çektiğimiz metod
     *
@@ -103,6 +120,10 @@ class App
             }
         }
     }
+    
+
+    
+
     
     public function getUsers()
     {
@@ -176,7 +197,7 @@ class App
 
         //call_user_func_array
         $class = new $className($this->db);
-        $class->getRelatedData($this->injectRelatedData());
+        $class->getRelatedData($this->getCategories());
 
         // Bu sınıfı tamamen değiştirmemiz gerek. Kullanıcının oturum açıp açmadığını
         // açtıysa, oturum bilgilerine göre neyin nasıl görüntüleneceğini belirlemeliyiz.
@@ -203,7 +224,7 @@ class App
                 }
 
                 if (isset($data['render']) && $data['render'] != false) {
-                    $content = array('message' => $message, 'related' => $this->injectRelatedData(), 'content' => $this->render('./View/' . $params[1] . '/' . mb_strtolower($params[2]) . '.php', $data));
+                    $content = array('message' => $message, 'related' => $this->getCategories(), 'content' => $this->render('./View/' . $params[1] . '/' . mb_strtolower($params[2]) . '.php', $data));
                     return $this->render('./www/' . $data['template'] . '.php', $content);
                 } else {
                     if (isset($data['message'])) {
@@ -211,13 +232,13 @@ class App
                     } else {
                         $message = null;
                     }
-                    if ($class->show() != false) {
+                    if (($class->show() != false) && $data['template']!='admin' && $_SESSION==null) {
                         // login sayfasına gitsin
                         $data = $class->show();
-                        $content = array('message' => $message, 'related' => $this->injectRelatedData(), 'content' => $this->render('./View/' . $params[1] . '/' . $renderFile . '.php', $data));
+                        $content = array('message' => $message, 'related' => $this->getCategories(), 'content' => $this->render('./View/' . $params[1] . '/' . $renderFile . '.php', $data));
                         return $this->render('./www/' . $data['template'] . '.php', $content);
                     } else {
-                        $content = array('message' => $message, 'related' => $this->injectRelatedData(), 'content' => $this->render('./View/Users/login.php', $data));
+                        $content = array('message' => $message, 'related' => $this->getCategories(), 'content' => $this->render('./View/Users/login.php', $data));
                         return $this->render('./www/public.php', $content);
                     }
                 }
@@ -239,7 +260,7 @@ class App
                 } else {
                     $message = null;
                 }
-                $content = array('message' => $message, 'related' => $this->injectRelatedData(), 'content' => $this->render('./View/' . $params[1] . '/' . $renderFile . '.php', $data));
+                $content = array('message' => $message, 'related' => $this->getCategories(), 'content' => $this->render('./View/' . $params[1] . '/' . $renderFile . '.php', $data));
                 return $this->render('./www/' . $data['template'] . '.php', $content);
             }
         } else {
@@ -261,9 +282,9 @@ class App
             if ($class->show() != false) {
                 // login sayfasına gitsin
                 $data = $class->show();
-                $content = array('message' => $message, 'related' => $this->injectRelatedData(), 'content' => $this->render('./View/' . $params[1] . '/' . $renderFile . '.php', $data));
+                $content = array('message' => $message, 'related' => $this->getCategories(), 'content' => $this->render('./View/' . $params[1] . '/' . $renderFile . '.php', $data));
             } else {
-                $content = array('message' => $message, 'related' => $this->injectRelatedData(), 'content' => $this->render('./View/Users/login.php', $data));
+                $content = array('message' => $message, 'related' => $this->getCategories(), 'content' => $this->render('./View/Users/login.php', $data));
             }
             return $this->render('./www/' . $data['template'] . '.php', $content);
         }

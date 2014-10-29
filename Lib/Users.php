@@ -137,11 +137,11 @@ class Users extends Assets
      */
     public function show()
     {
-
         // Login olup olmadığımızı ve sistemde kullanıcı olup olmadığını kontrol eden metod.
         if (!$this->checkLogin()) {
             return false;
         }
+        
         $query = $this->db->select('users')
                     ->run();
 
@@ -259,7 +259,7 @@ class Users extends Assets
      */
     public function logout()
     {
-        unset($_SESSION['username']);
+        session_destroy();
         return array('template' => 'public', 'render' => false, 'message' => 'Sistemden çıktınız');
     }
 
