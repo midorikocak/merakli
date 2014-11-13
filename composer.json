@@ -1,9 +1,15 @@
 {
+	"name": "mtkocak/merakli",
+	"description": "Merakli Content Management System for teaching OOP",
+	"homepage": "http://www.mtkocak.com",
+	"type": "project",
+	"license": "MIT",
     "require": {
+    		"phpunit/phpunit": "*"
     },
     "autoload": {
         "psr-4": {
-            "Midori\\Cms\\": ["Lib/"]
+            "Midori\\Cms\\": ["Lib/","App/"]
         }
     }
 }

@@ -23,7 +23,7 @@ if (strpos($_SERVER['REQUEST_URI'], $_SERVER['SCRIPT_NAME']) !== false) {
         $request = implode('/', $requests);
         
         if ($request == "/") {
-            $request .= "Posts/";
+            $request .= "posts";
         }
     }
 }

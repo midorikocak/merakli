@@ -6,5 +6,5 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'Midori\\Cms\\' => array($baseDir . '/Lib'),
+    'Midori\\Cms\\' => array($baseDir . '/Lib', $baseDir . '/App'),
 );
