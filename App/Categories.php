@@ -1,182 +1,132 @@
 <?php
 /**
- * Tüm sistemdeki kategorileri yönetecek olan kategori sınıfıdır.
+ * The class who manages categories in the application
  *
- * Sistemdeki kategorilerin düzenlenmesini, silinmesini, görüntülenmesini,
- * listelenmesini ve eklenmesini kontrol eden sınıftır.
+ * Basic CRUD operations using PDO class. Extends Assets abstract class.
+ * The only difference at crud is that when category is requested with id, related posts are
+ * retrieved.
  *
  * @author     Midori Kocak <mtkocak@mtkocak.net>
  */
-
 namespace Midori\Cms;
-
-use \PDO;
 
 /**
  * Class Categories
+ * 
  * @package Midori\Cms
  */
 class Categories extends Assets
 {
 
-
     /**
-     * Kategori başlığı
+     * Method to add a category
      *
-     * @var string
-     */
-    public $title;
-
-    /**
-     * Kategori ekleyen metod, verilerin kaydedilmesini sağlar.
-     *
-     * @param string $title Kategori başlığı
-     * @param string $content Kategori içeriği
-     * @param int $category_id Kategori kategorisinin benzersiz kimliği
-     * @return bool eklendiyse doğru, eklenemediyse yanlış değer döndürsün
+     * @param string $title
+     *            Category Title
+     * @return mixed
      */
     public function add($title = null)
     {
-        if (!$this->checkLogin()) {
+        if (! $this->checkLogin()) {
             return false;
         }
-
+        
         if ($title != null) {
             
-
             // insert
-            $insert = $this->db->insert('categories')
-                        ->set(array(
-                             'title' => $title,
-                        ));
-
+            $insert = $this->db->insert('categories')->set(array(
+                'title' => $title
+            ));
+            
             if ($insert) {
-                // Veritabanı işlemi başarılı ise sınıfın objesine ait değişkenleri değiştirelim
-                $this->id = $this->db->lastId();
-                $this->title = $title;
-
                 return true;
             } else {
                 return false;
             }
         } else {
-            return array('render' => true, 'template' => 'admin');
+            return array(
+                'render' => true,
+                'template' => 'admin'
+            );
         }
     }
 
     /**
-     * Tek bir kategordeki girdileri göstereceğiz
+     * Get all categories as an array
      *
-     * @param int $id Kategorinin benzersiz index'i
-     * @return array gösterilebildyise dizi türünde verileri döndürsün, gösterilemediyse false, yanlış değeri döndürsün
-     */
-    public function view($id)
-    {
-        // Eğer daha önceden sorgu işlemi yapıldıysa, sınıf objesine yazılmıştır.
-        if ($id == $this->id) {
-            return array("id" => $this->id, "title" => $this->title);
-        } else {
-            // Buradan anlıyoruz ki veri henüz çekilmemiş. Veriyi çekmeye başlayalım
-            
-            $query = $this->db->select('categories')
-                        ->where('id', $id)
-                        ->run();
-            
-            if ($query) {
-                $category = $query[0];
-
-                $this->id = $category['id'];
-                $this->title = $category['title'];
-
-                // Yeni bir sorgu yapacağız ve o kategoriye ait girdileri alacağız.
-                // Buradan anlıyoruz ki veri henüz çekilmemiş. Veriyi çekmeye başlayalım
-                
-                $postQuery = $this->db->select('posts')
-                            ->where('category_id', $id)
-                            ->run();
-
-                if ($postQuery) {
-                    $categoryPosts = $postQuery;
-
-                    // Yeni bir sorgu yapacağız ve o kategoriye ait girdileri alacağız.
-
-                }
-                else{
-                    $categoryPosts=array();
-                }
-                $result = array('posts' => $categoryPosts, 'render' => true, 'template' => 'public', 'category' => $category);
-                return $result;
-            }
-        }
-
-        // Eğer iki işlem de başarısız olduysa, false, yanlış değer döndürelim.
-        return false;
-    }
-
-    /**
-     * Tüm girdilerin listelenmesini sağlayan metod.
-     *
-     * @return bool listelenebildiyse doğru, listelenemediyse yanlış değer döndürsün
+     * @return array
      */
     public function show()
     {
-        if (!$this->checkLogin()) {
+        if (! $this->checkLogin()) {
             return false;
         }
         
-        $query = $this->db->select('categories')
-                    ->run();
+        $query = $this->db->select('categories')->run();
         
         if ($query) {
-            // Buradaki fetchAll metoduyla tüm değeleri diziye çektik.
-            $result = array('render' => true, 'template' => 'admin', 'categories' => $query);
+            $result = array(
+                'render' => true,
+                'template' => 'admin',
+                'categories' => $query
+            );
             return $result;
         } else {
-            return array('render' => true, 'template' => 'admin', 'categories' => array());
+            return array(
+                'render' => true,
+                'template' => 'admin',
+                'categories' => array()
+            );
         }
     }
 
     /**
-     * Tüm kategorilerin listelenmesini sağlayan metod.
+     * Method to list all categories in a public view
      *
-     * @return bool listelenebildiyse doğru, listelenemediyse yanlış değer döndürsün
+     * @return array
      */
     public function index()
     {
-        $query = $this->db->select('categories')
-                    ->run();
+        $query = $this->db->select('categories')->run();
         if ($query) {
-            // Buradaki fetchAll metoduyla tüm değeleri diziye çektik.
             $categories = $query;
-            $result = array('categories' => $categories, 'render' => false, 'template' => 'public');
+            $result = array(
+                'categories' => $categories,
+                'render' => false,
+                'template' => 'public'
+            );
             return $result;
         } else {
-            return false;
+            return array(
+                'categories' => array(),
+                'render' => false,
+                'template' => 'public'
+            );
         }
     }
 
-
     /**
-     * Kategori düzenleyen metod. Verilen Id bilginse göre, alınan bilgi ile sistemdeki bilgiyi değiştiren
-     * güncelleyen metod.
+     * Method to edit categories using unique id of the category.
      *
-     * @param int $id Kategorinin benzersiz index'i
-     * @return bool düzenlendiyse doğru, eklenemediyse yanlış değer döndürsün
+     * @param int $id
+     *            Unique index of the category
+     * @param string $title
+     *            Title of the category
+     * @return mixed
      */
     public function edit($id = null, $title = null)
     {
-        if (!$this->checkLogin()) {
+        if (! $this->checkLogin()) {
             return false;
         }
         if ($title != null) {
-            // Önce veritabanı sorgumuzu hazırlayalım.
             
             $update = $this->db->update('categories')
-                        ->where('id', $id)
-                        ->set(array(
-                             'title' => $title
-                        ));
-
+                ->where('id', $id)
+                ->set(array(
+                'title' => $title
+            ));
+            
             if ($update) {
                 return true;
             } else {
@@ -184,30 +134,80 @@ class Categories extends Assets
             }
         } else {
             $oldData = $this->view($id);
-            return array('template' => 'admin', 'render' => true, 'category' => $oldData['category']);
+            return array(
+                'template' => 'admin',
+                'render' => true,
+                'category' => $oldData['category']
+            );
         }
     }
 
     /**
-     * Kategori silen metod, verilerin silinmesini sağlar.
-     * Geri dönüşü yoktur.
+     * Show posts in a category
      *
-     * @param int $id Kategorinin benzersiz index'i
-     * @return bool silindiyse doğru, eklenemediyse yanlış değer döndürsün
+     * @param int $id
+     *            Category id
+     * @return array
+     */
+    public function view($id)
+    {
+        $query = $this->db->select('categories')
+            ->where('id', $id)
+            ->run();
+        
+        if ($query) {
+            $category = $query[0];
+            
+            $postQuery = $this->db->select('posts')
+                ->where('category_id', $id)
+                ->run();
+            
+            if ($postQuery) {
+                $categoryPosts = $postQuery;
+            } else {
+                $categoryPosts = array();
+            }
+            $result = array(
+                'posts' => $categoryPosts,
+                'render' => true,
+                'template' => 'public',
+                'category' => $category
+            );
+            return $result;
+        }
+        
+        return array(
+            'posts' => array(),
+            'render' => true,
+            'template' => 'public',
+            'category' => array()
+        );
+    }
+
+    /**
+     * Method that delete categories.
+     *
+     * TODO Has to have an "are you sure?" prompt
+     *
+     * @param int $id
+     *            unique index of the category
+     * @return mixed
      */
     public function delete($id)
     {
-        if (!$this->checkLogin()) {
+        if (! $this->checkLogin()) {
             return false;
         }
         
         $query = $this->db->delete('categories')
-                    ->where('id', $id)
-                    ->done();
+            ->where('id', $id)
+            ->done();
         
-        return array('template' => 'admin', 'render' => false);
+        return array(
+            'template' => 'admin',
+            'render' => false
+        );
     }
-
 }
 
 ?>

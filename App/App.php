@@ -1,13 +1,13 @@
 <?php
 /**
-* The class that starts our application.
-*
-* Works as dependency injector.
+ * The class that starts our application.
+ *
+ * Works as dependency injector.
  * TODO Have to check solid principle violations.
  * TODO Have to convert the class to static and use registry pattern for instantiated classes
-*
-* @author   Midori Kocak <mtkocak@mtkocak.net>
-*/
+ *
+ * @author   Midori Kocak <mtkocak@mtkocak.net>
+ */
 namespace Midori\Cms;
 
 use Midori\Cms;
@@ -15,7 +15,7 @@ use erbilen;
 
 /**
  * Class App
- * 
+ *
  * @package Midori\Cms
  *         
  */
@@ -23,18 +23,18 @@ class App
 {
 
     /**
-     * The variable that holds database connection.
-     *
-     * @var PDO
-     */
-    private $db = false;
-
-    /**
      * Holds application wide settings
      *
      * @var mixed
      */
     protected $settings = false;
+
+    /**
+     * The variable that holds database connection.
+     *
+     * @var mixed
+     */
+    private $db = false;
 
     /**
      * Holds request params, coming from uri.
@@ -57,12 +57,12 @@ class App
      */
     private $data = null;
 
-
     /**
      * Function that starts application using config vars
      *
-     * @param $config
-     * @return void
+     * @param
+     *            $config
+     * @return mixed
      */
     public function __construct($config)
     {
@@ -70,13 +70,11 @@ class App
         $this->getRequests();
         $this->startDB($config);
         
-        // /posts/add gibi bir request geldi.
         $this->params = explode("/", $this->request);
         
         $params = $this->params;
         
         $className = __NAMESPACE__ . '\\' . $this->params[1];
-        $extension = explode('.', end($this->params));
         
         $class = new $className($this->db);
         $class->getRelatedData($this->getCategories());
@@ -108,102 +106,29 @@ class App
         } elseif (! $this->getSettings()) {
             $this->startSettingInstaller();
         } else {
-            $this->startCategoryAndPostInstaller($this->request, $this->data);
+            $this->startCategoryAndPostInstaller();
         }
-    }
-
-    /**
-     * Instantiates database connection
-     * TODO has to be static.
-     *
-     * @param $config
-     * @return void
-     */
-    public function startDB($config)
-    {
-        $db = new erbilen\BasicDB($config['db']['host'], $config['db']['dbname'], $config['db']['username'], $config['db']['password']);
-        $this->getDb($db);
+        return null;
     }
 
     /**
      * Session starter function for the whole app
      *
-     * @return void
+     * @return null
      */
     public function startSession()
     {
-        $sess_name = session_name();
+        $session_name = session_name();
         if (session_start()) {
-            setcookie($sess_name, session_id(), null, '/', null, null, true);
+            setcookie($session_name, session_id(), null, '/', null, null, true);
         }
-    }
-
-    /**
-     * If the application has no user registered, visitor is forced to create an user.
-     *
-     */
-    public function startUserInstaller()
-    {
-        if (! isset($_POST['user'])) {
-            echo $this->installUser();
-        } else {
-            if (isset($_POST['user']['username']) && preg_match('/^\w{5,}$/', $_POST['user']['username']) && filter_var($_POST['user']['email'], FILTER_VALIDATE_EMAIL)) {
-                $_POST['user']['username'] = filter_var($_POST['user']['username'], FILTER_SANITIZE_MAGIC_QUOTES);
-                
-                if (isset($_POST['user']['password1']) && isset($_POST['user']['password2']) && ($_POST['user']['password1'] == $_POST['user']['password2'])) {
-                    echo $this->installUser($_POST['user']);
-                } else {
-                    echo $this->installUser();
-                }
-            } else {
-                echo $this->installUser();
-            }
-        }
-    }
-
-    /**
-     * If the application has no settings created, visitor is forced to create the setting.
-     *
-     */
-    public function startSettingInstaller()
-    {
-        if (isset($_POST['setting'])) {
-            echo $this->installSettings($_POST['setting']);
-        } else {
-            echo $this->installSettings();
-        }
-    }
-
-    /**
-     * If the application has no post or category created, user is forced to create one, after login.
-     *
-     * @param $request
-     * @param $data
-     */
-    public function startCategoryAndPostInstaller($request, $data)
-    {
-        $noCategories = $this->getCategories() == null;
-        $noPosts = $this->getPosts() == null;
-        if ($noCategories || $noPosts) {
-            if (isset($_SESSION['id']) || (isset($_POST['username']) && isset($_POST['password']))) {
-                if ((isset($_SESSION['id']) || $this->login($_POST) != false)) {
-                    if ($noCategories && mb_strtolower($_SERVER['REQUEST_URI']) != '/' . $directoryName . '/categories/add' && mb_strtolower($_SERVER['REQUEST_URI']) != '/' . DIRECTORY_NAME . '/users/logout') {
-                        header('Location:' . LINK_PREFIX . '/categories/add');
-                    }
-                    echo $this->calculate($this->request, $this->data);
-                }
-            } else {
-                echo $this->login();
-            }
-        } else {
-            echo $this->calculate($this->request, $this->data);
-        }
+        return null;
     }
 
     /**
      * Requests are handled by this method
      *
-     * @return void
+     * @return null
      */
     public function getRequests()
     {
@@ -233,12 +158,28 @@ class App
             $this->request = "/Posts/";
         }
         $this->request = $request;
+        return null;
+    }
+
+    /**
+     * Instantiates database connection
+     * TODO has to be static.
+     *
+     * @param
+     *            $config
+     * @return null
+     */
+    public function startDB($config)
+    {
+        $db = new erbilen\BasicDB($config['db']['host'], $config['db']['dbname'], $config['db']['username'], $config['db']['password']);
+        $this->getDb($db);
+        return null;
     }
 
     /**
      * Method starts database connection
      *
-     * @param BasicDBObject $dbConnection
+     * @param BasicDBObject $dbConnection            
      * @return BasicDB object or False.
      */
     public function getDb($dbConnection)
@@ -252,7 +193,8 @@ class App
     }
 
     /**
-     * Categories are shown everywhere. So we need to get them to an array.
+     * Categories are shown everywhere.
+     * So we need to get them to an array.
      *
      * @return array
      */
@@ -263,52 +205,9 @@ class App
     }
 
     /**
-     * We need to check posts to redirect user to create some posts if there are not.
-     *
-     * @return array
-     */
-    public function getPosts()
-    {
-        $posts = new Posts($this->db);
-        return $posts->index();
-    }
-
-    /**
-     * Renders login form if authorized user actions are needed
-     *
-     * @param null $data
-     */
-    public function login($data = null)
-    {
-        $users = new Users($this->db);
-        if ($data != null) {
-            return $users->login($data['username'], $data['password']);
-        } else {
-            echo $this->render('./View/Install/login.php', '');
-        }
-    }
-
-    /**
-     * Basic settings are also needed everywhere.
-     *
-     * @return bool.
-     */
-    public function getSettings()
-    {
-        $settings = new Settings($this->db);
-        $setting = $settings->view();
-        $this->settings = $setting['setting'];
-        if ($this->settings != null) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    /**
      * Database creation form is handled here.
      *
-     * @return void
+     * @return null
      */
     public function startDatabaseInstaller()
     {
@@ -336,47 +235,10 @@ class App
     }
 
     /**
-     * Form to create setting is rendered and created.
-     *
-     * @param null $settings
-     */
-    public function installSettings($settings = null)
-    {
-        if ($settings == null) {
-            return $this->render('./View/Install/settings.php', '');
-        } else {
-            $insert = $this->db->insert('settings')->set(array(
-                'title' => $settings['title'],
-                'description' => $settings['description'],
-                'copyright' => $settings['copyright']
-            ));
-            
-            if ($insert) {
-                header('Location:' . LINK_PREFIX);
-            } else {
-                return $this->render('./View/Install/setting.php', '');
-            }
-        }
-    }
-
-    /**
-     * Method to check system has any registered user
-     *
-     * @return bool
-     */
-    public function getUsers()
-    {
-        $user = $this->db->select('users')->run();
-        if (! $user) {
-            return false;
-        }
-        return true;
-    }
-
-    /**
      * Method for installing database config to config.php
      *
-     * @param null $config
+     * @param null $config            
+     * @return null;
      */
     public function installDatabase($config = null)
     {
@@ -394,12 +256,66 @@ class App
         } else {
             return $this->render('./View/Install/database.php', '');
         }
+        return null;
+    }
+
+    /**
+     * Renders file and variables
+     *
+     * @param
+     *            $file
+     * @param
+     *            $vars
+     * @return null
+     */
+    public function render($file, $vars)
+    {
+        $renderer = new Router();
+        echo $renderer->render($file, $vars);
+        return null;
+    }
+
+    /**
+     * Method to check system has any registered user
+     *
+     * @return bool
+     */
+    public function getUsers()
+    {
+        $user = $this->db->select('users')->run();
+        if (! $user) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * If the application has no user registered, visitor is forced to create an user.
+     */
+    public function startUserInstaller()
+    {
+        if (! isset($_POST['user'])) {
+            echo $this->installUser();
+        } else {
+            if (isset($_POST['user']['username']) && preg_match('/^\w{5,}$/', $_POST['user']['username']) && filter_var($_POST['user']['email'], FILTER_VALIDATE_EMAIL)) {
+                $_POST['user']['username'] = filter_var($_POST['user']['username'], FILTER_SANITIZE_MAGIC_QUOTES);
+                
+                if (isset($_POST['user']['password1']) && isset($_POST['user']['password2']) && ($_POST['user']['password1'] == $_POST['user']['password2'])) {
+                    echo $this->installUser($_POST['user']);
+                } else {
+                    echo $this->installUser();
+                }
+            } else {
+                echo $this->installUser();
+            }
+        }
     }
 
     /**
      * Handles user registration form.
      *
-     * @param null $userInfo
+     * @param null $userInfo            
+     * @return mixed
      */
     public function installUser($userInfo = null)
     {
@@ -418,32 +334,130 @@ class App
                 return $this->render('./View/Install/user.php', '');
             }
         }
+        return false;
+    }
+
+    /**
+     * Basic settings are also needed everywhere.
+     *
+     * @return bool.
+     */
+    public function getSettings()
+    {
+        $settings = new Settings($this->db);
+        $setting = $settings->view();
+        $this->settings = $setting['setting'];
+        if ($this->settings != null) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * If the application has no settings created, visitor is forced to create the setting.
+     */
+    public function startSettingInstaller()
+    {
+        if (isset($_POST['setting'])) {
+            echo $this->installSettings($_POST['setting']);
+        } else {
+            echo $this->installSettings();
+        }
+    }
+
+    /**
+     * Form to create setting is rendered and created.
+     *
+     * @param null $settings            
+     * @return mixed
+     */
+    public function installSettings($settings = null)
+    {
+        if ($settings == null) {
+            return $this->render('./View/Install/settings.php', '');
+        } else {
+            $insert = $this->db->insert('settings')->set(array(
+                'title' => $settings['title'],
+                'description' => $settings['description'],
+                'copyright' => $settings['copyright']
+            ));
+            
+            if ($insert) {
+                header('Location:' . LINK_PREFIX);
+            } else {
+                return $this->render('./View/Install/setting.php', '');
+            }
+        }
+        return false;
+    }
+
+    /**
+     * If the application has no post or category created, user is forced to create one, after login.
+     *
+     * @param
+     *            $request
+     * @param
+     *            $data
+     */
+    public function startCategoryAndPostInstaller()
+    {
+        $noCategories = $this->getCategories() == null;
+        $noPosts = $this->getPosts() == null;
+        if ($noCategories || $noPosts) {
+            if (isset($_SESSION['id']) || (isset($_POST['username']) && isset($_POST['password']))) {
+                if ((isset($_SESSION['id']) || $this->login($_POST) != false)) {
+                    if ($noCategories && mb_strtolower($_SERVER['REQUEST_URI']) != '/' . $directoryName . '/categories/add' && mb_strtolower($_SERVER['REQUEST_URI']) != '/' . DIRECTORY_NAME . '/users/logout') {
+                        header('Location:' . LINK_PREFIX . '/categories/add');
+                    }
+                    echo $this->calculate($this->request, $this->data);
+                }
+            } else {
+                echo $this->login();
+            }
+        } else {
+            echo $this->calculate($this->request, $this->data);
+        }
+    }
+
+    /**
+     * We need to check posts to redirect user to create some posts if there are not.
+     *
+     * @return array
+     */
+    public function getPosts()
+    {
+        $posts = new Posts($this->db);
+        return $posts->index();
+    }
+
+    /**
+     * Renders login form if authorized user actions are needed
+     *
+     * @param null $data            
+     * @return mixed
+     */
+    public function login($data = null)
+    {
+        $users = new Users($this->db);
+        if ($data != null) {
+            return $users->login($data['username'], $data['password']);
+        } else {
+            echo $this->render('./View/Install/login.php', '');
+        }
+        return false;
     }
 
     /**
      * Renders requests and handles data from visitor.
-     * @return void
+     * 
+     * @return null
      */
     public function calculate()
     {
         echo new Router($this->data, $this->getCategories(), $this->settings, $this->params);
+        return null;
     }
-
-    /**
-     * Renders file and variables
-     *
-     * @param $file
-     * @param $vars
-     */
-    public function render($file, $vars)
-    {
-        $renderer = new Router();
-        echo $renderer->render($file, $vars);
-        
-    }
-
-
 }
-
 
 ?>
