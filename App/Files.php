@@ -16,16 +16,16 @@ class Files extends Assets
      *
      * Also has filters for accepted files by extension and size.
      *
-     * @param null $file
+     * @param null $file            
      * @return array|bool|string
      */
     public function add($file = null)
     {
-        if (!$this->checkLogin()) {
+        if (! $this->checkLogin()) {
             return false;
         }
         if ($file != null) {
-
+            
             $allowedExts = array(
                 "gif",
                 "jpeg",
@@ -34,7 +34,7 @@ class Files extends Assets
             );
             $temp = explode(".", $file["name"]);
             $extension = end($temp);
-
+            
             if ((($file["type"] == "image/gif") || ($file["type"] == "image/jpeg") || ($file["type"] == "image/jpg") || ($file["type"] == "image/pjpeg") || ($file["type"] == "image/x-png") || ($file["type"] == "image/png")) && ($file["size"] < 2000000) && in_array($extension, $allowedExts)) {
                 if ($file["error"] > 0) {
                     return false;
@@ -45,13 +45,13 @@ class Files extends Assets
                         $rand = substr(md5(microtime()), rand(0, 26), 5);
                         move_uploaded_file($file["tmp_name"], "./www/images/" . $rand . '.' . $file["name"]);
                         chmod("./www/images/" . $rand . '.' . $file["name"], 0777);
-
+                        
                         $insert = $this->db->insert('files')->set(array(
                             'filename' => $rand . '.' . $file["name"]
                         ));
-
+                        
                         if ($insert) {
-
+                            
                             return array(
                                 'render' => false,
                                 'file' => $file["name"]
@@ -75,7 +75,7 @@ class Files extends Assets
     /**
      * Show only one file
      *
-     * @param int $id
+     * @param int $id            
      * @return array
      */
     public function view($id)
@@ -83,16 +83,16 @@ class Files extends Assets
         $query = $this->db->select('files')
             ->where('id', $id)
             ->run();
-
+        
         if ($query) {
             $file = $query;
-
+            
             $result = array(
                 'file' => $file
             );
             return $result;
         }
-
+        
         return false;
     }
 
@@ -103,7 +103,7 @@ class Files extends Assets
      */
     public function index()
     {
-        if (!$this->checkLogin()) {
+        if (! $this->checkLogin()) {
             return false;
         }
         $query = $this->db->select('files')->run();
@@ -123,7 +123,7 @@ class Files extends Assets
      */
     public function show()
     {
-        if (!$this->checkLogin()) {
+        if (! $this->checkLogin()) {
             return false;
         }
         $query = $this->db->select('files')->run();
@@ -151,9 +151,9 @@ class Files extends Assets
      *
      * @return bool
      */
-    public function edit()
+    public function edit($id = null)
     {
-        if (!$this->checkLogin()) {
+        if (! $this->checkLogin()) {
             return false;
         }
         return true;
@@ -162,19 +162,20 @@ class Files extends Assets
     /**
      * Delete method
      *
-     * @param int $id
+     * @param int $id            
      * @return bool
      */
     public function delete($id)
     {
         $oldData = $this->view($id);
-
-        unlink('./www/images/' . $oldData['file']['filename']);
-
+        var_dump($oldData);
+        
+        unlink('./www/images/' . $oldData['file'][0]['filename']);
+        
         $query = $this->db->delete('files')
             ->where('id', $id)
             ->done();
-
+        
         return array(
             'template' => 'admin',
             'render' => false
