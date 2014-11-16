@@ -1,59 +1,40 @@
 <?php
 /**
- * Tüm sistemdeki kullanıcıları yönetecek olan kategori sınıfıdır.
+ * Class to manage users in the application
  *
- * Sistemdeki yöneticilerin oturum açmalarını, parola değiştirmelerini sağlayan sınıf.
+ * Basic CRUD and session methods
  *
  * @author     Midori Kocak <mtkocak@mtkocak.net>
  */
-
 namespace Midori\Cms;
-
-use \PDO;
 
 /**
  * Class Users
+ *
+ * @package Midori\Cms
+ */
+
+/**
+ * Class Users
+ *
  * @package Midori\Cms
  */
 class Users extends Assets
 {
 
-
     /**
-     * Yönetici kullanıcı adı
+     * Method that adds a user
      *
-     * @var string
-     */
-    public $username;
-
-    /**
-     * Yönetici e-postası
+     * TODO Check username if exists.
      *
-     * @var string
-     */
-    public $email;
-
-    /**
-     * Yönetici parolası
-     *
-     * @var string
-     */
-    private $password;
-
-    /**
-     * Kullanıcı ekleyen metod, verilerin kaydedilmesini sağlar. Sistemde hiç kullanıcı yoksa
-     * public olsun, kullanıcı varsa admin temasını işlesin. (render etsin)
-     *
-     * @param string $username Yönetici kullanıcı adı
-     * @param string $password Yönetici parola
-     * @param string $password2 Yönetici parola kontrol değeri
-     * @param string $email Yönetici e-posta
-     * @return bool eklendiyse doğru, eklenemediyse yanlış değer döndürsün
+     * @param null $username
+     * @param null $email
+     * @param null $password
+     * @param null $password2
+     * @return array|bool
      */
     public function add($username = null, $email = null, $password = null, $password2 = null)
     {
-        $users = $this->index();
-        // Login olup olmadığımızı ve sistemde kullanıcı olup olmadığını kontrol eden metod.
         if (!$this->checkLogin()) {
             return false;
         }
@@ -62,92 +43,93 @@ class Users extends Assets
             return false;
         }
 
-        // 3 değişkenin de boş olmaması gerekiyor
+        // All of three variables has not to be null.
         if ($username != null && $email != null && $password != null) {
-            // Önce veritabanı sorgumuzu hazırlayalım.
-            
 
-            // insert
-            $insert = $this->db->insert('users')
-                        ->set(array(
-                            "username" => $username,
-                            "password" => md5($password),
-                            "email" => $email,
-                        ));
+            $exists = $this->db->select('users')
+                ->where('username', $username)
+                ->run();
+
+            if ($exists) {
+                return array(
+                    'render' => true,
+                    'template' => 'admin',
+                    'message' => 'User already exists!'
+                );
+            }
+
+            $insert = $this->db->insert('users')->set(array(
+                "username" => $username,
+                "password" => md5($password),
+                "email" => $email
+            ));
 
             if ($insert) {
-                // Veritabanı işlemi başarılı ise sınıfın objesine ait değişkenleri değiştirelim
-                $this->id = $this->db->lastId();
-                $this->username = $username;
-                $this->password = $password;
-                $this->email = $email;
 
                 return true;
             } else {
                 return false;
             }
         } else {
-            return array('render' => true, 'template' => 'admin');
+            return array(
+                'render' => true,
+                'template' => 'admin'
+            );
         }
     }
 
     /**
-     * Tek bir kullanıcı verisini edit işlemine yani profil sayfasına gönderen metod. Render edilmesin
+     * Show one user in admin context
      *
-     * @param int $id Kullanıcının benzersiz index'i
-     * @return array gösterilebildyise dizi türünde verileri döndürsün, gösterilemediyse false, yanlış değeri döndürsün
+     * @param int $id
+     * @return array|bool
      */
     public function view($id)
     {
 
-        // Login olup olmadığımızı ve sistemde kullanıcı olup olmadığını kontrol eden metod.
+        // Checks if user is logged in or there is user
         if (!$this->checkLogin()) {
             return false;
         }
-        // Eğer daha önceden sorgu işlemi yapıldıysa, sınıf objesine yazılmıştır.
-        if ($id == $this->id) {
-            return array("id" => $this->id, "username" => $this->username, "email" => $this->email, "password" => $this->password,);
-        } else {
-            // Buradan anlıyoruz ki veri henüz çekilmemiş. Veriyi çekmeye başlayalım
-            
-            $query = $this->db->select('users')
-                        ->where('id', $id)
-                        ->run();
-            
-            if ($query) {
-                $user = $query[0];
 
-                $this->id = $user['id'];
-                $this->username = $user['username'];
-                $this->password = $user['password'];
+        $query = $this->db->select('users')
+            ->where('id', $id)
+            ->run();
 
-                $result = array('template' => 'admin', 'user' => $user, 'render' => true);
-                return $result;
-            }
+        if ($query) {
+            $user = $query[0];
+
+
+            $result = array(
+                'template' => 'admin',
+                'user' => $user,
+                'render' => true
+            );
+            return $result;
         }
 
-        // Eğer iki işlem de başarısız olduysa, false, yanlış değer döndürelim.
-        return false;
+        return null;
     }
 
     /**
-     * Tüm kullanıcıların listelenmesini sağlayan metod.
+     * Show all users in admin context
      *
-     * @return bool listelenebildiyse doğru, listelenemediyse yanlış değer döndürsün
+     * @return array|bool
      */
     public function show()
     {
-        // Login olup olmadığımızı ve sistemde kullanıcı olup olmadığını kontrol eden metod.
         if (!$this->checkLogin()) {
             return false;
         }
-        
-        $query = $this->db->select('users')
-                    ->run();
+
+        $query = $this->db->select('users')->run();
 
         if ($query) {
-            // Buradaki fetchAll metoduyla tüm değeleri diziye çektik.
-            $result = array('render' => true, 'template' => 'admin', 'users' => $query);
+            $result = array(
+                'render' => true,
+                'template' => 'admin',
+                'users' => $query
+            );
             return $result;
         } else {
             return false;
@@ -155,32 +137,27 @@ class Users extends Assets
     }
 
     /**
-     * Kullanıcıların listelenmesini sağlayan metod. Bu metodu liste çekmek için kullandık
-     * Bu metod da view metodu gibi render edilmiyor.
+     * Show all users in public context
      *
-     * @return bool listelenebildiyse doğru, listelenemediyse yanlış değer döndürsün
+     * @return array|bool
      */
     public function index()
     {
         return $this->show();
     }
 
-
     /**
-     * Kullanıcıyı düzenlemeye yarar. Verilen Id bilginse göre, alınan bilgi ile sistemdeki bilgiyi değiştiren
-     * güncelleyen metod. Bu sayfa aynı zamanda kullanıcının profil sayfası olarak da görünmeli. View metodundan
-     * hazır verileri alıp göstersin.
+     * Edit user selecting by it's id
      *
-     * @param int $id Kategorinin benzersiz index'i
-     * @param string $username Yönetici kullanıcı adı
-     * @param string $password Yönetici parola
-     * @param string $password2 Yönetici parola kontrol değeri
-     * @param string $email Yönetici e-posta
-     * @return bool düzenlendiyse doğru, eklenemediyse yanlış değer döndürsün
+     * @param null $id
+     * @param null $username
+     * @param null $password
+     * @param null $password2
+     * @param null $email
+     * @return array|bool
      */
     public function edit($id = null, $username = null, $password = null, $password2 = null, $email = null)
     {
-        // Login olup olmadığımızı ve sistemde kullanıcı olup olmadığını kontrol eden metod.
         if (!$this->checkLogin()) {
             return false;
         }
@@ -190,14 +167,14 @@ class Users extends Assets
         }
 
         if ($id != null && $username != null && $password != null && $email != null) {
-            
+
             $update = $this->db->update('user')
-                        ->where('id', $id)
-                        ->set(array(
-                            "username" => $username,
-                            "password" => md5($password),
-                            "email" => $email
-                        ));
+                ->where('id', $id)
+                ->set(array(
+                    "username" => $username,
+                    "password" => md5($password),
+                    "email" => $email
+                ));
 
             if ($update) {
                 return true;
@@ -206,85 +183,107 @@ class Users extends Assets
             }
         } else {
             $oldData = $this->view($id);
-            return array('template' => 'admin', 'render' => true, 'user' => $oldData['user']);
+            return array(
+                'template' => 'admin',
+                'render' => true,
+                'user' => $oldData['user']
+            );
         }
     }
 
-
     /**
-     * Kullanıcı girişi yapan metod
+     * Login method that creates sessions if username and password is true
      *
-     * @param $username
-     * @param $password
-     * @return array
+     * @param null $username
+     * @param null $password
+     * @return array|bool
      */
     public function login($username = null, $password = null)
     {
         if (!$this->checkLogin()) {
-            // Buradan anlıyoruz ki veri henüz oturum açılmamış.
-            
+            // User is not logged in.
+
             $query = $this->db->select('users')
-                        ->where('username', $username)
-                        ->where('password', md5($password))
-                        ->run();
+                ->where('username', $username)
+                ->where('password', md5($password))
+                ->run();
 
             if ($query) {
                 $user = $query[0];
-                // Kullanıcı adı veya parolası hatalıysa
+                // If username or password is not correct
                 if (!$user) {
-                    return array('template' => 'public', 'render' => true, 'message' => 'Hatalı kullanıcı adı veya parola.');
+                    return array(
+                        'template' => 'public',
+                        'render' => true,
+                        'message' => 'Username or password is not correct!'
+                    );
                 }
 
                 $this->id = $user['id'];
                 $this->$username = $user['username'];
                 $this->$password = $user['password'];
 
-                // Session işlerini hallediyoruz.
+                // Create sessions
 
                 $_SESSION['username'] = $user['username'];
                 $_SESSION['id'] = $user['id'];
 
-                return array('template' => 'admin', 'render' => false, 'message' => 'Oturum açıldı', 'user' => $user);
+                return array(
+                    'template' => 'admin',
+                    'render' => false,
+                    'message' => 'Logged in!',
+                    'user' => $user
+                );
             }
         } else {
-            header('Location:'.LINK_PREFIX.'/posts/show');
-            return array('template' => 'admin', 'render' => false, 'message' => 'Zaten oturum açıldı!');
+            header('Location:' . LINK_PREFIX . '/posts/show');
+            return array(
+                'template' => 'admin',
+                'render' => false,
+                'message' => 'Already logged in!'
+            );
         }
         return false;
     }
 
-
     /**
-     * Kullanıcının sistemden çıkmasını sağlayan metod
+     * Logout method.
+     * Destroys session data.
      *
+     * @return array
      */
     public function logout()
     {
         session_destroy();
-        header('Location:'.LINK_PREFIX.'/');
-        return array('template' => 'public', 'render' => false, 'message' => 'Sistemden çıktınız');
+        header('Location:' . LINK_PREFIX . '/');
+        return array(
+            'template' => 'public',
+            'render' => false,
+            'message' => 'You are logged out.'
+        );
     }
 
     /**
-     * Kullanıcı silen metod, verilerin silinmesini sağlar.
-     * Geri dönüşü yoktur.
+     * Delete user by it's id.
      *
-     * @param int $id Kategorinin benzersiz index'i
-     * @return bool silindiyse doğru, eklenemediyse yanlış değer döndürsün
+     * @param int $id
+     * @return array|bool
      */
     public function delete($id)
     {
         if (!$this->checkLogin()) {
             return false;
         }
-        
-        $query = $this->db->delete('users')
-                    ->where('id', $id)
-                    ->done();
-        
-        return array('template' => 'admin', 'render' => false);
-    }
 
+        $query = $this->db->delete('users')
+            ->where('id', $id)
+            ->done();
+
+        return array(
+            'template' => 'admin',
+            'render' => false
+        );
+    }
 }
 
 ?>
