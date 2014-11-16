@@ -1,35 +1,23 @@
 <?php
 /**
- * Tüm sistemdeki dosyaları yönetecek olan dosya sınıfıdır.
+ * Class that manages file CRUD and copy operations
  *
- * Sistemdeki dosyaların düzenlenmesini, silinmesini, görüntülenmesini,
- * listelenmesini ve eklenmesini kontrol eden sınıftır.
+ * CRUD, copy and unlink
  *
  * @author     Midori Kocak <mtkocak@mtkocak.net>
  */
-
 namespace Midori\Cms;
-
-use \PDO;
 
 class Files extends Assets
 {
 
     /**
-     * Dosya ismi
+     * Mehtod that adds files to database and copies to filesystem.
      *
-     * @var string
-     */
-    public $filename;
-
-
-    /**
-     * Dosya ekleyen metod, verilerin kaydedilmesini sağlar.
+     * Also has filters for accepted files by extension and size.
      *
-     * @param string $title Dosya başlığı
-     * @param string $content Dosya içeriği
-     * @param int $category_id Dosya kategorisinin benzersiz kimliği
-     * @return bool eklendiyse doğru, eklenemediyse yanlış değer döndürsün
+     * @param null $file
+     * @return array|bool|string
      */
     public function add($file = null)
     {
@@ -38,19 +26,16 @@ class Files extends Assets
         }
         if ($file != null) {
 
-            $allowedExts = array("gif", "jpeg", "jpg", "png");
+            $allowedExts = array(
+                "gif",
+                "jpeg",
+                "jpg",
+                "png"
+            );
             $temp = explode(".", $file["name"]);
             $extension = end($temp);
 
-            if ((($file["type"] == "image/gif")
-                    || ($file["type"] == "image/jpeg")
-                    || ($file["type"] == "image/jpg")
-                    || ($file["type"] == "image/pjpeg")
-                    || ($file["type"] == "image/x-png")
-                    || ($file["type"] == "image/png"))
-                && ($file["size"] < 2000000)
-                && in_array($extension, $allowedExts)
-            ) {
+            if ((($file["type"] == "image/gif") || ($file["type"] == "image/jpeg") || ($file["type"] == "image/jpg") || ($file["type"] == "image/pjpeg") || ($file["type"] == "image/x-png") || ($file["type"] == "image/png")) && ($file["size"] < 2000000) && in_array($extension, $allowedExts)) {
                 if ($file["error"] > 0) {
                     return false;
                 } else {
@@ -58,24 +43,19 @@ class Files extends Assets
                         return $file["name"] . " already exists. ";
                     } else {
                         $rand = substr(md5(microtime()), rand(0, 26), 5);
-                        move_uploaded_file($file["tmp_name"],
-                            "./www/images/" . $rand . '.' . $file["name"]);
+                        move_uploaded_file($file["tmp_name"], "./www/images/" . $rand . '.' . $file["name"]);
                         chmod("./www/images/" . $rand . '.' . $file["name"], 0777);
-                        // Önce veritabanı sorgumuzu hazırlayalım.
-                        
-                        
-                        // insert
-                        $insert = $this->db->insert('files')
-                                    ->set(array(
-                                         'filename' => $rand . '.' . $file["name"],
-                                    ));
+
+                        $insert = $this->db->insert('files')->set(array(
+                            'filename' => $rand . '.' . $file["name"]
+                        ));
 
                         if ($insert) {
-                            // Veritabanı işlemi başarılı ise sınıfın objesine ait değişkenleri değiştirelim
-                            $this->id = $this->db->lastId();
-                            $this->filename = $file["name"];
 
-                            return array('render'=>false, 'file'=> $file["name"]);
+                            return array(
+                                'render' => false,
+                                'file' => $file["name"]
+                            );
                         } else {
                             return false;
                         }
@@ -85,89 +65,89 @@ class Files extends Assets
                 return "Invalid file";
             }
         } else {
-            return array('render' => true, 'template' => 'admin');
+            return array(
+                'render' => true,
+                'template' => 'admin'
+            );
         }
     }
 
     /**
-     * Tek bir dosyanın gösterilmesini sağlayan method
+     * Show only one file
      *
-     * @param int $id Dosyanın benzersiz index'i
-     * @return array gösterilebildyise dizi türünde verileri döndürsün, gösterilemediyse false, yanlış değeri döndürsün
+     * @param int $id
+     * @return array
      */
     public function view($id)
     {
+        $query = $this->db->select('files')
+            ->where('id', $id)
+            ->run();
 
-        // Eğer daha önceden sorgu işlemi yapıldıysa, sınıf objesine yazılmıştır.
-        if ($id == $this->id) {
-            return array("id" => $this->id, "filename" => $this->filename);
-        } else {
-            
-            
-            $query = $this->db->select('files')
-                        ->where('id', $id)
-                        ->run();
-            
-            if ($query) {
-                $file = $query;
+        if ($query) {
+            $file = $query;
 
-                $this->id = $file['id'];
-                $this->filename = $file['filename'];
-
-                $result = array('file' => $file);
-                return $result;
-            }
+            $result = array(
+                'file' => $file
+            );
+            return $result;
         }
 
-        // Eğer iki işlem de başarısız olduysa, false, yanlış değer döndürelim.
         return false;
     }
 
     /**
-     * Tüm dosyaların listelenmesini sağlayan metod.
+     * List all files in public
      *
-     * @return bool listelenebildiyse doğru, listelenemediyse yanlış değer döndürsün
+     * @return bool
      */
     public function index()
     {
         if (!$this->checkLogin()) {
             return false;
         }
-        $query = $this->db->select('files')
-                    ->run();
+        $query = $this->db->select('files')->run();
         if ($query) {
-            // Buradaki fetchAll metoduyla tüm değeleri diziye çektik.
-            return array('files' => $query);
+            return array(
+                'files' => $query
+            );
         } else {
             return false;
         }
     }
 
     /**
-     * Tüm girdilerin listelenmesini sağlayan metod.
+     * List all files in admin section
      *
-     * @return bool listelenebildiyse doğru, listelenemediyse yanlış değer döndürsün
+     * @return array
      */
     public function show()
     {
         if (!$this->checkLogin()) {
             return false;
         }
-        $query = $this->db->select('files')
-                    ->run();
+        $query = $this->db->select('files')->run();
         if ($query) {
-            // Buradaki fetchAll metoduyla tüm değeleri diziye çektik.
-            $result = array('render' => true, 'template' => 'admin', 'files' => $query);
+            $result = array(
+                'render' => true,
+                'template' => 'admin',
+                'files' => $query
+            );
         } else {
-            $result = array('render' => true, 'template' => 'admin', 'files' => array());
+            $result = array(
+                'render' => true,
+                'template' => 'admin',
+                'files' => array()
+            );
         }
         return $result;
     }
 
     /**
-     * Dosya düzenleyen metod
+     * Edit a file.
      *
-     * Dosyaların düzenlenmesini istemiyoruz. Bu yüzden metodumuzun içi boş.
+     * We don't want that a file be edited.
+     * TODO I have concerns that violates Liskov's substitution principle. Do we have to create an editableInterface here?
      *
      * @return bool
      */
@@ -179,27 +159,27 @@ class Files extends Assets
         return true;
     }
 
-
     /**
-     * Dosya silen metod, verilerin silinmesini sağlar.
-     * Geri dönüşü yoktur.
+     * Delete method
      *
-     * @param int $id Dosyanın benzersiz index'i
-     * @return bool silindiyse doğru, eklenemediyse yanlış değer döndürsün
+     * @param int $id
+     * @return bool
      */
     public function delete($id)
     {
         $oldData = $this->view($id);
 
         unlink('./www/images/' . $oldData['file']['filename']);
-        
+
         $query = $this->db->delete('files')
-                    ->where('id', $id)
-                    ->done();
+            ->where('id', $id)
+            ->done();
 
-        return array('template' => 'admin', 'render' => false);
+        return array(
+            'template' => 'admin',
+            'render' => false
+        );
     }
-
 }
 
 ?>
