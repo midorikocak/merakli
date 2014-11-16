@@ -79,18 +79,22 @@ class App
         $class = new $className($this->db);
         $class->getRelatedData($this->getCategories());
         
-        if (! isset($params[2]) || ! $params[2]) {
-            $this->params[2] = 'index';
-        } else {
-            if (isset($params[3])) {
-                $this->data = $class->$params[2]($params[3]);
-            } else {
-                $this->data = $class->$params[2]();
-            }
-        }
-        
         if (empty($this->data)) {
-            $this->data = $class->index();
+            if (! isset($params[2]) || ! $params[2]) {
+                $this->params[2] = 'index';
+            } else {
+                if (isset($params[3])) {
+                    $this->data = $class->$params[2]($params[3]);
+                } else {
+                    $this->data = $class->$params[2]();
+                }
+            }
+        } else {
+            $this->data = call_user_func_array(array(
+                $class,
+                $params[2]
+            ), $this->data);
+            header('Location:' . LINK_PREFIX . '/'.$this->params[1].'/show');
         }
         
         try {
