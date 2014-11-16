@@ -169,7 +169,7 @@ class Posts extends Assets
             $result = array('render' => true, 'template' => 'public', 'posts' => $query);
             return $result;
         } else {
-            return false;
+           $result = array('render' => true, 'template' => 'public', 'posts' => array());
         }
     }
 

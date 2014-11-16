@@ -10,7 +10,7 @@
 * @author Midori Kocak 2014
 *
 */
-if(sizeof($posts>0)):
+if(isset($posts) && !empty($posts)):
     foreach($posts as $post):
         ?>
         <article>

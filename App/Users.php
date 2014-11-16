@@ -247,6 +247,7 @@ class Users extends Assets
                 return array('template' => 'admin', 'render' => false, 'message' => 'Oturum açıldı', 'user' => $user);
             }
         } else {
+            header('Location:'.LINK_PREFIX.'/posts/show');
             return array('template' => 'admin', 'render' => false, 'message' => 'Zaten oturum açıldı!');
         }
         return false;
@@ -260,6 +261,7 @@ class Users extends Assets
     public function logout()
     {
         session_destroy();
+        header('Location:'.LINK_PREFIX.'/');
         return array('template' => 'public', 'render' => false, 'message' => 'Sistemden çıktınız');
     }
 
