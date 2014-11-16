@@ -2,7 +2,7 @@
 /**
  * Class that manages posts in the content management system
  *
- * Basic CRUD operations
+ * Basic CRUD operations and a date helper
  *
  * @author     Midori Kocak <mtkocak@mtkocak.net>
  */

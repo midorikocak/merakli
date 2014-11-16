@@ -1,171 +1,144 @@
 <?php
 /**
- * Tüm sistemdeki ayarları yönetecek sınıftır.
+ * Class to manage settings
  *
- * Sistemin kurulumunu yapan ve ayarları yöneten sınıf. Sadece tek bir ayar olmasına izin vermeli.
+ * There is only one setting. Basic CRUD operations. Site title, site description and footer copyright.
  *
  * @author     Midori Kocak <mtkocak@mtkocak.net>
  */
-
 namespace Midori\Cms;
 
-use \PDO;
-
+/**
+ * Class Settings
+ *
+ * @package Midori\Cms
+ */
 class Settings extends Assets
 {
 
-
     /**
-     * Site Başlığı
+     * Adds settings.
+     * If there is a setting in the system, does not add a new setting.
      *
-     * @var string
-     */
-    public $title;
-
-    /**
-     * Site açıklaması
-     *
-     * @var string
-     */
-    public $description;
-
-    /**
-     * Site altbilgisi
-     *
-     * @var string
-     */
-    public $copyright;
-
-    /**
-     * Sisteme ayar ekleyen metod. Bir nevi kurulum da denilebilir.
-     * Ancak önce sistemde ayar olup olmadığını kontrol etmeli, ayar varsa, hata vermelidir.
-     *
-     * @param string $title Site başlığı
-     * @param string $description Yönetici parola
-     * @param string $copyright Yönetici e-posta
-     * @return bool eklendiyse doğru, eklenemediyse yanlış değer döndürsün
+     * @param string $title            
+     * @param string $description            
+     * @param string $copyright            
+     * @return bool
      */
     public function add($title = null, $description = null, $copyright = null)
     {
-
-        if (!$this->checkLogin()) {
+        if (! $this->checkLogin()) {
             return false;
         }
-
+        
         $settings = $this->view();
-        if (!empty($settings['setting'])) {
-
-            return array('template' => 'admin', 'render' => true, 'setting' => $settings['setting'], 'renderFile' => 'edit');
+        if (! empty($settings['setting'])) {
+            
+            return array(
+                'template' => 'admin',
+                'render' => true,
+                'setting' => $settings['setting'],
+                'renderFile' => 'edit'
+            );
         }
-
+        
         if ($title != null) {
             $settings = $this->show();
-
-            if (!empty($settings['settings'])) {
+            
+            if (! empty($settings['settings'])) {
                 return false;
             }
-
+            
             // insert
-            $insert = $this->db->insert('settings')
-                        ->set(array(
-                             'title' => $title,
-                             'description'=>$description,
-                             'copyright'=>$copyright
-                        ));
-
+            $insert = $this->db->insert('settings')->set(array(
+                'title' => $title,
+                'description' => $description,
+                'copyright' => $copyright
+            ));
+            
             if ($insert) {
-                // Veritabanı işlemi başarılı ise sınıfın objesine ait değişkenleri değiştirelim
-                $this->id = $this->db->lastId();
-                $this->title = $title;
-                $this->description = $description;
-                $this->copyright = $copyright;
-
                 return true;
             } else {
                 return false;
             }
-            
         } else {
-            return array('render' => true, 'template' => 'admin');
+            return array(
+                'render' => true,
+                'template' => 'admin'
+            );
         }
     }
 
     /**
-     * Tek bir ayar verisini edit işlemine yani ayar sayfasına gönderen metod. Render edilmesin
+     * Used at edit method.
+     * Is not rendered.
      *
-     * @param int $id ayarın benzersiz index'i
-     * @return array gösterilebildyise dizi türünde verileri döndürsün, gösterilemediyse false, yanlış değeri döndürsün
+     * @param int $id            
+     * @return array
      */
     public function view($id = null)
     {
-
-        // Eğer daha önceden sorgu işlemi yapıldıysa, sınıf objesine yazılmıştır.
-        if ($id != null && $id == $this->id) {
-            return array("id" => $this->id, "title" => $this->title, "description" => $this->description, "copyright" => $this->copyright);
-        } else {
-
-            // Buradan anlıyoruz ki veri henüz çekilmemiş. Veriyi çekmeye başlayalım
-            $query = $this->db->select('settings')
-                            ->limit(0,1)
-                        ->run();
-            if ($query) {
-                $setting = $query[0];
-
-                $this->id = $setting['id'];
-                $this->title = $setting['title'];
-                $this->description = $setting['description'];
-                $this->copyright = $setting['copyright'];
-
-                $result = array('template' => 'admin', 'render' => true, 'setting' => $setting, 'renderFile' => 'edit');
-                return $result;
-            }
+        $query = $this->db->select('settings')
+            ->limit(0, 1)
+            ->run();
+        if ($query) {
+            $setting = $query[0];
+            
+            $result = array(
+                'template' => 'admin',
+                'render' => true,
+                'setting' => $setting,
+                'renderFile' => 'edit'
+            );
+            return $result;
         }
-
-        // Eğer işlem başarısız olduysa, false, yanlış değer döndürelim.
+        
         return false;
     }
 
     /**
-     * Tüm ayarların listelenmesini sağlayan metod. Edit temasını kullanır.
+     * List the system setting in admin context
      *
-     * @return bool listelenebildiyse doğru, listelenemediyse yanlış değer döndürsün
+     * @return array|bool
      */
     public function show()
     {
-        if (!$this->checkLogin()) {
+        if (! $this->checkLogin()) {
             return false;
         }
         $oldData = $this->view();
-        return array('template' => 'admin', 'render' => true, 'setting' => $oldData['setting'], 'renderFile' => 'edit');
+        return array(
+            'template' => 'admin',
+            'render' => true,
+            'setting' => $oldData['setting'],
+            'renderFile' => 'edit'
+        );
     }
 
     /**
-     * Kullanıcıların listelenmesini sağlayan metod. Bu metod boş olmalı
+     * Lists settings in public context
      *
-     * @return bool listelenebildiyse doğru, listelenemediyse yanlış değer döndürsün
+     * @return array|bool
      */
     public function index()
     {
-        if (!$this->checkLogin()) {
+        if (! $this->checkLogin()) {
             return false;
         }
         return $this->show();
     }
 
-
     /**
-     * Ayarı düzenlemeye yarar. Verilen Id bilginse göre, alınan bilgi ile sistemdeki bilgiyi değiştiren
-     * güncelleyen metod.
+     * Edit the setting in the app
      *
-     * @param int $id Kategorinin benzersiz index'i
-     * @param string $username Yönetici kullanıcı adı
-     * @param string $username Yönetici parola
-     * @param string $username Yönetici e-posta
-     * @return bool düzenlendiyse doğru, eklenemediyse yanlış değer döndürsün
+     * @param null $title            
+     * @param null $description            
+     * @param null $copyright            
+     * @return array|bool
      */
     public function edit($title = null, $description = null, $copyright = null)
     {
-        if (!$this->checkLogin()) {
+        if (! $this->checkLogin()) {
             return false;
         }
         $oldData = $this->view();
@@ -173,36 +146,44 @@ class Settings extends Assets
         if ($title != null) {
             
             $update = $this->db->update('settings')
-                        ->where('id', $id)
-                        ->set(array(
-                            "title" => $title,
-                            "description" => $description,
-                            "copyright" => $copyright
-                        ));
-
+                ->where('id', $id)
+                ->set(array(
+                "title" => $title,
+                "description" => $description,
+                "copyright" => $copyright
+            ));
+            
             if ($update) {
                 return true;
             } else {
                 return false;
             }
-
         } else {
-            return array('template' => 'admin', 'render' => true, 'setting' => $oldData['setting']);
+            return array(
+                'template' => 'admin',
+                'render' => true,
+                'setting' => $oldData['setting']
+            );
         }
     }
 
     /**
-     * Ayar silen metod, verilerin silinmesini sağlar. Ayar silinemeyeceği için içi boş.
-     * Geri dönüşü yoktur.
+     * Delete method.
+     * Not valid here.
      *
-     * @param int $id Kategorinin benzersiz index'i
-     * @return bool silindiyse doğru, eklenemediyse yanlış değer döndürsün
+     * TODO, Liskov's substitution principle is violated again I guess. Need a deletableInterface I think.
+     *
+     * @param int $id            
+     * @return array
      */
     public function delete($id = null)
     {
-        return array('template' => 'admin', 'render' => false, 'message' => 'Ayar silinemez!');
+        return array(
+            'template' => 'admin',
+            'render' => false,
+            'message' => "Can't delete setting!"
+        );
     }
-
 }
 
 ?>
