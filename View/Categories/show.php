@@ -23,7 +23,7 @@
         ?>
         <tr>
 			<td><?= $category['id'] ?></td>
-			<td><?= $category['title'] ?></td>
+			<td><?= htmlspecialchars($category['title']) ?></td>
 			<td><a
 				href="<?= LINK_PREFIX ?>/Categories/Edit/<?= $category['id'] ?>">Update</a>
 				<a

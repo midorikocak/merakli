@@ -26,7 +26,7 @@
         ?>
         <tr>
 			<td><?= $post['id'] ?></td>
-			<td><?= $post['title'] ?></td>
+			<td><?= htmlspecialchars($post['title']) ?></td>
 			<td><?= $post['created'] ?></td>
 			<td><?= $post['updated'] ?></td>
 			<td><?= $post['category_id'] ?></td>

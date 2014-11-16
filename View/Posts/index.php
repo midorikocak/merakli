@@ -9,7 +9,7 @@ if (isset($posts) && ! empty($posts)) :
     foreach ($posts as $post) :
         ?>
 <article>
-	<h2><?php echo $post['title']; ?></h2>
+	<h2><?php echo htmlspecialchars($post['title']); ?></h2>
 
 	<p><?= substr(strip_tags($post['content']), 0, 40) ?>... <a
 			href="<?= LINK_PREFIX ?>/Posts/View/<?= $post['id'] ?>">Devamını Oku</a>

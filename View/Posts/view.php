@@ -10,7 +10,7 @@
 <article>
 	<h2><?php echo $post['title']; ?></h2>
 
-	<p><?= $post['content'] ?></p>
+	<p><?= htmlspecialchars($post['content']) ?></p>
 	<small><?= $post['created'] ?></small>
 </article>
 

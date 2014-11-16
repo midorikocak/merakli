@@ -17,7 +17,7 @@
 	<div class="row">
 		<div class="large-12 columns">
 			<label>Title <input id="title" name="title" type="text"
-				placeholder="large-12.columns" value="<?= $category['title'] ?>" />
+				placeholder="large-12.columns" value="<?= htmlspecialchars($category['title']) ?>" />
 			</label>
 		</div>
 	</div>

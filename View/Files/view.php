@@ -11,7 +11,7 @@
 <article>
 	<h2><?php echo $file['id']; ?></h2>
 
-	<p><?= $file['filename'] ?></p>
+	<p><?= htmlspecialchars($file['filename']) ?></p>
 </article>
 
 

@@ -24,8 +24,8 @@
         ?>
         <tr>
 			<td><?= $user['id'] ?></td>
-			<td><?= $user['username'] ?></td>
-			<td><?= $user['email'] ?></td>
+			<td><?= htmlspecialchars($user['username']) ?></td>
+			<td><?= htmlspecialchars($user['email']) ?></td>
 			<td><a href="<?= LINK_PREFIX ?>/Users/Edit/<?= $user['id'] ?>">Update</a>
 				<a href="<?= LINK_PREFIX ?>/Users/Delete/<?= $user['id'] ?>">Delete</a></td>
 		</tr>
