@@ -1,0 +1,188 @@
+<?php
+/**
+ * Class that manages file CRUD and copy operations
+ *
+ * CRUD, copy and unlink
+ *
+ * @author     Midori Kocak <mtkocak@mtkocak.net>
+ */
+namespace Midori\Cms;
+
+class Files extends Assets
+{
+
+    /**
+     * Mehtod that adds files to database and copies to filesystem.
+     *
+     * Also has filters for accepted files by extension and size.
+     *
+     * @param null $file            
+     * @return array|bool|string
+     */
+    public function add($file = null)
+    {
+        if (! $this->checkLogin()) {
+            return false;
+        }
+        if ($file != null) {
+            
+            $allowedExts = array(
+                "gif",
+                "jpeg",
+                "jpg",
+                "png"
+            );
+            $temp = explode(".", $file["name"]);
+            $extension = end($temp);
+            
+            if ((($file["type"] == "image/gif") || ($file["type"] == "image/jpeg") || ($file["type"] == "image/jpg") || ($file["type"] == "image/pjpeg") || ($file["type"] == "image/x-png") || ($file["type"] == "image/png")) && ($file["size"] < 2000000) && in_array($extension, $allowedExts)) {
+                if ($file["error"] > 0) {
+                    return false;
+                } else {
+                    if (file_exists("./www/images/" . $file["name"])) {
+                        return $file["name"] . " already exists. ";
+                    } else {
+                        $rand = substr(md5(microtime()), rand(0, 26), 5);
+                        move_uploaded_file($file["tmp_name"], "./www/images/" . $rand . '.' . $file["name"]);
+                        chmod("./www/images/" . $rand . '.' . $file["name"], 0777);
+                        
+                        $insert = $this->db->insert('files')->set(array(
+                            'filename' => $rand . '.' . $file["name"]
+                        ));
+                        
+                        if ($insert) {
+                            
+                            return array(
+                                'render' => false,
+                                'file' => $file["name"]
+                            );
+                        } else {
+                            return false;
+                        }
+                    }
+                }
+            } else {
+                return "Invalid file";
+            }
+        } else {
+            return array(
+                'render' => true,
+                'template' => 'admin'
+            );
+        }
+    }
+
+    /**
+     * Show only one file
+     *
+     * @param int $id            
+     * @return array
+     */
+    public function view($id)
+    {
+        $query = $this->db->select('files')
+            ->where('id', $id)
+            ->run();
+        
+        if ($query) {
+            $file = $query;
+            
+            $result = array(
+                'file' => $file
+            );
+            return $result;
+        }
+        
+        return false;
+    }
+
+    /**
+     * List all files in public
+     *
+     * @return bool
+     */
+    public function index()
+    {
+        if (! $this->checkLogin()) {
+            return false;
+        }
+        $query = $this->db->select('files')->run();
+        if ($query) {
+            return array(
+                'files' => $query
+            );
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * List all files in admin section
+     *
+     * @return array
+     */
+    public function show()
+    {
+        if (! $this->checkLogin()) {
+            return false;
+        }
+        $query = $this->db->select('files')->run();
+        if ($query) {
+            $result = array(
+                'render' => true,
+                'template' => 'admin',
+                'files' => $query
+            );
+        } else {
+            $result = array(
+                'render' => true,
+                'template' => 'admin',
+                'files' => array()
+            );
+        }
+        return $result;
+    }
+
+    /**
+     * Edit a file.
+     *
+     * We don't want that a file be edited.
+     * TODO I have concerns that violates Liskov's substitution principle. Do we have to create an editableInterface here?
+     *
+     * @return bool
+     */
+    public function edit($id = null)
+    {
+        if (! $this->checkLogin()) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Delete method
+     *
+     * @param int $id            
+     * @return bool
+     */
+    public function delete($id)
+    {
+        $oldData = $this->view($id);
+        var_dump($oldData);
+        
+        unlink('./www/images/' . $oldData['file'][0]['filename']);
+        
+        $query = $this->db->delete('files')
+            ->where('id', $id)
+            ->done();
+        
+        return array(
+            'template' => 'admin',
+            'render' => false
+        );
+    }
+}
+
+?>
+
+

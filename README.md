@@ -6,10 +6,7 @@ The atricle series are started on http://meraklibilisimci.com consisting 10 diff
 
 ##Things to do
 * Pagination
-* Authorization & Login
-* Redirection and 404 page
-* API Documentation using PhpDocumentor
-* Adding articles to Doc folder
+* 404 page
 
 ## Installation
 * Create a database called 'merakli' on your MySQL database, and run db/merakli.sql on it.
@@ -17,11 +14,3 @@ The atricle series are started on http://meraklibilisimci.com consisting 10 diff
 * Admin url is merakli/index.php/Users/login
 * username is username
 * password is password
-
-## Todos
-* Media Gallery
-* See files as thumbnails
-* See gallery as thumbnails when editing post (lightbox)
-* Add clicked item to text
-* Media gallery upload
-* Show file info
