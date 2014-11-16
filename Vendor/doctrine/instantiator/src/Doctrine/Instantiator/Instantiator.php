@@ -37,7 +37,7 @@ final class Instantiator implements InstantiatorInterface
      * the method {@see \Serializable::unserialize()} when dealing with classes implementing
      * the {@see \Serializable} interface.
      */
-    const SERIALIZATION_FORMAT_USE_UNSERIALIZER   = 'C';
+    const SERIALIZATION_FORMAT_USE_UNSERIALIZER = 'C';
     const SERIALIZATION_FORMAT_AVOID_UNSERIALIZER = 'O';
 
     /**
@@ -65,8 +65,8 @@ final class Instantiator implements InstantiatorInterface
             return $factory();
         }
 
-        $factory    = self::$cachedInstantiators[$className] = $this->buildFactory($className);
-        $instance   = $factory();
+        $factory = self::$cachedInstantiators[$className] = $this->buildFactory($className);
+        $instance = $factory();
         $reflection = new ReflectionClass($instance);
 
         if ($this->isSafeToClone($reflection)) {
@@ -122,7 +122,7 @@ final class Instantiator implements InstantiatorInterface
      */
     private function getReflectionClass($className)
     {
-        if (! class_exists($className)) {
+        if (!class_exists($className)) {
             throw InvalidArgumentException::fromNonExistingClass($className);
         }
 
@@ -137,7 +137,7 @@ final class Instantiator implements InstantiatorInterface
 
     /**
      * @param ReflectionClass $reflectionClass
-     * @param string          $serializedString
+     * @param string $serializedString
      *
      * @throws UnexpectedValueException
      *
@@ -178,10 +178,10 @@ final class Instantiator implements InstantiatorInterface
     private function isInstantiableViaReflection(ReflectionClass $reflectionClass)
     {
         if (\PHP_VERSION_ID >= 50600) {
-            return ! ($reflectionClass->isInternal() && $reflectionClass->isFinal());
+            return !($reflectionClass->isInternal() && $reflectionClass->isFinal());
         }
 
-        return \PHP_VERSION_ID >= 50400 && ! $this->hasInternalAncestors($reflectionClass);
+        return \PHP_VERSION_ID >= 50400 && !$this->hasInternalAncestors($reflectionClass);
     }
 
     /**
@@ -244,11 +244,11 @@ final class Instantiator implements InstantiatorInterface
      */
     private function isSafeToClone(ReflectionClass $reflection)
     {
-        if (method_exists($reflection, 'isCloneable') && ! $reflection->isCloneable()) {
+        if (method_exists($reflection, 'isCloneable') && !$reflection->isCloneable()) {
             return false;
         }
 
         // not cloneable if it implements `__clone`, as we want to avoid calling it
-        return ! $reflection->hasMethod('__clone');
+        return !$reflection->hasMethod('__clone');
     }
 }

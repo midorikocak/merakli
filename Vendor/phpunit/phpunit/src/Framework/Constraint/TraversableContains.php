@@ -75,9 +75,9 @@ class PHPUnit_Framework_Constraint_TraversableContains extends PHPUnit_Framework
     protected $value;
 
     /**
-     * @param  mixed                       $value
-     * @param  boolean                     $checkForObjectIdentity
-     * @param  boolean                     $checkForNonObjectIdentity
+     * @param  mixed $value
+     * @param  boolean $checkForObjectIdentity
+     * @param  boolean $checkForNonObjectIdentity
      * @throws PHPUnit_Framework_Exception
      */
     public function __construct($value, $checkForObjectIdentity = true, $checkForNonObjectIdentity = false)
@@ -92,9 +92,9 @@ class PHPUnit_Framework_Constraint_TraversableContains extends PHPUnit_Framework
             throw PHPUnit_Util_InvalidArgumentHelper::factory(3, 'boolean');
         }
 
-        $this->checkForObjectIdentity    = $checkForObjectIdentity;
+        $this->checkForObjectIdentity = $checkForObjectIdentity;
         $this->checkForNonObjectIdentity = $checkForNonObjectIdentity;
-        $this->value                     = $value;
+        $this->value = $value;
     }
 
     /**
@@ -113,18 +113,20 @@ class PHPUnit_Framework_Constraint_TraversableContains extends PHPUnit_Framework
         if (is_object($this->value)) {
             foreach ($other as $element) {
                 if (($this->checkForObjectIdentity &&
-                     $element === $this->value) ||
+                        $element === $this->value) ||
                     (!$this->checkForObjectIdentity &&
-                     $element == $this->value)) {
+                        $element == $this->value)
+                ) {
                     return true;
                 }
             }
         } else {
             foreach ($other as $element) {
                 if (($this->checkForNonObjectIdentity &&
-                     $element === $this->value) ||
+                        $element === $this->value) ||
                     (!$this->checkForNonObjectIdentity &&
-                     $element == $this->value)) {
+                        $element == $this->value)
+                ) {
                     return true;
                 }
             }
@@ -153,7 +155,7 @@ class PHPUnit_Framework_Constraint_TraversableContains extends PHPUnit_Framework
      * The beginning of failure messages is "Failed asserting that" in most
      * cases. This method should return the second part of that sentence.
      *
-     * @param  mixed  $other Evaluated value or object.
+     * @param  mixed $other Evaluated value or object.
      * @return string
      */
     protected function failureDescription($other)

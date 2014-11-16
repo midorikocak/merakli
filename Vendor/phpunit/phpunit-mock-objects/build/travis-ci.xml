@@ -4,9 +4,9 @@
          bootstrap="../tests/bootstrap.php"
          backupGlobals="false"
          verbose="true">
-  <testsuite name="PHPUnit Mock Objects">
-    <directory suffix="Test.php">../tests</directory>
-    <directory suffix=".phpt">../tests</directory>
-  </testsuite>
+    <testsuite name="PHPUnit Mock Objects">
+        <directory suffix="Test.php">../tests</directory>
+        <directory suffix=".phpt">../tests</directory>
+    </testsuite>
 </phpunit>
 

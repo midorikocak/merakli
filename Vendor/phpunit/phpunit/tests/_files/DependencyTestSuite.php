@@ -1,4 +1,5 @@
 <?php
+
 class DependencyTestSuite
 {
     public static function suite()

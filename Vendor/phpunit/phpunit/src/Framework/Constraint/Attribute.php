@@ -56,7 +56,6 @@
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.1.0
  */
-
 class PHPUnit_Framework_Constraint_Attribute extends PHPUnit_Framework_Constraint_Composite
 {
     /**
@@ -66,7 +65,7 @@ class PHPUnit_Framework_Constraint_Attribute extends PHPUnit_Framework_Constrain
 
     /**
      * @param PHPUnit_Framework_Constraint $constraint
-     * @param string                       $attributeName
+     * @param string $attributeName
      */
     public function __construct(PHPUnit_Framework_Constraint $constraint, $attributeName)
     {
@@ -85,9 +84,9 @@ class PHPUnit_Framework_Constraint_Attribute extends PHPUnit_Framework_Constrain
      * a boolean value instead: true in case of success, false in case of a
      * failure.
      *
-     * @param  mixed                                        $other        Value or object to evaluate.
-     * @param  string                                       $description  Additional information about the test
-     * @param  bool                                         $returnResult Whether to return a result or throw an exception
+     * @param  mixed $other Value or object to evaluate.
+     * @param  string $description Additional information about the test
+     * @param  bool $returnResult Whether to return a result or throw an exception
      * @return mixed
      * @throws PHPUnit_Framework_ExpectationFailedException
      */
@@ -111,7 +110,7 @@ class PHPUnit_Framework_Constraint_Attribute extends PHPUnit_Framework_Constrain
     public function toString()
     {
         return 'attribute "' . $this->attributeName . '" ' .
-               $this->innerConstraint->toString();
+        $this->innerConstraint->toString();
     }
 
     /**
@@ -120,7 +119,7 @@ class PHPUnit_Framework_Constraint_Attribute extends PHPUnit_Framework_Constrain
      * The beginning of failure messages is "Failed asserting that" in most
      * cases. This method should return the second part of that sentence.
      *
-     * @param  mixed  $other Evaluated value or object.
+     * @param  mixed $other Evaluated value or object.
      * @return string
      */
     protected function failureDescription($other)

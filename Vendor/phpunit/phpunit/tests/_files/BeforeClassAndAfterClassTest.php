@@ -1,4 +1,5 @@
 <?php
+
 class BeforeClassAndAfterClassTest extends PHPUnit_Framework_TestCase
 {
     public static $beforeClassWasRun = 0;
@@ -29,6 +30,7 @@ class BeforeClassAndAfterClassTest extends PHPUnit_Framework_TestCase
     public function test1()
     {
     }
+
     public function test2()
     {
     }

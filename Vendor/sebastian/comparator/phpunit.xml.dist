@@ -4,18 +4,18 @@
          bootstrap="tests/bootstrap.php"
          backupGlobals="false"
          verbose="true">
-  <testsuite name="Comparator">
-    <directory suffix="Test.php">tests</directory>
-  </testsuite>
+    <testsuite name="Comparator">
+        <directory suffix="Test.php">tests</directory>
+    </testsuite>
 
-  <logging>
-    <log type="coverage-html" target="build/coverage"/>
-  </logging>
+    <logging>
+        <log type="coverage-html" target="build/coverage"/>
+    </logging>
 
-  <filter>
-    <whitelist processUncoveredFilesFromWhitelist="true">
-      <directory suffix=".php">src</directory>
-    </whitelist>
-  </filter>
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">src</directory>
+        </whitelist>
+    </filter>
 </phpunit>
 

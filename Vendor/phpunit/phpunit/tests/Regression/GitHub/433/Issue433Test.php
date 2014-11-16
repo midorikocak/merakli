@@ -1,4 +1,5 @@
 <?php
+
 class Issue433Test extends PHPUnit_Framework_TestCase
 {
     public function testOutputWithExpectationBefore()

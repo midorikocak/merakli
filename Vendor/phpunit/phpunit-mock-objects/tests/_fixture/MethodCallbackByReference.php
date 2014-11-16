@@ -1,4 +1,5 @@
 <?php
+
 class MethodCallbackByReference
 {
     public function bar(&$a, &$b, $c)

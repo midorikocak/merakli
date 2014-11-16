@@ -1,4 +1,5 @@
 <?php
+
 class CoveredParentClass
 {
     private function privateMethod()

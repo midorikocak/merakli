@@ -112,12 +112,12 @@ class Framework_TestListenerTest extends PHPUnit_Framework_TestCase implements P
         $this->result = new PHPUnit_Framework_TestResult;
         $this->result->addListener($this);
 
-        $this->endCount            = 0;
-        $this->failureCount        = 0;
+        $this->endCount = 0;
+        $this->failureCount = 0;
         $this->notImplementedCount = 0;
-        $this->riskyCount          = 0;
-        $this->skippedCount        = 0;
-        $this->startCount          = 0;
+        $this->riskyCount = 0;
+        $this->skippedCount = 0;
+        $this->startCount = 0;
     }
 
     public function testError()

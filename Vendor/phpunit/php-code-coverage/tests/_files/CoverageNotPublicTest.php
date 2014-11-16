@@ -1,4 +1,5 @@
 <?php
+
 class CoverageNotPublicTest extends PHPUnit_Framework_TestCase
 {
     /**

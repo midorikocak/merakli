@@ -1,4 +1,5 @@
 <?php
+
 class NamespaceCoverageNotPrivateTest extends PHPUnit_Framework_TestCase
 {
     /**

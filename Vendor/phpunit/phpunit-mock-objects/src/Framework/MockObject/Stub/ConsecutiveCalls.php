@@ -79,9 +79,9 @@ class PHPUnit_Framework_MockObject_Stub_ConsecutiveCalls implements PHPUnit_Fram
     public function toString()
     {
         return sprintf(
-          'return user-specified value %s',
+            'return user-specified value %s',
 
-          PHPUnit_Util_Type::export($this->value)
+            PHPUnit_Util_Type::export($this->value)
         );
     }
 }

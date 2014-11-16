@@ -64,12 +64,11 @@ class PHP_Token_InterfaceTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $ts = new PHP_Token_Stream(TEST_FILES_PATH . 'source4.php');
-        $i  = 0;
+        $i = 0;
         foreach ($ts as $token) {
             if ($token instanceof PHP_Token_CLASS) {
                 $this->class = $token;
-            }
-            elseif ($token instanceof PHP_Token_INTERFACE) {
+            } elseif ($token instanceof PHP_Token_INTERFACE) {
                 $this->interfaces[$i] = $token;
                 $i++;
             }
@@ -146,13 +145,15 @@ class PHP_Token_InterfaceTest extends PHPUnit_Framework_TestCase
             $this->class->hasInterfaces()
         );
     }
+
     /**
      * @covers PHP_Token_INTERFACE::getPackage
      */
-    public function testGetPackageNamespace() {
+    public function testGetPackageNamespace()
+    {
         $tokenStream = new PHP_Token_Stream(TEST_FILES_PATH . 'classInNamespace.php');
-        foreach($tokenStream as $token) {
-            if($token instanceOf PHP_Token_INTERFACE) {
+        foreach ($tokenStream as $token) {
+            if ($token instanceOf PHP_Token_INTERFACE) {
                 $package = $token->getPackage();
                 $this->assertSame('Foo\\Bar', $package['namespace']);
             }
@@ -160,7 +161,8 @@ class PHP_Token_InterfaceTest extends PHPUnit_Framework_TestCase
     }
 
 
-    public function provideFilesWithClassesWithinMultipleNamespaces() {
+    public function provideFilesWithClassesWithinMultipleNamespaces()
+    {
         return array(
             array(TEST_FILES_PATH . 'multipleNamespacesWithOneClassUsingBraces.php'),
             array(TEST_FILES_PATH . 'multipleNamespacesWithOneClassUsingNonBraceSyntax.php'),
@@ -169,13 +171,14 @@ class PHP_Token_InterfaceTest extends PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider provideFilesWithClassesWithinMultipleNamespaces
-     * @covers PHP_Token_INTERFACE::getPackage
+     * @covers       PHP_Token_INTERFACE::getPackage
      */
-    public function testGetPackageNamespaceForFileWithMultipleNamespaces($filepath) {
+    public function testGetPackageNamespaceForFileWithMultipleNamespaces($filepath)
+    {
         $tokenStream = new PHP_Token_Stream($filepath);
         $firstClassFound = false;
-        foreach($tokenStream as $token) {
-            if($firstClassFound === false && $token instanceOf PHP_Token_INTERFACE) {
+        foreach ($tokenStream as $token) {
+            if ($firstClassFound === false && $token instanceOf PHP_Token_INTERFACE) {
                 $package = $token->getPackage();
                 $this->assertSame('TestClassInBar', $token->getName());
                 $this->assertSame('Foo\\Bar', $package['namespace']);
@@ -183,7 +186,7 @@ class PHP_Token_InterfaceTest extends PHPUnit_Framework_TestCase
                 continue;
             }
             // Secound class
-            if($token instanceOf PHP_Token_INTERFACE) {
+            if ($token instanceOf PHP_Token_INTERFACE) {
                 $package = $token->getPackage();
                 $this->assertSame('TestClassInBaz', $token->getName());
                 $this->assertSame('Foo\\Baz', $package['namespace']);
@@ -193,8 +196,9 @@ class PHP_Token_InterfaceTest extends PHPUnit_Framework_TestCase
         $this->fail("Seachring for 2 classes failed");
     }
 
-    public function testGetPackageNamespaceIsEmptyForInterfacesThatAreNotWithinNamespaces() {
-        foreach($this->interfaces as $token) {
+    public function testGetPackageNamespaceIsEmptyForInterfacesThatAreNotWithinNamespaces()
+    {
+        foreach ($this->interfaces as $token) {
             $package = $token->getPackage();
             $this->assertSame("", $package['namespace']);
         }
@@ -203,18 +207,19 @@ class PHP_Token_InterfaceTest extends PHPUnit_Framework_TestCase
     /**
      * @covers PHP_Token_INTERFACE::getPackage
      */
-    public function testGetPackageNamespaceWhenExtentingFromNamespaceClass() {
+    public function testGetPackageNamespaceWhenExtentingFromNamespaceClass()
+    {
         $tokenStream = new PHP_Token_Stream(TEST_FILES_PATH . 'classExtendsNamespacedClass.php');
         $firstClassFound = false;
-        foreach($tokenStream as $token) {
-            if($firstClassFound === false && $token instanceOf PHP_Token_INTERFACE) {
+        foreach ($tokenStream as $token) {
+            if ($firstClassFound === false && $token instanceOf PHP_Token_INTERFACE) {
                 $package = $token->getPackage();
                 $this->assertSame('Baz', $token->getName());
                 $this->assertSame('Foo\\Bar', $package['namespace']);
                 $firstClassFound = true;
                 continue;
             }
-            if($token instanceOf PHP_Token_INTERFACE) {
+            if ($token instanceOf PHP_Token_INTERFACE) {
                 $package = $token->getPackage();
                 $this->assertSame('Extender', $token->getName());
                 $this->assertSame('Other\\Space', $package['namespace']);

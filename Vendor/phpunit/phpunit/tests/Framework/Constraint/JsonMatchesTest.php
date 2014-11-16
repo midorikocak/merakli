@@ -55,9 +55,9 @@ class Framework_Constraint_JsonMatchesTest extends PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider evaluateDataprovider
-     * @covers PHPUnit_Framework_Constraint_JsonMatches::evaluate
-     * @covers PHPUnit_Framework_Constraint_JsonMatches::matches
-     * @covers PHPUnit_Framework_Constraint_JsonMatches::__construct
+     * @covers       PHPUnit_Framework_Constraint_JsonMatches::evaluate
+     * @covers       PHPUnit_Framework_Constraint_JsonMatches::matches
+     * @covers       PHPUnit_Framework_Constraint_JsonMatches::__construct
      */
     public function testEvaluate($expected, $jsonOther, $jsonValue)
     {

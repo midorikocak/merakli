@@ -1,4 +1,5 @@
 <?php
+
 class Issue1149Test extends PHPUnit_Framework_TestCase
 {
     public function testOne()

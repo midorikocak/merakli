@@ -19,51 +19,51 @@
          timeoutForLargeTests="60"
          strict="false"
          verbose="false">
-         <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
-             href="configuration.xml"
-             parse="xml"
-             xpointer="xpointer(/phpunit/testsuites)" />
-
-  <groups>
     <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
-          href="configuration.xml"
-        parse="xml"
-        xpointer="xpointer(/phpunit/groups/*)" />
-  </groups>
+                href="configuration.xml"
+                parse="xml"
+                xpointer="xpointer(/phpunit/testsuites)"/>
+
+    <groups>
+        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+                    href="configuration.xml"
+                    parse="xml"
+                    xpointer="xpointer(/phpunit/groups/*)"/>
+    </groups>
 
 
-  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
-      href="configuration.xml"
-      parse="xml"
-      xpointer="xpointer(/phpunit/filter)" />
-  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
-      href="configuration.xml"
-      parse="xml"
-      xpointer="xpointer(/phpunit/listeners)" />
-  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
-      href="configuration.xml"
-      parse="xml"
-      xpointer="xpointer(/phpunit/logging)" />
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+                href="configuration.xml"
+                parse="xml"
+                xpointer="xpointer(/phpunit/filter)"/>
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+                href="configuration.xml"
+                parse="xml"
+                xpointer="xpointer(/phpunit/listeners)"/>
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+                href="configuration.xml"
+                parse="xml"
+                xpointer="xpointer(/phpunit/logging)"/>
 
-  <php>
-    <includePath>.</includePath>
-    <includePath>/path/to/lib</includePath>
-    <ini name="foo" value="bar"/>
-    <const name="FOO" value="false"/>
-    <const name="BAR" value="true"/>
-    <var name="foo" value="false"/>
-    <env name="foo" value="true"/>
-    <post name="foo" value="bar"/>
-    <get name="foo" value="bar"/>
-    <cookie name="foo" value="bar"/>
-    <server name="foo" value="bar"/>
-    <files name="foo" value="bar"/>
-    <request name="foo" value="bar"/>
-  </php>
+    <php>
+        <includePath>.</includePath>
+        <includePath>/path/to/lib</includePath>
+        <ini name="foo" value="bar"/>
+        <const name="FOO" value="false"/>
+        <const name="BAR" value="true"/>
+        <var name="foo" value="false"/>
+        <env name="foo" value="true"/>
+        <post name="foo" value="bar"/>
+        <get name="foo" value="bar"/>
+        <cookie name="foo" value="bar"/>
+        <server name="foo" value="bar"/>
+        <files name="foo" value="bar"/>
+        <request name="foo" value="bar"/>
+    </php>
 
-  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
-      href="configuration.xml"
-      parse="xml"
-      xpointer="xpointer(/phpunit/selenium)" />
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+                href="configuration.xml"
+                parse="xml"
+                xpointer="xpointer(/phpunit/selenium)"/>
 </phpunit>
 

@@ -1,11 +1,11 @@
 #!/usr/bin/env php
 <?php
 if (__FILE__ == realpath($GLOBALS['_SERVER']['SCRIPT_NAME'])) {
-    $phar    = realpath($GLOBALS['_SERVER']['SCRIPT_NAME']);
+    $phar = realpath($GLOBALS['_SERVER']['SCRIPT_NAME']);
     $execute = true;
 } else {
-    $files   = get_included_files();
-    $phar    = $files[0];
+    $files = get_included_files();
+    $phar = $files[0];
     $execute = false;
 }
 
@@ -13,22 +13,21 @@ define('__PHPUNIT_PHAR__', str_replace(DIRECTORY_SEPARATOR, '/', $phar));
 define('__PHPUNIT_PHAR_ROOT__', 'phar://___PHAR___');
 
 spl_autoload_register(
-  function ($class)
-  {
-      static $classes = NULL;
+    function ($class) {
+        static $classes = NULL;
 
-      if ($classes === NULL) {
-          $classes = array(
-            ___CLASSLIST___
-          );
-      }
+        if ($classes === NULL) {
+            $classes = array(
+                ___CLASSLIST___
+            );
+        }
 
-      $class = strtolower($class);
+        $class = strtolower($class);
 
-      if (isset($classes[$class])) {
-          require __PHPUNIT_PHAR_ROOT__ . $classes[$class];
-      }
-  }
+        if (isset($classes[$class])) {
+            require __PHPUNIT_PHAR_ROOT__ . $classes[$class];
+        }
+    }
 );
 
 Phar::mapPhar('___PHAR___');

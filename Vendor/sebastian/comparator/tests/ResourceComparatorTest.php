@@ -67,9 +67,9 @@ class ResourceComparatorTest extends \PHPUnit_Framework_TestCase
         $tmpfile2 = tmpfile();
 
         return array(
-          array($tmpfile1, $tmpfile1),
-          array($tmpfile2, $tmpfile2),
-          array($tmpfile1, $tmpfile2)
+            array($tmpfile1, $tmpfile1),
+            array($tmpfile2, $tmpfile2),
+            array($tmpfile1, $tmpfile2)
         );
     }
 
@@ -78,9 +78,9 @@ class ResourceComparatorTest extends \PHPUnit_Framework_TestCase
         $tmpfile1 = tmpfile();
 
         return array(
-          array($tmpfile1, null),
-          array(null, $tmpfile1),
-          array(null, null)
+            array($tmpfile1, null),
+            array(null, $tmpfile1),
+            array(null, null)
         );
     }
 
@@ -90,8 +90,8 @@ class ResourceComparatorTest extends \PHPUnit_Framework_TestCase
         $tmpfile2 = tmpfile();
 
         return array(
-          array($tmpfile1, $tmpfile1),
-          array($tmpfile2, $tmpfile2)
+            array($tmpfile1, $tmpfile1),
+            array($tmpfile2, $tmpfile2)
         );
     }
 
@@ -101,8 +101,8 @@ class ResourceComparatorTest extends \PHPUnit_Framework_TestCase
         $tmpfile2 = tmpfile();
 
         return array(
-          array($tmpfile1, $tmpfile2),
-          array($tmpfile2, $tmpfile1)
+            array($tmpfile1, $tmpfile2),
+            array($tmpfile2, $tmpfile1)
         );
     }
 
@@ -113,7 +113,7 @@ class ResourceComparatorTest extends \PHPUnit_Framework_TestCase
     public function testAcceptsSucceeds($expected, $actual)
     {
         $this->assertTrue(
-          $this->comparator->accepts($expected, $actual)
+            $this->comparator->accepts($expected, $actual)
         );
     }
 
@@ -124,7 +124,7 @@ class ResourceComparatorTest extends \PHPUnit_Framework_TestCase
     public function testAcceptsFails($expected, $actual)
     {
         $this->assertFalse(
-          $this->comparator->accepts($expected, $actual)
+            $this->comparator->accepts($expected, $actual)
         );
     }
 
@@ -138,9 +138,7 @@ class ResourceComparatorTest extends \PHPUnit_Framework_TestCase
 
         try {
             $this->comparator->assertEquals($expected, $actual);
-        }
-
-        catch (ComparisonFailure $exception) {
+        } catch (ComparisonFailure $exception) {
         }
 
         $this->assertNull($exception, 'Unexpected ComparisonFailure');

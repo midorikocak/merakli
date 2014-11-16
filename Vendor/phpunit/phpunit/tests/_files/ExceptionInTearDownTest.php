@@ -1,4 +1,5 @@
 <?php
+
 class ExceptionInTearDownTest extends PHPUnit_Framework_TestCase
 {
     public $setUp = false;

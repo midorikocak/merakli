@@ -1,4 +1,5 @@
 <?php
+
 class ParentClassWithPrivateAttributes
 {
     private static $privateStaticParentAttribute = 'foo';

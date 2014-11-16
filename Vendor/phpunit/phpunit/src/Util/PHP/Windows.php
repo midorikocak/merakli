@@ -84,9 +84,9 @@ class PHPUnit_Util_PHP_Windows extends PHPUnit_Util_PHP_Default
         $process = proc_open(
             $runtime->getBinary() . $this->settingsToParameters($settings),
             array(
-            0 => array('pipe', 'r'),
-            1 => $stdout_handle,
-            2 => array('pipe', 'w')
+                0 => array('pipe', 'r'),
+                1 => $stdout_handle,
+                2 => array('pipe', 'w')
             ),
             $pipes
         );
@@ -115,15 +115,16 @@ class PHPUnit_Util_PHP_Windows extends PHPUnit_Util_PHP_Default
     }
 
     /**
-     * @param  resource                    $pipe
-     * @param  string                      $job
+     * @param  resource $pipe
+     * @param  string $job
      * @throws PHPUnit_Framework_Exception
      * @since  Method available since Release 3.5.12
      */
     protected function process($pipe, $job)
     {
         if (!($this->tempFile = tempnam(sys_get_temp_dir(), 'PHPUnit')) ||
-            file_put_contents($this->tempFile, $job) === false) {
+            file_put_contents($this->tempFile, $job) === false
+        ) {
             throw new PHPUnit_Framework_Exception(
                 'Unable to write temporary file'
             );
@@ -131,7 +132,7 @@ class PHPUnit_Util_PHP_Windows extends PHPUnit_Util_PHP_Default
 
         fwrite(
             $pipe,
-            "<?php require_once " . var_export($this->tempFile, true) .  "; ?>"
+            "<?php require_once " . var_export($this->tempFile, true) . "; ?>"
         );
     }
 

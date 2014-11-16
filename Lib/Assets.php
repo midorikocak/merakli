@@ -10,7 +10,7 @@
 
 namespace Midori\Cms;
 
-use \PDO;
+use PDO;
 
 /**
  * Class Assets

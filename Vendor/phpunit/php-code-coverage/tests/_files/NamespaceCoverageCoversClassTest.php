@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @coversDefaultClass \Foo\CoveredClass
  */

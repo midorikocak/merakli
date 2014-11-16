@@ -61,9 +61,9 @@ class PHP_Timer
      * @var array
      */
     private static $times = array(
-      'hour'   => 3600000,
-      'minute' => 60000,
-      'second' => 1000
+        'hour' => 3600000,
+        'minute' => 60000,
+        'second' => 1000
     );
 
     /**
@@ -132,17 +132,15 @@ class PHP_Timer
     public static function resourceUsage()
     {
         return sprintf(
-          'Time: %s, Memory: %4.2fMb',
-          self::timeSinceStartOfRequest(),
-          memory_get_peak_usage(TRUE) / 1048576
+            'Time: %s, Memory: %4.2fMb',
+            self::timeSinceStartOfRequest(),
+            memory_get_peak_usage(TRUE) / 1048576
         );
     }
 }
 
 if (isset($_SERVER['REQUEST_TIME_FLOAT'])) {
     PHP_Timer::$requestTime = $_SERVER['REQUEST_TIME_FLOAT'];
-}
-
-else {
+} else {
     PHP_Timer::$requestTime = microtime(TRUE);
 }

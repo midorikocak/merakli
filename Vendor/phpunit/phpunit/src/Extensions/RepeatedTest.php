@@ -80,9 +80,9 @@ class PHPUnit_Extensions_RepeatedTest extends PHPUnit_Extensions_TestDecorator
     protected $timesRepeat = 1;
 
     /**
-     * @param  PHPUnit_Framework_Test      $test
-     * @param  integer                     $timesRepeat
-     * @param  boolean                     $processIsolation
+     * @param  PHPUnit_Framework_Test $test
+     * @param  integer $timesRepeat
+     * @param  boolean $processIsolation
      * @throws PHPUnit_Framework_Exception
      */
     public function __construct(PHPUnit_Framework_Test $test, $timesRepeat = 1, $processIsolation = false)
@@ -90,7 +90,8 @@ class PHPUnit_Extensions_RepeatedTest extends PHPUnit_Extensions_TestDecorator
         parent::__construct($test);
 
         if (is_integer($timesRepeat) &&
-            $timesRepeat >= 0) {
+            $timesRepeat >= 0
+        ) {
             $this->timesRepeat = $timesRepeat;
         } else {
             throw PHPUnit_Util_InvalidArgumentHelper::factory(

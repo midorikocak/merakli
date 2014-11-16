@@ -4,19 +4,19 @@
          bootstrap="tests/bootstrap.php"
          backupGlobals="false"
          verbose="true">
-  <testsuite name="PHPUnit Mock Objects">
-    <directory suffix="Test.php">tests</directory>
-    <directory suffix=".phpt">tests</directory>
-  </testsuite>
+    <testsuite name="PHPUnit Mock Objects">
+        <directory suffix="Test.php">tests</directory>
+        <directory suffix=".phpt">tests</directory>
+    </testsuite>
 
-  <logging>
-    <log type="coverage-html" target="build/coverage"/>
-  </logging>
+    <logging>
+        <log type="coverage-html" target="build/coverage"/>
+    </logging>
 
-  <filter>
-    <whitelist processUncoveredFilesFromWhitelist="true">
-      <directory suffix=".php">src</directory>
-    </whitelist>
-  </filter>
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">src</directory>
+        </whitelist>
+    </filter>
 </phpunit>
 

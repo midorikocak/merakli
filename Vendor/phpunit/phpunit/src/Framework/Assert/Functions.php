@@ -90,8 +90,8 @@ function arrayHasKey($key)
 /**
  * Asserts that an array has a specified key.
  *
- * @param  mixed  $key
- * @param  array|ArrayAccess  $array
+ * @param  mixed $key
+ * @param  array|ArrayAccess $array
  * @param  string $message
  * @since  Method available since Release 3.0.0
  */
@@ -106,8 +106,8 @@ function assertArrayHasKey($key, $array, $message = '')
 /**
  * Asserts that an array does not have a specified key.
  *
- * @param  mixed  $key
- * @param  array|ArrayAccess  $array
+ * @param  mixed $key
+ * @param  array|ArrayAccess $array
  * @param  string $message
  * @since  Method available since Release 3.0.0
  */
@@ -123,10 +123,10 @@ function assertArrayNotHasKey($key, $array, $message = '')
  * Asserts that a haystack that is stored in a static attribute of a class
  * or an attribute of an object contains a needle.
  *
- * @param  mixed   $needle
- * @param  string  $haystackAttributeName
- * @param  mixed   $haystackClassOrObject
- * @param  string  $message
+ * @param  mixed $needle
+ * @param  string $haystackAttributeName
+ * @param  mixed $haystackClassOrObject
+ * @param  string $message
  * @param  boolean $ignoreCase
  * @param  boolean $checkForObjectIdentity
  * @param  boolean $checkForNonObjectIdentity
@@ -144,11 +144,11 @@ function assertAttributeContains($needle, $haystackAttributeName, $haystackClass
  * Asserts that a haystack that is stored in a static attribute of a class
  * or an attribute of an object contains only values of a given type.
  *
- * @param  string  $type
- * @param  string  $haystackAttributeName
- * @param  mixed   $haystackClassOrObject
+ * @param  string $type
+ * @param  string $haystackAttributeName
+ * @param  mixed $haystackClassOrObject
  * @param  boolean $isNativeType
- * @param  string  $message
+ * @param  string $message
  * @since  Method available since Release 3.1.4
  */
 function assertAttributeContainsOnly($type, $haystackAttributeName, $haystackClassOrObject, $isNativeType = null, $message = '')
@@ -164,9 +164,9 @@ function assertAttributeContainsOnly($type, $haystackAttributeName, $haystackCla
  * that is stored in an attribute.
  *
  * @param integer $expectedCount
- * @param string  $haystackAttributeName
- * @param mixed   $haystackClassOrObject
- * @param string  $message
+ * @param string $haystackAttributeName
+ * @param mixed $haystackClassOrObject
+ * @param string $message
  * @since Method available since Release 3.6.0
  */
 function assertAttributeCount($expectedCount, $haystackAttributeName, $haystackClassOrObject, $message = '')
@@ -182,7 +182,7 @@ function assertAttributeCount($expectedCount, $haystackAttributeName, $haystackC
  * is empty.
  *
  * @param string $haystackAttributeName
- * @param mixed  $haystackClassOrObject
+ * @param mixed $haystackClassOrObject
  * @param string $message
  * @since Method available since Release 3.5.0
  */
@@ -197,11 +197,11 @@ function assertAttributeEmpty($haystackAttributeName, $haystackClassOrObject, $m
 /**
  * Asserts that a variable is equal to an attribute of an object.
  *
- * @param  mixed   $expected
- * @param  string  $actualAttributeName
- * @param  string  $actualClassOrObject
- * @param  string  $message
- * @param  float   $delta
+ * @param  mixed $expected
+ * @param  string $actualAttributeName
+ * @param  string $actualClassOrObject
+ * @param  string $message
+ * @param  float $delta
  * @param  integer $maxDepth
  * @param  boolean $canonicalize
  * @param  boolean $ignoreCase
@@ -217,10 +217,10 @@ function assertAttributeEquals($expected, $actualAttributeName, $actualClassOrOb
 /**
  * Asserts that an attribute is greater than another value.
  *
- * @param  mixed   $expected
- * @param  string  $actualAttributeName
- * @param  string  $actualClassOrObject
- * @param  string  $message
+ * @param  mixed $expected
+ * @param  string $actualAttributeName
+ * @param  string $actualClassOrObject
+ * @param  string $message
  * @since  Method available since Release 3.1.0
  */
 function assertAttributeGreaterThan($expected, $actualAttributeName, $actualClassOrObject, $message = '')
@@ -234,10 +234,10 @@ function assertAttributeGreaterThan($expected, $actualAttributeName, $actualClas
 /**
  * Asserts that an attribute is greater than or equal to another value.
  *
- * @param  mixed   $expected
- * @param  string  $actualAttributeName
- * @param  string  $actualClassOrObject
- * @param  string  $message
+ * @param  mixed $expected
+ * @param  string $actualAttributeName
+ * @param  string $actualClassOrObject
+ * @param  string $message
  * @since  Method available since Release 3.1.0
  */
 function assertAttributeGreaterThanOrEqual($expected, $actualAttributeName, $actualClassOrObject, $message = '')
@@ -253,7 +253,7 @@ function assertAttributeGreaterThanOrEqual($expected, $actualAttributeName, $act
  *
  * @param string $expected
  * @param string $attributeName
- * @param mixed  $classOrObject
+ * @param mixed $classOrObject
  * @param string $message
  * @since Method available since Release 3.5.0
  */
@@ -270,7 +270,7 @@ function assertAttributeInstanceOf($expected, $attributeName, $classOrObject, $m
  *
  * @param string $expected
  * @param string $attributeName
- * @param mixed  $classOrObject
+ * @param mixed $classOrObject
  * @param string $message
  * @since Method available since Release 3.5.0
  */
@@ -285,10 +285,10 @@ function assertAttributeInternalType($expected, $attributeName, $classOrObject, 
 /**
  * Asserts that an attribute is smaller than another value.
  *
- * @param  mixed   $expected
- * @param  string  $actualAttributeName
- * @param  string  $actualClassOrObject
- * @param  string  $message
+ * @param  mixed $expected
+ * @param  string $actualAttributeName
+ * @param  string $actualClassOrObject
+ * @param  string $message
  * @since  Method available since Release 3.1.0
  */
 function assertAttributeLessThan($expected, $actualAttributeName, $actualClassOrObject, $message = '')
@@ -302,10 +302,10 @@ function assertAttributeLessThan($expected, $actualAttributeName, $actualClassOr
 /**
  * Asserts that an attribute is smaller than or equal to another value.
  *
- * @param  mixed   $expected
- * @param  string  $actualAttributeName
- * @param  string  $actualClassOrObject
- * @param  string  $message
+ * @param  mixed $expected
+ * @param  string $actualAttributeName
+ * @param  string $actualClassOrObject
+ * @param  string $message
  * @since  Method available since Release 3.1.0
  */
 function assertAttributeLessThanOrEqual($expected, $actualAttributeName, $actualClassOrObject, $message = '')
@@ -320,10 +320,10 @@ function assertAttributeLessThanOrEqual($expected, $actualAttributeName, $actual
  * Asserts that a haystack that is stored in a static attribute of a class
  * or an attribute of an object does not contain a needle.
  *
- * @param  mixed   $needle
- * @param  string  $haystackAttributeName
- * @param  mixed   $haystackClassOrObject
- * @param  string  $message
+ * @param  mixed $needle
+ * @param  string $haystackAttributeName
+ * @param  mixed $haystackClassOrObject
+ * @param  string $message
  * @param  boolean $ignoreCase
  * @param  boolean $checkForObjectIdentity
  * @param  boolean $checkForNonObjectIdentity
@@ -342,11 +342,11 @@ function assertAttributeNotContains($needle, $haystackAttributeName, $haystackCl
  * or an attribute of an object does not contain only values of a given
  * type.
  *
- * @param  string  $type
- * @param  string  $haystackAttributeName
- * @param  mixed   $haystackClassOrObject
+ * @param  string $type
+ * @param  string $haystackAttributeName
+ * @param  mixed $haystackClassOrObject
  * @param  boolean $isNativeType
- * @param  string  $message
+ * @param  string $message
  * @since  Method available since Release 3.1.4
  */
 function assertAttributeNotContainsOnly($type, $haystackAttributeName, $haystackClassOrObject, $isNativeType = null, $message = '')
@@ -362,9 +362,9 @@ function assertAttributeNotContainsOnly($type, $haystackAttributeName, $haystack
  * that is stored in an attribute.
  *
  * @param integer $expectedCount
- * @param string  $haystackAttributeName
- * @param mixed   $haystackClassOrObject
- * @param string  $message
+ * @param string $haystackAttributeName
+ * @param mixed $haystackClassOrObject
+ * @param string $message
  * @since Method available since Release 3.6.0
  */
 function assertAttributeNotCount($expectedCount, $haystackAttributeName, $haystackClassOrObject, $message = '')
@@ -380,7 +380,7 @@ function assertAttributeNotCount($expectedCount, $haystackAttributeName, $haysta
  * is not empty.
  *
  * @param string $haystackAttributeName
- * @param mixed  $haystackClassOrObject
+ * @param mixed $haystackClassOrObject
  * @param string $message
  * @since Method available since Release 3.5.0
  */
@@ -395,11 +395,11 @@ function assertAttributeNotEmpty($haystackAttributeName, $haystackClassOrObject,
 /**
  * Asserts that a variable is not equal to an attribute of an object.
  *
- * @param  mixed   $expected
- * @param  string  $actualAttributeName
- * @param  string  $actualClassOrObject
- * @param  string  $message
- * @param  float   $delta
+ * @param  mixed $expected
+ * @param  string $actualAttributeName
+ * @param  string $actualClassOrObject
+ * @param  string $message
+ * @param  float $delta
  * @param  integer $maxDepth
  * @param  boolean $canonicalize
  * @param  boolean $ignoreCase
@@ -417,7 +417,7 @@ function assertAttributeNotEquals($expected, $actualAttributeName, $actualClassO
  *
  * @param string $expected
  * @param string $attributeName
- * @param mixed  $classOrObject
+ * @param mixed $classOrObject
  * @param string $message
  * @since Method available since Release 3.5.0
  */
@@ -434,7 +434,7 @@ function assertAttributeNotInstanceOf($expected, $attributeName, $classOrObject,
  *
  * @param string $expected
  * @param string $attributeName
- * @param mixed  $classOrObject
+ * @param mixed $classOrObject
  * @param string $message
  * @since Method available since Release 3.5.0
  */
@@ -450,7 +450,7 @@ function assertAttributeNotInternalType($expected, $attributeName, $classOrObjec
  * Asserts that a variable and an attribute of an object do not have the
  * same type and value.
  *
- * @param  mixed  $expected
+ * @param  mixed $expected
  * @param  string $actualAttributeName
  * @param  object $actualClassOrObject
  * @param  string $message
@@ -467,7 +467,7 @@ function assertAttributeNotSame($expected, $actualAttributeName, $actualClassOrO
  * Asserts that a variable and an attribute of an object have the same type
  * and value.
  *
- * @param  mixed  $expected
+ * @param  mixed $expected
  * @param  string $actualAttributeName
  * @param  object $actualClassOrObject
  * @param  string $message
@@ -547,9 +547,9 @@ function assertClassNotHasStaticAttribute($attributeName, $className, $message =
 /**
  * Asserts that a haystack contains a needle.
  *
- * @param  mixed   $needle
- * @param  mixed   $haystack
- * @param  string  $message
+ * @param  mixed $needle
+ * @param  mixed $haystack
+ * @param  string $message
  * @param  boolean $ignoreCase
  * @param  boolean $checkForObjectIdentity
  * @param  boolean $checkForNonObjectIdentity
@@ -566,10 +566,10 @@ function assertContains($needle, $haystack, $message = '', $ignoreCase = false, 
 /**
  * Asserts that a haystack contains only values of a given type.
  *
- * @param  string  $type
- * @param  mixed   $haystack
+ * @param  string $type
+ * @param  mixed $haystack
  * @param  boolean $isNativeType
- * @param  string  $message
+ * @param  string $message
  * @since  Method available since Release 3.1.4
  */
 function assertContainsOnly($type, $haystack, $isNativeType = null, $message = '')
@@ -599,8 +599,8 @@ function assertContainsOnlyInstancesOf($classname, $haystack, $message = '')
  * Asserts the number of elements of an array, Countable or Traversable.
  *
  * @param integer $expectedCount
- * @param mixed   $haystack
- * @param string  $message
+ * @param mixed $haystack
+ * @param string $message
  */
 function assertCount($expectedCount, $haystack, $message = '')
 {
@@ -613,8 +613,8 @@ function assertCount($expectedCount, $haystack, $message = '')
 /**
  * Asserts that a variable is empty.
  *
- * @param  mixed   $actual
- * @param  string  $message
+ * @param  mixed $actual
+ * @param  string $message
  * @throws PHPUnit_Framework_AssertionFailedError
  */
 function assertEmpty($actual, $message = '')
@@ -631,7 +631,7 @@ function assertEmpty($actual, $message = '')
  * @param DOMElement $expectedElement
  * @param DOMElement $actualElement
  * @param boolean $checkAttributes
- * @param string  $message
+ * @param string $message
  * @author Mattis Stordalen Flister <mattis@xait.no>
  * @since  Method available since Release 3.3.0
  */
@@ -646,10 +646,10 @@ function assertEqualXMLStructure(DOMElement $expectedElement, DOMElement $actual
 /**
  * Asserts that two variables are equal.
  *
- * @param  mixed   $expected
- * @param  mixed   $actual
- * @param  string  $message
- * @param  float   $delta
+ * @param  mixed $expected
+ * @param  mixed $actual
+ * @param  string $message
+ * @param  float $delta
  * @param  integer $maxDepth
  * @param  boolean $canonicalize
  * @param  boolean $ignoreCase
@@ -665,8 +665,8 @@ function assertEquals($expected, $actual, $message = '', $delta = 0.0, $maxDepth
 /**
  * Asserts that a condition is not true.
  *
- * @param  boolean  $condition
- * @param  string   $message
+ * @param  boolean $condition
+ * @param  string $message
  * @throws PHPUnit_Framework_AssertionFailedError
  */
 function assertNotTrue($condition, $message = '')
@@ -680,8 +680,8 @@ function assertNotTrue($condition, $message = '')
 /**
  * Asserts that a condition is false.
  *
- * @param  boolean  $condition
- * @param  string   $message
+ * @param  boolean $condition
+ * @param  string $message
  * @throws PHPUnit_Framework_AssertionFailedError
  */
 function assertFalse($condition, $message = '')
@@ -696,9 +696,9 @@ function assertFalse($condition, $message = '')
  * Asserts that the contents of one file is equal to the contents of another
  * file.
  *
- * @param  string  $expected
- * @param  string  $actual
- * @param  string  $message
+ * @param  string $expected
+ * @param  string $actual
+ * @param  string $message
  * @param  boolean $canonicalize
  * @param  boolean $ignoreCase
  * @since  Method available since Release 3.2.14
@@ -730,9 +730,9 @@ function assertFileExists($filename, $message = '')
  * Asserts that the contents of one file is not equal to the contents of
  * another file.
  *
- * @param  string  $expected
- * @param  string  $actual
- * @param  string  $message
+ * @param  string $expected
+ * @param  string $actual
+ * @param  string $message
  * @param  boolean $canonicalize
  * @param  boolean $ignoreCase
  * @since  Method available since Release 3.2.14
@@ -763,9 +763,9 @@ function assertFileNotExists($filename, $message = '')
 /**
  * Asserts that a value is greater than another value.
  *
- * @param  mixed   $expected
- * @param  mixed   $actual
- * @param  string  $message
+ * @param  mixed $expected
+ * @param  mixed $actual
+ * @param  string $message
  * @since  Method available since Release 3.1.0
  */
 function assertGreaterThan($expected, $actual, $message = '')
@@ -779,9 +779,9 @@ function assertGreaterThan($expected, $actual, $message = '')
 /**
  * Asserts that a value is greater than or equal to another value.
  *
- * @param  mixed   $expected
- * @param  mixed   $actual
- * @param  string  $message
+ * @param  mixed $expected
+ * @param  mixed $actual
+ * @param  string $message
  * @since  Method available since Release 3.1.0
  */
 function assertGreaterThanOrEqual($expected, $actual, $message = '')
@@ -796,7 +796,7 @@ function assertGreaterThanOrEqual($expected, $actual, $message = '')
  * Asserts that a variable is of a given type.
  *
  * @param string $expected
- * @param mixed  $actual
+ * @param mixed $actual
  * @param string $message
  * @since Method available since Release 3.5.0
  */
@@ -812,7 +812,7 @@ function assertInstanceOf($expected, $actual, $message = '')
  * Asserts that a variable is of a given type.
  *
  * @param string $expected
- * @param mixed  $actual
+ * @param mixed $actual
  * @param string $message
  * @since Method available since Release 3.5.0
  */
@@ -932,9 +932,9 @@ function assertJsonStringNotEqualsJsonString($expectedJson, $actualJson, $messag
 /**
  * Asserts that a value is smaller than another value.
  *
- * @param  mixed   $expected
- * @param  mixed   $actual
- * @param  string  $message
+ * @param  mixed $expected
+ * @param  mixed $actual
+ * @param  string $message
  * @since  Method available since Release 3.1.0
  */
 function assertLessThan($expected, $actual, $message = '')
@@ -948,9 +948,9 @@ function assertLessThan($expected, $actual, $message = '')
 /**
  * Asserts that a value is smaller than or equal to another value.
  *
- * @param  mixed   $expected
- * @param  mixed   $actual
- * @param  string  $message
+ * @param  mixed $expected
+ * @param  mixed $actual
+ * @param  string $message
  * @since  Method available since Release 3.1.0
  */
 function assertLessThanOrEqual($expected, $actual, $message = '')
@@ -964,9 +964,9 @@ function assertLessThanOrEqual($expected, $actual, $message = '')
 /**
  * Asserts that a haystack does not contain a needle.
  *
- * @param  mixed   $needle
- * @param  mixed   $haystack
- * @param  string  $message
+ * @param  mixed $needle
+ * @param  mixed $haystack
+ * @param  string $message
  * @param  boolean $ignoreCase
  * @param  boolean $checkForObjectIdentity
  * @param  boolean $checkForNonObjectIdentity
@@ -983,10 +983,10 @@ function assertNotContains($needle, $haystack, $message = '', $ignoreCase = fals
 /**
  * Asserts that a haystack does not contain only values of a given type.
  *
- * @param  string  $type
- * @param  mixed   $haystack
+ * @param  string $type
+ * @param  mixed $haystack
  * @param  boolean $isNativeType
- * @param  string  $message
+ * @param  string $message
  * @since  Method available since Release 3.1.4
  */
 function assertNotContainsOnly($type, $haystack, $isNativeType = null, $message = '')
@@ -1001,8 +1001,8 @@ function assertNotContainsOnly($type, $haystack, $isNativeType = null, $message 
  * Asserts the number of elements of an array, Countable or Traversable.
  *
  * @param integer $expectedCount
- * @param mixed   $haystack
- * @param string  $message
+ * @param mixed $haystack
+ * @param string $message
  */
 function assertNotCount($expectedCount, $haystack, $message = '')
 {
@@ -1015,8 +1015,8 @@ function assertNotCount($expectedCount, $haystack, $message = '')
 /**
  * Asserts that a variable is not empty.
  *
- * @param  mixed   $actual
- * @param  string  $message
+ * @param  mixed $actual
+ * @param  string $message
  * @throws PHPUnit_Framework_AssertionFailedError
  */
 function assertNotEmpty($actual, $message = '')
@@ -1030,10 +1030,10 @@ function assertNotEmpty($actual, $message = '')
 /**
  * Asserts that two variables are not equal.
  *
- * @param  mixed   $expected
- * @param  mixed   $actual
- * @param  string  $message
- * @param  float   $delta
+ * @param  mixed $expected
+ * @param  mixed $actual
+ * @param  string $message
+ * @param  float $delta
  * @param  integer $maxDepth
  * @param  boolean $canonicalize
  * @param  boolean $ignoreCase
@@ -1051,7 +1051,7 @@ function assertNotEquals($expected, $actual, $message = '', $delta = 0.0, $maxDe
  * Asserts that a variable is not of a given type.
  *
  * @param string $expected
- * @param mixed  $actual
+ * @param mixed $actual
  * @param string $message
  * @since Method available since Release 3.5.0
  */
@@ -1067,7 +1067,7 @@ function assertNotInstanceOf($expected, $actual, $message = '')
  * Asserts that a variable is not of a given type.
  *
  * @param string $expected
- * @param mixed  $actual
+ * @param mixed $actual
  * @param string $message
  * @since Method available since Release 3.5.0
  */
@@ -1082,8 +1082,8 @@ function assertNotInternalType($expected, $actual, $message = '')
 /**
  * Asserts that a condition is not false.
  *
- * @param  boolean  $condition
- * @param  string   $message
+ * @param  boolean $condition
+ * @param  string $message
  * @throws PHPUnit_Framework_AssertionFailedError
  */
 function assertNotFalse($condition, $message = '')
@@ -1097,7 +1097,7 @@ function assertNotFalse($condition, $message = '')
 /**
  * Asserts that a variable is not null.
  *
- * @param  mixed  $actual
+ * @param  mixed $actual
  * @param  string $message
  */
 function assertNotNull($actual, $message = '')
@@ -1129,8 +1129,8 @@ function assertNotRegExp($pattern, $string, $message = '')
  * Used on objects, it asserts that two variables do not reference
  * the same object.
  *
- * @param  mixed  $expected
- * @param  mixed  $actual
+ * @param  mixed $expected
+ * @param  mixed $actual
  * @param  string $message
  */
 function assertNotSame($expected, $actual, $message = '')
@@ -1163,9 +1163,9 @@ function assertNotSameSize($expected, $actual, $message = '')
  * Rather than asserting that $matcher results in a match, it asserts that
  * $matcher does not match.
  *
- * @param  array   $matcher
- * @param  string  $actual
- * @param  string  $message
+ * @param  array $matcher
+ * @param  string $actual
+ * @param  string $message
  * @param  boolean $isHtml
  * @since  Method available since Release 3.3.0
  * @author Mike Naberezny <mike@maintainable.com>
@@ -1182,7 +1182,7 @@ function assertNotTag($matcher, $actual, $message = '', $isHtml = true)
 /**
  * Asserts that a variable is null.
  *
- * @param  mixed  $actual
+ * @param  mixed $actual
  * @param  string $message
  */
 function assertNull($actual, $message = '')
@@ -1245,8 +1245,8 @@ function assertRegExp($pattern, $string, $message = '')
  * Used on objects, it asserts that two variables reference
  * the same object.
  *
- * @param  mixed  $expected
- * @param  mixed  $actual
+ * @param  mixed $expected
+ * @param  mixed $actual
  * @param  string $message
  */
 function assertSame($expected, $actual, $message = '')
@@ -1288,10 +1288,10 @@ function assertSameSize($expected, $actual, $message = '')
  * assertSelectCount("#binder", true, $xml);  // any?
  * assertSelectCount(".binder", 3, $xml); // exactly 3?
  *
- * @param  array   $selector
+ * @param  array $selector
  * @param  integer $count
- * @param  mixed   $actual
- * @param  string  $message
+ * @param  mixed $actual
+ * @param  string $message
  * @param  boolean $isHtml
  * @since  Method available since Release 3.3.0
  * @author Mike Naberezny <mike@maintainable.com>
@@ -1309,11 +1309,11 @@ function assertSelectCount($selector, $count, $actual, $message = '', $isHtml = 
  * assertSelectEquals("#binder .name", "Chuck", true,  $xml);  // any?
  * assertSelectEquals("#binder .name", "Chuck", false, $xml);  // none?
  *
- * @param  array   $selector
- * @param  string  $content
+ * @param  array $selector
+ * @param  string $content
  * @param  integer $count
- * @param  mixed   $actual
- * @param  string  $message
+ * @param  mixed $actual
+ * @param  string $message
  * @param  boolean $isHtml
  * @since  Method available since Release 3.3.0
  * @author Mike Naberezny <mike@maintainable.com>
@@ -1331,11 +1331,11 @@ function assertSelectEquals($selector, $content, $count, $actual, $message = '',
  * assertSelectRegExp("#binder .name", "/Mike|Derek/", true, $xml); // any?
  * assertSelectRegExp("#binder .name", "/Mike|Derek/", 3, $xml);// 3?
  *
- * @param  array   $selector
- * @param  string  $pattern
+ * @param  array $selector
+ * @param  string $pattern
  * @param  integer $count
- * @param  mixed   $actual
- * @param  string  $message
+ * @param  mixed $actual
+ * @param  string $message
  * @param  boolean $isHtml
  * @since  Method available since Release 3.3.0
  * @author Mike Naberezny <mike@maintainable.com>
@@ -1385,9 +1385,9 @@ function assertStringEndsWith($suffix, $string, $message = '')
  * Asserts that the contents of a string is equal
  * to the contents of a file.
  *
- * @param  string  $expectedFile
- * @param  string  $actualString
- * @param  string  $message
+ * @param  string $expectedFile
+ * @param  string $actualString
+ * @param  string $message
  * @param  boolean $canonicalize
  * @param  boolean $ignoreCase
  * @since  Method available since Release 3.3.0
@@ -1436,9 +1436,9 @@ function assertStringMatchesFormatFile($formatFile, $string, $message = '')
  * Asserts that the contents of a string is not equal
  * to the contents of a file.
  *
- * @param  string  $expectedFile
- * @param  string  $actualString
- * @param  string  $message
+ * @param  string $expectedFile
+ * @param  string $actualString
+ * @param  string $message
  * @param  boolean $canonicalize
  * @param  boolean $ignoreCase
  * @since  Method available since Release 3.3.0
@@ -1644,9 +1644,9 @@ function assertStringStartsWith($prefix, $string, $message = '')
  * XML load strategy.  It is true by default, which assumes the HTML
  * load strategy.  In many cases, this will be acceptable for XML as well.
  *
- * @param  array   $matcher
- * @param  string  $actual
- * @param  string  $message
+ * @param  array $matcher
+ * @param  string $actual
+ * @param  string $message
  * @param  boolean $isHtml
  * @since  Method available since Release 3.3.0
  * @author Mike Naberezny <mike@maintainable.com>
@@ -1663,9 +1663,9 @@ function assertTag($matcher, $actual, $message = '', $isHtml = true)
 /**
  * Evaluates a PHPUnit_Framework_Constraint matcher object.
  *
- * @param  mixed$value
+ * @param  mixed $value
  * @param  PHPUnit_Framework_Constraint $constraint
- * @param  string   $message
+ * @param  string $message
  * @since  Method available since Release 3.0.0
  */
 function assertThat($value, PHPUnit_Framework_Constraint $constraint, $message = '')
@@ -1680,7 +1680,7 @@ function assertThat($value, PHPUnit_Framework_Constraint $constraint, $message =
  * Asserts that a condition is true.
  *
  * @param  boolean $condition
- * @param  string  $message
+ * @param  string $message
  * @throws PHPUnit_Framework_AssertionFailedError
  */
 function assertTrue($condition, $message = '')
@@ -1822,7 +1822,7 @@ function atLeastOnce()
  * Returns a PHPUnit_Framework_Constraint_Attribute matcher object.
  *
  * @param  PHPUnit_Framework_Constraint $constraint
- * @param  string   $attributeName
+ * @param  string $attributeName
  * @return PHPUnit_Framework_Constraint_Attribute
  * @since  Method available since Release 3.1.0
  */
@@ -1839,9 +1839,9 @@ function attribute(PHPUnit_Framework_Constraint $constraint, $attributeName)
  * that is wrapped in a PHPUnit_Framework_Constraint_Attribute matcher
  * object.
  *
- * @param  string  $attributeName
- * @param  mixed   $value
- * @param  float   $delta
+ * @param  string $attributeName
+ * @param  mixed $value
+ * @param  float $delta
  * @param  integer $maxDepth
  * @param  boolean $canonicalize
  * @param  boolean $ignoreCase
@@ -1905,7 +1905,7 @@ function classHasStaticAttribute($attributeName)
  * Returns a PHPUnit_Framework_Constraint_TraversableContains matcher
  * object.
  *
- * @param  mixed   $value
+ * @param  mixed $value
  * @param  boolean $checkForObjectIdentity
  * @param  boolean $checkForNonObjectIdentity
  * @return PHPUnit_Framework_Constraint_TraversableContains
@@ -1953,8 +1953,8 @@ function containsOnlyInstancesOf($classname)
 /**
  * Returns a PHPUnit_Framework_Constraint_IsEqual matcher object.
  *
- * @param  mixed   $value
- * @param  float   $delta
+ * @param  mixed $value
+ * @param  float $delta
  * @param  integer $maxDepth
  * @param  boolean $canonicalize
  * @param  boolean $ignoreCase
@@ -2296,7 +2296,7 @@ function objectHasAttribute($attributeName)
 }
 
 /**
- * @param  mixed $value, ...
+ * @param  mixed $value , ...
  * @return PHPUnit_Framework_MockObject_Stub_ConsecutiveCalls
  * @since  Method available since Release 3.0.0
  */
@@ -2402,7 +2402,7 @@ function returnValueMap(array $valueMap)
 /**
  * Returns a PHPUnit_Framework_Constraint_StringContains matcher object.
  *
- * @param  string  $string
+ * @param  string $string
  * @param  boolean $case
  * @return PHPUnit_Framework_Constraint_StringContains
  * @since  Method available since Release 3.0.0

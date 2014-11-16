@@ -16,7 +16,7 @@
             <div class="row">
                 <div class="large-12 columns">
                     <label>Dosya
-                        <input type="file" id="file" name="file" />
+                        <input type="file" id="file" name="file"/>
                     </label>
                 </div>
             </div>
@@ -29,14 +29,13 @@
     </div>
     <div class="large-8 columns">
         <?php
-        for($i=0;$i<count($files);$i++)
-        {
+        for ($i = 0; $i < count($files); $i++) {
             ?>
             <div class="large-3 columns media">
-                <img src="<?=FILE_PREFIX?>/images/<?=$files[$i]['filename']?>" alt="<?=$files[$i]['id']?>" /><br/>
-                <a href="<?= LINK_PREFIX ?>/Files/Delete/<?=$files[$i]['id']?>">Sil</a>
+                <img src="<?= FILE_PREFIX ?>/images/<?= $files[$i]['filename'] ?>" alt="<?= $files[$i]['id'] ?>"/><br/>
+                <a href="<?= LINK_PREFIX ?>/Files/Delete/<?= $files[$i]['id'] ?>">Sil</a>
             </div>
-            <?php
+        <?php
         }
         ?>
     </div>

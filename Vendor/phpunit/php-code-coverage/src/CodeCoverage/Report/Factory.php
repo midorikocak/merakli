@@ -61,9 +61,9 @@ class PHP_CodeCoverage_Report_Factory
      */
     public function create(PHP_CodeCoverage $coverage)
     {
-        $files      = $coverage->getData();
+        $files = $coverage->getData();
         $commonPath = $this->reducePaths($files);
-        $root       = new PHP_CodeCoverage_Report_Node_Directory(
+        $root = new PHP_CodeCoverage_Report_Node_Directory(
             $commonPath, null
         );
 
@@ -79,9 +79,9 @@ class PHP_CodeCoverage_Report_Factory
 
     /**
      * @param PHP_CodeCoverage_Report_Node_Directory $root
-     * @param array                                  $items
-     * @param array                                  $tests
-     * @param boolean                                $cacheTokens
+     * @param array $items
+     * @param array $tests
+     * @param boolean $cacheTokens
      */
     private function addItems(PHP_CodeCoverage_Report_Node_Directory $root, array $items, array $tests, $cacheTokens)
     {
@@ -147,9 +147,9 @@ class PHP_CodeCoverage_Report_Factory
         $result = array();
 
         foreach ($files as $path => $file) {
-            $path    = explode('/', $path);
+            $path = explode('/', $path);
             $pointer = &$result;
-            $max     = count($path);
+            $max = count($path);
 
             for ($i = 0; $i < $max; $i++) {
                 if ($i == ($max - 1)) {
@@ -204,7 +204,7 @@ class PHP_CodeCoverage_Report_Factory
      * )
      * </code>
      *
-     * @param  array  $files
+     * @param  array $files
      * @return string
      */
     private function reducePaths(&$files)
@@ -214,10 +214,10 @@ class PHP_CodeCoverage_Report_Factory
         }
 
         $commonPath = '';
-        $paths      = array_keys($files);
+        $paths = array_keys($files);
 
         if (count($files) == 1) {
-            $commonPath                 = dirname($paths[0]) . '/';
+            $commonPath = dirname($paths[0]) . '/';
             $files[basename($paths[0])] = $files[$paths[0]];
 
             unset($files[$paths[0]]);
@@ -241,13 +241,14 @@ class PHP_CodeCoverage_Report_Factory
         }
 
         $done = false;
-        $max  = count($paths);
+        $max = count($paths);
 
         while (!$done) {
             for ($i = 0; $i < $max - 1; $i++) {
                 if (!isset($paths[$i][0]) ||
-                    !isset($paths[$i+1][0]) ||
-                    $paths[$i][0] != $paths[$i+1][0]) {
+                    !isset($paths[$i + 1][0]) ||
+                    $paths[$i][0] != $paths[$i + 1][0]
+                ) {
                     $done = true;
                     break;
                 }
@@ -267,7 +268,7 @@ class PHP_CodeCoverage_Report_Factory
         }
 
         $original = array_keys($files);
-        $max      = count($original);
+        $max = count($original);
 
         for ($i = 0; $i < $max; $i++) {
             $files[join('/', $paths[$i])] = $files[$original[$i]];

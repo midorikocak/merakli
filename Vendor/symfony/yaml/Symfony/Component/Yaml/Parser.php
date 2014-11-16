@@ -22,16 +22,16 @@ class Parser
 {
     const FOLDED_SCALAR_PATTERN = '(?P<separator>\||>)(?P<modifiers>\+|\-|\d+|\+\d+|\-\d+|\d+\+|\d+\-)?(?P<comments> +#.*)?';
 
-    private $offset         = 0;
-    private $lines          = array();
-    private $currentLineNb  = -1;
-    private $currentLine    = '';
-    private $refs           = array();
+    private $offset = 0;
+    private $lines = array();
+    private $currentLineNb = -1;
+    private $currentLine = '';
+    private $refs = array();
 
     /**
      * Constructor
      *
-     * @param int     $offset The offset of YAML document (used for line numbers in error messages)
+     * @param int $offset The offset of YAML document (used for line numbers in error messages)
      */
     public function __construct($offset = 0)
     {
@@ -41,9 +41,9 @@ class Parser
     /**
      * Parses a YAML string to a PHP value.
      *
-     * @param string  $value                  A YAML string
-     * @param bool    $exceptionOnInvalidType true if an exception must be thrown on invalid types (a PHP resource or object), false otherwise
-     * @param bool    $objectSupport          true if object support is enabled, false otherwise
+     * @param string $value A YAML string
+     * @param bool $exceptionOnInvalidType true if an exception must be thrown on invalid types (a PHP resource or object), false otherwise
+     * @param bool $objectSupport true if object support is enabled, false otherwise
      *
      * @return mixed  A PHP value
      *
@@ -59,7 +59,7 @@ class Parser
             throw new ParseException('The YAML value does not appear to be valid UTF-8.');
         }
 
-        if (function_exists('mb_internal_encoding') && ((int) ini_get('mbstring.func_overload')) & 2) {
+        if (function_exists('mb_internal_encoding') && ((int)ini_get('mbstring.func_overload')) & 2) {
             $mbEncoding = mb_internal_encoding();
             mb_internal_encoding('UTF-8');
         }
@@ -93,21 +93,21 @@ class Parser
                 if (!isset($values['value']) || '' == trim($values['value'], ' ') || 0 === strpos(ltrim($values['value'], ' '), '#')) {
                     $c = $this->getRealCurrentLineNb() + 1;
                     $parser = new Parser($c);
-                    $parser->refs = & $this->refs;
+                    $parser->refs = &$this->refs;
                     $data[] = $parser->parse($this->getNextEmbedBlock(null, true), $exceptionOnInvalidType, $objectSupport);
                 } else {
                     if (isset($values['leadspaces'])
                         && ' ' == $values['leadspaces']
-                        && preg_match('#^(?P<key>'.Inline::REGEX_QUOTED_STRING.'|[^ \'"\{\[].*?) *\:(\s+(?P<value>.+?))?\s*$#u', $values['value'], $matches)
+                        && preg_match('#^(?P<key>' . Inline::REGEX_QUOTED_STRING . '|[^ \'"\{\[].*?) *\:(\s+(?P<value>.+?))?\s*$#u', $values['value'], $matches)
                     ) {
                         // this is a compact notation element, add to next block and parse
                         $c = $this->getRealCurrentLineNb();
                         $parser = new Parser($c);
-                        $parser->refs = & $this->refs;
+                        $parser->refs = &$this->refs;
 
                         $block = $values['value'];
                         if ($this->isNextLineIndented()) {
-                            $block .= "\n".$this->getNextEmbedBlock($this->getCurrentLineIndentation() + 2);
+                            $block .= "\n" . $this->getNextEmbedBlock($this->getCurrentLineIndentation() + 2);
                         }
 
                         $data[] = $parser->parse($block, $exceptionOnInvalidType, $objectSupport);
@@ -115,7 +115,7 @@ class Parser
                         $data[] = $this->parseValue($values['value'], $exceptionOnInvalidType, $objectSupport);
                     }
                 }
-            } elseif (preg_match('#^(?P<key>'.Inline::REGEX_QUOTED_STRING.'|[^ \'"\[\{].*?) *\:(\s+(?P<value>.+?))?\s*$#u', $this->currentLine, $values) && (false === strpos($values['key'],' #') || in_array($values['key'][0], array('"', "'")))) {
+            } elseif (preg_match('#^(?P<key>' . Inline::REGEX_QUOTED_STRING . '|[^ \'"\[\{].*?) *\:(\s+(?P<value>.+?))?\s*$#u', $this->currentLine, $values) && (false === strpos($values['key'], ' #') || in_array($values['key'][0], array('"', "'")))) {
                 if ($context && 'sequence' == $context) {
                     throw new ParseException('You cannot define a mapping item when in a sequence');
                 }
@@ -160,7 +160,7 @@ class Parser
                         }
                         $c = $this->getRealCurrentLineNb() + 1;
                         $parser = new Parser($c);
-                        $parser->refs = & $this->refs;
+                        $parser->refs = &$this->refs;
                         $parsed = $parser->parse($value, $exceptionOnInvalidType, $objectSupport);
 
                         if (!is_array($parsed)) {
@@ -211,7 +211,7 @@ class Parser
                     } else {
                         $c = $this->getRealCurrentLineNb() + 1;
                         $parser = new Parser($c);
-                        $parser->refs = & $this->refs;
+                        $parser->refs = &$this->refs;
                         $value = $parser->parse($this->getNextEmbedBlock(), $exceptionOnInvalidType, $objectSupport);
                         // Spec: Keys MUST be unique; first one wins.
                         // But overwriting is allowed when a merge node is used in current block.
@@ -316,8 +316,8 @@ class Parser
     /**
      * Returns the next embed block of YAML.
      *
-     * @param int  $indentation The indent level at which the block is to be read, or null for default
-     * @param bool $inSequence  True if the enclosing data structure is a sequence
+     * @param int $indentation The indent level at which the block is to be read, or null for default
+     * @param bool $inSequence True if the enclosing data structure is a sequence
      *
      * @return string A YAML string
      *
@@ -356,7 +356,7 @@ class Parser
         $isItUnindentedCollection = $this->isStringUnIndentedCollectionItem($this->currentLine);
 
         // Comments must not be removed inside a string block (ie. after a line ending with "|")
-        $removeCommentsPattern = '~'.self::FOLDED_SCALAR_PATTERN.'$~';
+        $removeCommentsPattern = '~' . self::FOLDED_SCALAR_PATTERN . '$~';
         $removeComments = !preg_match($removeCommentsPattern, $this->currentLine);
 
         while ($this->moveToNextLine()) {
@@ -421,9 +421,9 @@ class Parser
     /**
      * Parses a YAML value.
      *
-     * @param string  $value                  A YAML value
-     * @param bool    $exceptionOnInvalidType True if an exception must be thrown on invalid types false otherwise
-     * @param bool    $objectSupport          True if object support is enabled, false otherwise
+     * @param string $value A YAML value
+     * @param bool $exceptionOnInvalidType True if an exception must be thrown on invalid types false otherwise
+     * @param bool $objectSupport True if object support is enabled, false otherwise
      *
      * @return mixed  A PHP value
      *
@@ -445,7 +445,7 @@ class Parser
             return $this->refs[$value];
         }
 
-        if (preg_match('/^'.self::FOLDED_SCALAR_PATTERN.'$/', $value, $matches)) {
+        if (preg_match('/^' . self::FOLDED_SCALAR_PATTERN . '$/', $value, $matches)) {
             $modifiers = isset($matches['modifiers']) ? $matches['modifiers'] : '';
 
             return $this->parseFoldedScalar($matches['separator'], preg_replace('#\d+#', '', $modifiers), intval(abs($modifiers)));
@@ -464,9 +464,9 @@ class Parser
     /**
      * Parses a folded scalar.
      *
-     * @param string  $separator   The separator that was used to begin this folded scalar (| or >)
-     * @param string  $indicator   The indicator that was used to begin this folded scalar (+ or -)
-     * @param int     $indentation The indentation that was used to begin this folded scalar
+     * @param string $separator The separator that was used to begin this folded scalar (| or >)
+     * @param string $indicator The indicator that was used to begin this folded scalar (+ or -)
+     * @param int $indentation The indentation that was used to begin this folded scalar
      *
      * @return string  The text value
      */

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @requires extension I_DO_NOT_EXIST
  */

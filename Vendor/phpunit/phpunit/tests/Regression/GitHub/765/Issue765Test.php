@@ -1,4 +1,5 @@
 <?php
+
 class Issue765Test extends PHPUnit_Framework_TestCase
 {
     public function testDependee()
@@ -7,7 +8,7 @@ class Issue765Test extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @depends testDependee
+     * @depends      testDependee
      * @dataProvider dependentProvider
      */
     public function testDependent($a)

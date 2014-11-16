@@ -1,4 +1,5 @@
 <?php
+
 class TestIterator2 implements Iterator
 {
 

@@ -36,14 +36,14 @@ class UnexpectedValueExceptionTest extends PHPUnit_Framework_TestCase
     public function testFromSerializationTriggeredException()
     {
         $reflectionClass = new ReflectionClass($this);
-        $previous        = new Exception();
-        $exception       = UnexpectedValueException::fromSerializationTriggeredException($reflectionClass, $previous);
+        $previous = new Exception();
+        $exception = UnexpectedValueException::fromSerializationTriggeredException($reflectionClass, $previous);
 
         $this->assertInstanceOf('Doctrine\\Instantiator\\Exception\\UnexpectedValueException', $exception);
         $this->assertSame($previous, $exception->getPrevious());
         $this->assertSame(
             'An exception was raised while trying to instantiate an instance of "'
-            . __CLASS__  . '" via un-serialization',
+            . __CLASS__ . '" via un-serialization',
             $exception->getMessage()
         );
     }
@@ -51,7 +51,7 @@ class UnexpectedValueExceptionTest extends PHPUnit_Framework_TestCase
     public function testFromUncleanUnSerialization()
     {
         $reflection = new ReflectionClass('DoctrineTest\\InstantiatorTestAsset\\AbstractClassAsset');
-        $exception  = UnexpectedValueException::fromUncleanUnSerialization($reflection, 'foo', 123, 'bar', 456);
+        $exception = UnexpectedValueException::fromUncleanUnSerialization($reflection, 'foo', 123, 'bar', 456);
 
         $this->assertInstanceOf('Doctrine\\Instantiator\\Exception\\UnexpectedValueException', $exception);
         $this->assertSame(

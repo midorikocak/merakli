@@ -1,4 +1,5 @@
 <?php
+
 class Bar
 {
     public function doSomethingElse()

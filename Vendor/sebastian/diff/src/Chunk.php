@@ -79,19 +79,19 @@ class Chunk
     private $lines;
 
     /**
-     * @param int   $start
-     * @param int   $startRange
-     * @param int   $end
-     * @param int   $endRange
+     * @param int $start
+     * @param int $startRange
+     * @param int $end
+     * @param int $endRange
      * @param array $lines
      */
     public function __construct($start = 0, $startRange = 1, $end = 0, $endRange = 1, array $lines = array())
     {
-        $this->start      = (int) $start;
-        $this->startRange = (int) $startRange;
-        $this->end        = (int) $end;
-        $this->endRange   = (int) $endRange;
-        $this->lines      = $lines;
+        $this->start = (int)$start;
+        $this->startRange = (int)$startRange;
+        $this->end = (int)$end;
+        $this->endRange = (int)$endRange;
+        $this->lines = $lines;
     }
 
     /**

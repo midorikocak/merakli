@@ -58,8 +58,8 @@ class PHP_CodeCoverage_Report_Crap4j
 
     /**
      * @param  PHP_CodeCoverage $coverage
-     * @param  string           $target
-     * @param  string           $name
+     * @param  string $target
+     * @param  string $name
      * @return string
      */
     public function process(PHP_CodeCoverage $coverage, $target = null, $name = null)
@@ -72,12 +72,12 @@ class PHP_CodeCoverage_Report_Crap4j
 
         $project = $document->createElement('project', is_string($name) ? $name : '');
         $root->appendChild($project);
-        $root->appendChild($document->createElement('timestamp', date('Y-m-d H:i:s', (int) $_SERVER['REQUEST_TIME'])));
+        $root->appendChild($document->createElement('timestamp', date('Y-m-d H:i:s', (int)$_SERVER['REQUEST_TIME'])));
 
         $stats = $document->createElement('stats');
         $methodsNode = $document->createElement('methods');
 
-        $report   = $coverage->getReport();
+        $report = $coverage->getReport();
         unset($coverage);
 
         $fullMethodCount = 0;

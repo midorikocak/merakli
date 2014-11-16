@@ -1,4 +1,5 @@
 <?php
+
 class Issue1337Test extends PHPUnit_Framework_TestCase
 {
     /**
@@ -12,8 +13,8 @@ class Issue1337Test extends PHPUnit_Framework_TestCase
     public function dataProvider()
     {
         return array(
-          'c:\\'=>array(true),
-          0.9=>array(true)
+            'c:\\' => array(true),
+            0.9 => array(true)
         );
     }
 }

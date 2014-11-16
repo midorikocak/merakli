@@ -1,4 +1,5 @@
 <?php
+
 class TestIterator implements Iterator
 {
     protected $array;

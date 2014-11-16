@@ -66,38 +66,38 @@ class TypeComparatorTest extends \PHPUnit_Framework_TestCase
     public function acceptsSucceedsProvider()
     {
         return array(
-          array(true, 1),
-          array(false, array(1)),
-          array(null, new stdClass),
-          array(1.0, 5),
-          array("", "")
+            array(true, 1),
+            array(false, array(1)),
+            array(null, new stdClass),
+            array(1.0, 5),
+            array("", "")
         );
     }
 
     public function assertEqualsSucceedsProvider()
     {
         return array(
-          array(true, true),
-          array(true, false),
-          array(false, false),
-          array(null, null),
-          array(new stdClass, new stdClass),
-          array(0, 0),
-          array(1.0, 2.0),
-          array("hello", "world"),
-          array("", ""),
-          array(array(), array(1,2,3))
+            array(true, true),
+            array(true, false),
+            array(false, false),
+            array(null, null),
+            array(new stdClass, new stdClass),
+            array(0, 0),
+            array(1.0, 2.0),
+            array("hello", "world"),
+            array("", ""),
+            array(array(), array(1, 2, 3))
         );
     }
 
     public function assertEqualsFailsProvider()
     {
         return array(
-          array(true, null),
-          array(null, false),
-          array(1.0, 0),
-          array(new stdClass, array()),
-          array("1", 1)
+            array(true, null),
+            array(null, false),
+            array(1.0, 0),
+            array(new stdClass, array()),
+            array("1", 1)
         );
     }
 
@@ -108,7 +108,7 @@ class TypeComparatorTest extends \PHPUnit_Framework_TestCase
     public function testAcceptsSucceeds($expected, $actual)
     {
         $this->assertTrue(
-          $this->comparator->accepts($expected, $actual)
+            $this->comparator->accepts($expected, $actual)
         );
     }
 
@@ -122,9 +122,7 @@ class TypeComparatorTest extends \PHPUnit_Framework_TestCase
 
         try {
             $this->comparator->assertEquals($expected, $actual);
-        }
-
-        catch (ComparisonFailure $exception) {
+        } catch (ComparisonFailure $exception) {
         }
 
         $this->assertNull($exception, 'Unexpected ComparisonFailure');

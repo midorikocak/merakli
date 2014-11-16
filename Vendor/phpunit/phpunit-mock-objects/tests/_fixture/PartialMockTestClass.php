@@ -1,4 +1,5 @@
 <?php
+
 class PartialMockTestClass
 {
     public $constructorCalled = FALSE;

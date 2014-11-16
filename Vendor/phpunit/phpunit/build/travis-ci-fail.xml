@@ -4,13 +4,13 @@
          bootstrap="../tests/bootstrap-travis.php"
          backupGlobals="false"
          verbose="true">
-  <testsuites>
-    <testsuite name="small">
-      <directory suffix=".phpt">../tests/Fail</directory>
-    </testsuite>
-  </testsuites>
+    <testsuites>
+        <testsuite name="small">
+            <directory suffix=".phpt">../tests/Fail</directory>
+        </testsuite>
+    </testsuites>
 
-  <php>
-    <const name="PHPUNIT_TESTSUITE" value="true"/>
-  </php>
+    <php>
+        <const name="PHPUNIT_TESTSUITE" value="true"/>
+    </php>
 </phpunit>

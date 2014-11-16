@@ -1,8 +1,8 @@
 @CHARSET "UTF-8";
 
-#box{
-	padding:50px;
-	position: absolute;
+#box {
+    padding: 50px;
+    position: absolute;
     left: 50%;
     top: 50%;
 
@@ -15,16 +15,16 @@
     -webkit-transform: translate(-50%, -50%);
     -o-transform: translate(-50%, -50%);
     -ms-transform: translate(-50%, -50%);
-	text-align: center;
-	background-color: white;
+    text-align: center;
+    background-color: white;
 }
 
-body{
-	background-color: #e8f0f5;
-	font-family: 'PT Sans', sans-serif;
-	font-weight:300;
+body {
+    background-color: #e8f0f5;
+    font-family: 'PT Sans', sans-serif;
+    font-weight: 300;
 }
 
-h1, h2, h3, h4, h5, h6{
-	font-family: 'PT Sans', sans-serif;
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'PT Sans', sans-serif;
 }

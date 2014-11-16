@@ -56,7 +56,6 @@
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.0.0
  */
-
 class PHPUnit_Framework_Constraint_Not extends PHPUnit_Framework_Constraint
 {
     /**
@@ -86,28 +85,28 @@ class PHPUnit_Framework_Constraint_Not extends PHPUnit_Framework_Constraint
     {
         return str_replace(
             array(
-            'contains ',
-            'exists',
-            'has ',
-            'is ',
-            'are ',
-            'matches ',
-            'starts with ',
-            'ends with ',
-            'reference ',
-            'not not '
+                'contains ',
+                'exists',
+                'has ',
+                'is ',
+                'are ',
+                'matches ',
+                'starts with ',
+                'ends with ',
+                'reference ',
+                'not not '
             ),
             array(
-            'does not contain ',
-            'does not exist',
-            'does not have ',
-            'is not ',
-            'are not ',
-            'does not match ',
-            'starts not with ',
-            'ends not with ',
-            'don\'t reference ',
-            'not '
+                'does not contain ',
+                'does not exist',
+                'does not have ',
+                'is not ',
+                'are not ',
+                'does not match ',
+                'starts not with ',
+                'ends not with ',
+                'don\'t reference ',
+                'not '
             ),
             $string
         );
@@ -123,9 +122,9 @@ class PHPUnit_Framework_Constraint_Not extends PHPUnit_Framework_Constraint
      * a boolean value instead: true in case of success, false in case of a
      * failure.
      *
-     * @param  mixed                                        $other        Value or object to evaluate.
-     * @param  string                                       $description  Additional information about the test
-     * @param  bool                                         $returnResult Whether to return a result or throw an exception
+     * @param  mixed $other Value or object to evaluate.
+     * @param  string $description Additional information about the test
+     * @param  bool $returnResult Whether to return a result or throw an exception
      * @return mixed
      * @throws PHPUnit_Framework_ExpectationFailedException
      */
@@ -148,7 +147,7 @@ class PHPUnit_Framework_Constraint_Not extends PHPUnit_Framework_Constraint
      * The beginning of failure messages is "Failed asserting that" in most
      * cases. This method should return the second part of that sentence.
      *
-     * @param  mixed  $other Evaluated value or object.
+     * @param  mixed $other Evaluated value or object.
      * @return string
      */
     protected function failureDescription($other)
@@ -158,14 +157,14 @@ class PHPUnit_Framework_Constraint_Not extends PHPUnit_Framework_Constraint
             case 'PHPUnit_Framework_Constraint_Not':
             case 'PHPUnit_Framework_Constraint_Or': {
                 return 'not( ' . $this->constraint->failureDescription($other) . ' )';
-                }
-            break;
+            }
+                break;
 
             default: {
-                return self::negate(
-                    $this->constraint->failureDescription($other)
-                );
-                }
+            return self::negate(
+                $this->constraint->failureDescription($other)
+            );
+            }
         }
     }
 
@@ -181,14 +180,14 @@ class PHPUnit_Framework_Constraint_Not extends PHPUnit_Framework_Constraint
             case 'PHPUnit_Framework_Constraint_Not':
             case 'PHPUnit_Framework_Constraint_Or': {
                 return 'not( ' . $this->constraint->toString() . ' )';
-                }
-            break;
+            }
+                break;
 
             default: {
-                return self::negate(
-                    $this->constraint->toString()
-                );
-                }
+            return self::negate(
+                $this->constraint->toString()
+            );
+            }
         }
     }
 

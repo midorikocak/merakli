@@ -3,19 +3,19 @@
 <phpunit backupGlobals="false"
          backupStaticAttributes="false"
          colors="true">
-  <testsuites>
-    <testsuite name="PHP_CodeCoverage">
-      <directory suffix="Test.php">../tests/PHP</directory>
-    </testsuite>
-  </testsuites>
+    <testsuites>
+        <testsuite name="PHP_CodeCoverage">
+            <directory suffix="Test.php">../tests/PHP</directory>
+        </testsuite>
+    </testsuites>
 
-  <logging>
-    <log type="coverage-text" target="php://stdout"/>
-  </logging>
+    <logging>
+        <log type="coverage-text" target="php://stdout"/>
+    </logging>
 
-  <filter>
-    <whitelist addUncoveredFilesFromWhitelist="true">
-      <directory suffix=".php">../src</directory>
-    </whitelist>
-  </filter>
+    <filter>
+        <whitelist addUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">../src</directory>
+        </whitelist>
+    </filter>
 </phpunit>

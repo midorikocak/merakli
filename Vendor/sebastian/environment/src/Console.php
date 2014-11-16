@@ -83,11 +83,11 @@ class Console
         }
 
         if (preg_match('#\d+ (\d+)#', shell_exec('stty size'), $match) === 1) {
-            return (int) $match[1];
+            return (int)$match[1];
         }
 
         if (preg_match('#columns = (\d+);#', shell_exec('stty'), $match) === 1) {
-            return (int) $match[1];
+            return (int)$match[1];
         }
 
         return 80;

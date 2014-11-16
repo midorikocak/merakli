@@ -1,4 +1,5 @@
 <?php
+
 class Framework_MockObject_Matcher_ConsecutiveParametersTest extends PHPUnit_Framework_TestCase
 {
     public function testIntegration()
@@ -22,7 +23,7 @@ class Framework_MockObject_Matcher_ConsecutiveParametersTest extends PHPUnit_Fra
             ->expects($this->any())
             ->method('foo')
             ->withConsecutive(
-              array('bar')
+                array('bar')
             );
         $mock->foo('bar');
         $mock->foo(21, 42);

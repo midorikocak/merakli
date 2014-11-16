@@ -9,8 +9,6 @@
 
 namespace Midori\Cms;
 
-use \PDO;
-
 /**
  * Class Users
  * @package Midori\Cms
@@ -65,15 +63,15 @@ class Users extends Assets
         // 3 değişkenin de boş olmaması gerekiyor
         if ($username != null && $email != null && $password != null) {
             // Önce veritabanı sorgumuzu hazırlayalım.
-            
+
 
             // insert
             $insert = $this->db->insert('users')
-                        ->set(array(
-                            "username" => $username,
-                            "password" => md5($password),
-                            "email" => $email,
-                        ));
+                ->set(array(
+                    "username" => $username,
+                    "password" => md5($password),
+                    "email" => $email,
+                ));
 
             if ($insert) {
                 // Veritabanı işlemi başarılı ise sınıfın objesine ait değişkenleri değiştirelim
@@ -109,11 +107,11 @@ class Users extends Assets
             return array("id" => $this->id, "username" => $this->username, "email" => $this->email, "password" => $this->password,);
         } else {
             // Buradan anlıyoruz ki veri henüz çekilmemiş. Veriyi çekmeye başlayalım
-            
+
             $query = $this->db->select('users')
-                        ->where('id', $id)
-                        ->run();
-            
+                ->where('id', $id)
+                ->run();
+
             if ($query) {
                 $user = $query[0];
 
@@ -141,9 +139,9 @@ class Users extends Assets
         if (!$this->checkLogin()) {
             return false;
         }
-        
+
         $query = $this->db->select('users')
-                    ->run();
+            ->run();
 
         if ($query) {
             // Buradaki fetchAll metoduyla tüm değeleri diziye çektik.
@@ -190,14 +188,14 @@ class Users extends Assets
         }
 
         if ($id != null && $username != null && $password != null && $email != null) {
-            
+
             $update = $this->db->update('user')
-                        ->where('id', $id)
-                        ->set(array(
-                            "username" => $username,
-                            "password" => md5($password),
-                            "email" => $email
-                        ));
+                ->where('id', $id)
+                ->set(array(
+                    "username" => $username,
+                    "password" => md5($password),
+                    "email" => $email
+                ));
 
             if ($update) {
                 return true;
@@ -222,11 +220,11 @@ class Users extends Assets
     {
         if (!$this->checkLogin()) {
             // Buradan anlıyoruz ki veri henüz oturum açılmamış.
-            
+
             $query = $this->db->select('users')
-                        ->where('username', $username)
-                        ->where('password', md5($password))
-                        ->run();
+                ->where('username', $username)
+                ->where('password', md5($password))
+                ->run();
 
             if ($query) {
                 $user = $query[0];
@@ -247,7 +245,7 @@ class Users extends Assets
                 return array('template' => 'admin', 'render' => false, 'message' => 'Oturum açıldı', 'user' => $user);
             }
         } else {
-            header('Location:'.LINK_PREFIX.'/posts/show');
+            header('Location:' . LINK_PREFIX . '/posts/show');
             return array('template' => 'admin', 'render' => false, 'message' => 'Zaten oturum açıldı!');
         }
         return false;
@@ -261,7 +259,7 @@ class Users extends Assets
     public function logout()
     {
         session_destroy();
-        header('Location:'.LINK_PREFIX.'/');
+        header('Location:' . LINK_PREFIX . '/');
         return array('template' => 'public', 'render' => false, 'message' => 'Sistemden çıktınız');
     }
 
@@ -277,11 +275,11 @@ class Users extends Assets
         if (!$this->checkLogin()) {
             return false;
         }
-        
+
         $query = $this->db->delete('users')
-                    ->where('id', $id)
-                    ->done();
-        
+            ->where('id', $id)
+            ->done();
+
         return array('template' => 'admin', 'render' => false);
     }
 
