@@ -1,61 +1,20 @@
 <?php
 /**
- * Tüm sistemdeki girdileri yönetecek olan girdi sınıfıdır.
+ * Class that manages posts in the content management system
  *
- * Sistemdeki girdilerin düzenlenmesini, silinmesini, görüntülenmesini,
- * listelenmesini ve eklenmesini kontrol eden sınıftır.
+ * Basic CRUD operations
  *
  * @author     Midori Kocak <mtkocak@mtkocak.net>
  */
-
 namespace Midori\Cms;
-
-use \PDO;
 
 class Posts extends Assets
 {
 
-
     /**
-     * Girdi başlığı
+     * Helper method that returns current date
      *
-     * @var string
-     */
-    public $title;
-
-    /**
-     * Girdinin içeriği
-     *
-     * @var string
-     */
-    public $content;
-
-    /**
-     * Girdinin ait olduğu benzersiz kategori kimliği
-     *
-     * @var int
-     */
-    public $category_id;
-
-
-    /**
-     * Girdinin hangi tarihte oluşturulduğunu gösteren değişken
-     *
-     * @var string
-     */
-    private $created;
-
-    /**
-     * Girdinin hangi tarihte güncellendiğini gösteren değişken
-     *
-     * @var string
-     */
-    private $updated;
-
-    /**
-     * Şu anki tarihi döndüren yardımcı metod
-     *
-     * @return string tarihi mysql formatında döndürür
+     * @return string in mysql format
      */
     public function getDate()
     {
@@ -66,12 +25,12 @@ class Posts extends Assets
     }
 
     /**
-     * Girdi ekleyen metod, verilerin kaydedilmesini sağlar.
+     * Adds a new post to database
      *
-     * @param string $title Girdi başlığı
-     * @param string $content Girdi içeriği
-     * @param int $category_id Girdi kategorisinin benzersiz kimliği
-     * @return bool eklendiyse doğru, eklenemediyse yanlış değer döndürsün
+     * @param string $title
+     * @param string $content
+     * @param int $category_id
+     * @return mixed
      */
     public function add($title = null, $content = null, $category_id = null)
     {
@@ -79,128 +38,129 @@ class Posts extends Assets
             return false;
         }
         if ($title != null) {
-            // Tarih içeren alanları elle girmiyoruz. Sistemden doğrudan isteyen fonksiyonumuz var.
             $date = $this->getDate();
 
-            // insert
-            $insert = $this->db->insert('posts')
-                        ->set(array(
-                            "title" => $title,
-                            "content" => $content,
-                            "category_id" => $category_id,
-                            "created" => $date,
-                            "updated" => $date
-                        ));
+            $insert = $this->db->insert('posts')->set(array(
+                "title" => $title,
+                "content" => $content,
+                "category_id" => $category_id,
+                "created" => $date,
+                "updated" => $date
+            ));
 
             if ($insert) {
-                // Veritabanı işlemi başarılı ise sınıfın objesine ait değişkenleri değiştirelim
-                $this->id = $this->db->lastInsertId();
-                $this->title = $title;
-                $this->content = $content;
-                $this->created = $date;
-                $this->updated = $date;
-                $this->category_id = $category_id;
-
                 return true;
             } else {
                 return false;
             }
-
-
         } else {
-            $files = $this->db->select('files')
-                ->run();
-            if(empty($files)){
+            $files = $this->db->select('files')->run();
+            if (empty($files)) {
                 $files = array();
             }
-            return array('render' => true, 'template' => 'admin', 'files'=>$files ,'categories' => $this->related['categories']);
+            return array(
+                'render' => true,
+                'template' => 'admin',
+                'files' => $files,
+                'categories' => $this->related['categories']
+            );
         }
     }
 
     /**
-     * Tek bir girdinin gösterilmesini sağlayan method
+     * Show a post in public and admin context
      *
-     * @param int $id Girdinin benzersiz index'i
-     * @return array gösterilebildyise dizi türünde verileri döndürsün, gösterilemediyse false, yanlış değeri döndürsün
+     * @param int $id
+     * @return array
      */
     public function view($id)
     {
+        $query = $this->db->select('posts')
+            ->where('id', $id)
+            ->run();
 
-        // Eğer daha önceden sorgu işlemi yapıldıysa, sınıf objesine yazılmıştır.
-        if ($id == $this->id) {
-            return array("id" => $this->id, "title" => $this->title, "content" => $this->content, "category_id" => $this->category_id, "created" => $this->created, "updated" => $this->updated);
-        } else {
-            // Buradan anlıyoruz ki veri henüz çekilmemiş. Veriyi çekmeye başlayalım
-            $query = $this->db->select('posts')
-                ->where('id',$id)
-                    ->run();
-            if ($query) {
-                $post = $query[0];
+        if ($query) {
+            $post = $query[0];
 
-                $this->id = $post['id'];
-                $this->title = $post['title'];
-                $this->content = $post['content'];
-                $this->created = $post['created'];
-                $this->updated = $post['updated'];
-                $this->category_id = $post['updated'];
+            $result = array(
+                'template' => 'public',
+                'post' => $post,
+                'render' => true
+            );
 
-                $result = array('template' => 'public', 'post' => $post, 'render' => true);
-
-                return $result;
-            }
+            return $result;
         }
+        $result = array(
+            'template' => 'public',
+            'post' => array(),
+            'render' => true
+        );
 
-        // Eğer iki işlem de başarısız olduysa, false, yanlış değer döndürelim.
-        return false;
+        return $result;
     }
 
     /**
-     * Tüm girdilerin listelenmesini sağlayan metod.
+     * List all posts in public context
      *
-     * @return bool listelenebildiyse doğru, listelenemediyse yanlış değer döndürsün
+     * @return array
      */
     public function index()
     {
-        $query = $this->db->select('posts')
-                ->run();
+        $query = $this->db->select('posts')->run();
 
         if ($query) {
-            // Buradaki fetchAll metoduyla tüm değeleri diziye çektik.
-            $result = array('render' => true, 'template' => 'public', 'posts' => $query);
+            $result = array(
+                'render' => true,
+                'template' => 'public',
+                'posts' => $query
+            );
             return $result;
         } else {
-           $result = array('render' => true, 'template' => 'public', 'posts' => array());
+            $result = array(
+                'render' => true,
+                'template' => 'public',
+                'posts' => array()
+            );
+            return $result;
         }
     }
 
     /**
-     * Tüm girdilerin listelenmesini sağlayan metod.
+     * List all posts in admin context.
+     * If not logged in, returns false;
      *
-     * @return bool listelenebildiyse doğru, listelenemediyse yanlış değer döndürsün
+     * @return mixed
      */
     public function show()
     {
         if (!$this->checkLogin()) {
             return false;
         }
-        $query = $this->db->select('posts')
-                ->run();
+        $query = $this->db->select('posts')->run();
         if ($query) {
-            // Buradaki fetchAll metoduyla tüm değeleri diziye çektik.
-            $result = array('render' => true, 'template' => 'admin', 'posts' => $query);
+            $result = array(
+                'render' => true,
+                'template' => 'admin',
+                'posts' => $query
+            );
             return $result;
         } else {
-            return array('render' => true, 'template' => 'admin', 'posts' => array());
+            return array(
+                'render' => true,
+                'template' => 'admin',
+                'posts' => array()
+            );
         }
     }
 
-
     /**
-     * Girdi düzenleyen metod. Verilen Id bilginse göre, alınan bilgi ile sistemdeki bilgiyi değiştiren
-     * güncelleyen metod.
+     * Edit the post by it's unique id.
      *
-     * @param int $id Girdinin benzersiz index'i
-     * @return bool düzenlendiyse doğru, eklenemediyse yanlış değer döndürsün
+     * @param null $id
+     * @param null $title
+     * @param null $content
+     * @param null $category_id
+     * @return array|bool
      */
     public function edit($id = null, $title = null, $content = null, $category_id = null)
     {
@@ -209,37 +169,39 @@ class Posts extends Assets
         }
         if ($title != null) {
 
-            // Tarih içeren alanları elle girmiyoruz. Sistemden doğrudan isteyen fonksiyonumuz var.
             $date = $this->getDate();
-            
+
             $update = $this->db->update('posts')
-                        ->where('id', $id)
-                        ->set(array(
-                            "title" => $title,
-                            "content" => $content,
-                            "category_id" => $category_id,
-                            "updated" => $date,
-                            "id" => $id
-                        ));
+                ->where('id', $id)
+                ->set(array(
+                    "title" => $title,
+                    "content" => $content,
+                    "category_id" => $category_id,
+                    "updated" => $date,
+                    "id" => $id
+                ));
 
             if ($update) {
                 return true;
             } else {
                 return false;
             }
-
         } else {
             $oldData = $this->view($id);
-            return array('template' => 'admin', 'render' => true, 'categories' => $this->related['categories'], 'post' => $oldData['post']);
+            return array(
+                'template' => 'admin',
+                'render' => true,
+                'categories' => $this->related['categories'],
+                'post' => $oldData['post']
+            );
         }
     }
 
     /**
-     * Girdi silen metod, verilerin silinmesini sağlar.
-     * Geri dönüşü yoktur.
+     * Delete method by id
      *
-     * @param int $id Girdinin benzersiz index'i
-     * @return bool silindiyse doğru, eklenemediyse yanlış değer döndürsün
+     * @param int $id
+     * @return bool
      */
     public function delete($id)
     {
@@ -247,11 +209,13 @@ class Posts extends Assets
             return false;
         }
         $query = $this->db->delete('posts')
-                    ->where('id', $id)
-                    ->done();
-        return array('template' => 'admin', 'render' => false);
+            ->where('id', $id)
+            ->done();
+        return array(
+            'template' => 'admin',
+            'render' => false
+        );
     }
-
 }
 
 ?>
