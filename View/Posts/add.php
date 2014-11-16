@@ -49,6 +49,7 @@
 </div>
 <div class="row">
 	<h2>Media Gallery</h2>
+	<p>Click on a file to insert text in textarea.</p>
 </div>
 <div class="row">
 	<div class="large-4 columns">
