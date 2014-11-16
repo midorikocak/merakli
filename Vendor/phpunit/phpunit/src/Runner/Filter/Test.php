@@ -70,7 +70,7 @@ class PHPUnit_Runner_Filter_Test extends RecursiveFilterIterator
 
     /**
      * @param RecursiveIterator $iterator
-     * @param string $filter
+     * @param string            $filter
      */
     public function __construct(RecursiveIterator $iterator, $filter)
     {

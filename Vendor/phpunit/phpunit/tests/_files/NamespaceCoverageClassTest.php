@@ -1,5 +1,4 @@
 <?php
-
 class NamespaceCoverageClassTest extends PHPUnit_Framework_TestCase
 {
     /**

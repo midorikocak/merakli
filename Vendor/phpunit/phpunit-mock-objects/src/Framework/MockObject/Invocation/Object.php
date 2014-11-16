@@ -63,7 +63,7 @@ class PHPUnit_Framework_MockObject_Invocation_Object extends PHPUnit_Framework_M
     /**
      * @param string $className
      * @param string $methodname
-     * @param array $parameters
+     * @param array  $parameters
      * @param object $object
      * @param object $cloneObjects
      */

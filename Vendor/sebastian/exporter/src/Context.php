@@ -55,8 +55,7 @@ namespace SebastianBergmann\Exporter;
  * @license    http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
  * @link       https://github.com/sebastianbergmann/exporter
  */
-class Context
-{
+class Context {
     /**
      * Previously seen arrays.
      *
@@ -89,12 +88,14 @@ class Context
     {
         if (is_array($value)) {
             return $this->addArray($value);
-        } else if (is_object($value)) {
+        }
+
+        else if (is_object($value)) {
             return $this->addObject($value);
         }
 
         throw new Exception(
-            'Only arrays and objects are supported'
+          'Only arrays and objects are supported'
         );
     }
 
@@ -111,12 +112,14 @@ class Context
     {
         if (is_array($value)) {
             return $this->containsArray($value);
-        } else if (is_object($value)) {
+        }
+
+        else if (is_object($value)) {
             return $this->containsObject($value);
         }
 
         throw new Exception(
-            'Only arrays and objects are supported'
+          'Only arrays and objects are supported'
         );
     }
 
@@ -162,7 +165,7 @@ class Context
     protected function containsArray(array &$value)
     {
         $keys = array_keys($this->arrays, $value, TRUE);
-        $gen = '_Exporter_Key_' . hash('sha512', microtime(TRUE));
+        $gen = '_Exporter_Key_'.hash('sha512', microtime(TRUE));
 
         foreach ($keys as $key) {
             $this->arrays[$key][$gen] = $gen;

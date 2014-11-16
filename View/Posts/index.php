@@ -10,17 +10,15 @@
 * @author Midori Kocak 2014
 *
 */
-if (isset($posts) && !empty($posts)):
-    foreach ($posts as $post):
+if(isset($posts) && !empty($posts)):
+    foreach($posts as $post):
         ?>
         <article>
             <h2><?php echo $post['title']; ?></h2>
-
-            <p><?= substr(strip_tags($post['content']), 0, 40) ?>... <a
-                    href="<?= LINK_PREFIX ?>/Posts/View/<?= $post['id'] ?>">Devamını Oku</a></p>
-            <small><?= $post['created'] ?></small>
+            <p><?=substr(strip_tags($post['content']),0,40)?>... <a href="<?= LINK_PREFIX ?>/Posts/View/<?=$post['id']?>">Devamını Oku</a></p>
+            <small><?=$post['created']?></small>
         </article>
-    <?php
+        <?php
     endforeach;
 endif;
 ?>

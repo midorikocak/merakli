@@ -1,5 +1,4 @@
 <?php
-
 class DoubleTestCase implements PHPUnit_Framework_Test
 {
     protected $testCase;

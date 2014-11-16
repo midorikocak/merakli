@@ -73,9 +73,9 @@ class ObjectComparator extends ArrayComparator
      * @param  mixed $actual The second value to compare
      * @param  float $delta The allowed numerical distance between two values to
      *                      consider them equal
-     * @param  bool $canonicalize If set to TRUE, arrays are sorted before
+     * @param  bool  $canonicalize If set to TRUE, arrays are sorted before
      *                             comparison
-     * @param  bool $ignoreCase If set to TRUE, upper- and lowercasing is
+     * @param  bool  $ignoreCase If set to TRUE, upper- and lowercasing is
      *                           ignored when comparing string values
      * @param  array $processed
      * @throws ComparisonFailure Thrown when the comparison
@@ -101,8 +101,7 @@ class ObjectComparator extends ArrayComparator
 
         // don't compare twice to allow for cyclic dependencies
         if (in_array(array($actual, $expected), $processed, true) ||
-            in_array(array($expected, $actual), $processed, true)
-        ) {
+            in_array(array($expected, $actual), $processed, true)) {
             return;
         }
 

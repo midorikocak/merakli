@@ -60,7 +60,7 @@ class PHPUnit_Util_Filter
      * Filters stack frames from PHPUnit classes.
      *
      * @param  Exception $e
-     * @param  boolean $asString
+     * @param  boolean   $asString
      * @return string
      */
     public static function getFilteredStacktrace(Exception $e, $asString = true)
@@ -80,19 +80,19 @@ class PHPUnit_Util_Filter
 
         if ($e instanceof PHPUnit_Framework_SyntheticError) {
             $eTrace = $e->getSyntheticTrace();
-            $eFile = $e->getSyntheticFile();
-            $eLine = $e->getSyntheticLine();
+            $eFile  = $e->getSyntheticFile();
+            $eLine  = $e->getSyntheticLine();
         } elseif ($e instanceof PHPUnit_Framework_Exception) {
             $eTrace = $e->getSerializableTrace();
-            $eFile = $e->getFile();
-            $eLine = $e->getLine();
+            $eFile  = $e->getFile();
+            $eLine  = $e->getLine();
         } else {
             if ($e->getPrevious()) {
                 $e = $e->getPrevious();
             }
             $eTrace = $e->getTrace();
-            $eFile = $e->getFile();
-            $eLine = $e->getLine();
+            $eFile  = $e->getFile();
+            $eLine  = $e->getLine();
         }
 
         if (!self::frameExists($eTrace, $eFile, $eLine)) {
@@ -107,8 +107,7 @@ class PHPUnit_Util_Filter
             if (isset($frame['file']) && is_file($frame['file']) &&
                 !$blacklist->isBlacklisted($frame['file']) &&
                 ($prefix === false || strpos($frame['file'], $prefix) !== 0) &&
-                $frame['file'] !== $script
-            ) {
+                $frame['file'] !== $script) {
                 if ($asString === true) {
                     $filteredStacktrace .= sprintf(
                         "%s:%s\n",
@@ -125,9 +124,9 @@ class PHPUnit_Util_Filter
     }
 
     /**
-     * @param  array $trace
-     * @param  string $file
-     * @param  int $line
+     * @param  array   $trace
+     * @param  string  $file
+     * @param  int     $line
      * @return boolean
      * @since  Method available since Release 3.3.2
      */
@@ -135,8 +134,7 @@ class PHPUnit_Util_Filter
     {
         foreach ($trace as $frame) {
             if (isset($frame['file']) && $frame['file'] == $file &&
-                isset($frame['line']) && $frame['line'] == $line
-            ) {
+                isset($frame['line']) && $frame['line'] == $line) {
                 return true;
             }
         }

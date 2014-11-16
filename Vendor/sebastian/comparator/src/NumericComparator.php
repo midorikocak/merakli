@@ -68,8 +68,8 @@ class NumericComparator extends ScalarComparator
         // all numerical values, but not if one of them is a double
         // or both of them are strings
         return is_numeric($expected) && is_numeric($actual) &&
-        !(is_double($expected) || is_double($actual)) &&
-        !(is_string($expected) && is_string($actual));
+               !(is_double($expected) || is_double($actual)) &&
+               !(is_string($expected) && is_string($actual));
     }
 
     /**
@@ -79,9 +79,9 @@ class NumericComparator extends ScalarComparator
      * @param  mixed $actual The second value to compare
      * @param  float $delta The allowed numerical distance between two values to
      *                      consider them equal
-     * @param  bool $canonicalize If set to TRUE, arrays are sorted before
+     * @param  bool  $canonicalize If set to TRUE, arrays are sorted before
      *                             comparison
-     * @param  bool $ignoreCase If set to TRUE, upper- and lowercasing is
+     * @param  bool  $ignoreCase If set to TRUE, upper- and lowercasing is
      *                           ignored when comparing string values
      * @throws ComparisonFailure Thrown when the comparison
      *                           fails. Contains information about the
@@ -95,8 +95,7 @@ class NumericComparator extends ScalarComparator
 
         if ((is_infinite($actual) xor is_infinite($expected)) ||
             (is_nan($actual) or is_nan($expected)) ||
-            abs($actual - $expected) > $delta
-        ) {
+            abs($actual - $expected) > $delta) {
             throw new ComparisonFailure(
                 $expected,
                 $actual,

@@ -1,5 +1,4 @@
 <?php
-
 class BankAccount
 {
     protected $balance = 0;

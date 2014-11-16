@@ -45,8 +45,8 @@
 namespace SebastianBergmann\Diff;
 
 use SebastianBergmann\Diff\LCS\LongestCommonSubsequence;
-use SebastianBergmann\Diff\LCS\MemoryEfficientImplementation;
 use SebastianBergmann\Diff\LCS\TimeEfficientImplementation;
+use SebastianBergmann\Diff\LCS\MemoryEfficientImplementation;
 
 /**
  * Diff implementation.
@@ -76,22 +76,22 @@ class Differ
     /**
      * Returns the diff between two arrays or strings as string.
      *
-     * @param  array|string $from
-     * @param  array|string $to
+     * @param  array|string             $from
+     * @param  array|string             $to
      * @param  LongestCommonSubsequence $lcs
      * @return string
      */
     public function diff($from, $to, LongestCommonSubsequence $lcs = null)
     {
         $buffer = $this->header;
-        $diff = $this->diffToArray($from, $to, $lcs);
+        $diff   = $this->diffToArray($from, $to, $lcs);
 
         $inOld = false;
-        $i = 0;
-        $old = array();
+        $i     = 0;
+        $old   = array();
 
         foreach ($diff as $line) {
-            if ($line[1] === 0 /* OLD */) {
+            if ($line[1] ===  0 /* OLD */) {
                 if ($inOld === false) {
                     $inOld = $i;
                 }
@@ -107,7 +107,7 @@ class Differ
         }
 
         $start = isset($old[0]) ? $old[0] : 0;
-        $end = count($diff);
+        $end   = count($diff);
 
         if ($tmp = array_search($end, $old)) {
             $end = $tmp;
@@ -117,13 +117,13 @@ class Differ
 
         for ($i = $start; $i < $end; $i++) {
             if (isset($old[$i])) {
-                $buffer .= "\n";
+                $buffer  .= "\n";
                 $newChunk = true;
-                $i = $old[$i];
+                $i        = $old[$i];
             }
 
             if ($newChunk) {
-                $buffer .= "@@ @@\n";
+                $buffer  .= "@@ @@\n";
                 $newChunk = false;
             }
 
@@ -150,8 +150,8 @@ class Differ
      * - 1: ADDED: $token was added to $from
      * - 0: OLD: $token is not changed in $to
      *
-     * @param  array|string $from
-     * @param  array|string $to
+     * @param  array|string             $from
+     * @param  array|string             $to
      * @param  LongestCommonSubsequence $lcs
      * @return array
      */
@@ -168,11 +168,11 @@ class Differ
             $to = preg_split('(\r\n|\r|\n)', $to);
         }
 
-        $start = array();
-        $end = array();
+        $start      = array();
+        $end        = array();
         $fromLength = count($from);
-        $toLength = count($to);
-        $length = min($fromLength, $toLength);
+        $toLength   = count($to);
+        $length     = min($fromLength, $toLength);
 
         for ($i = 0; $i < $length; ++$i) {
             if ($from[$i] === $to[$i]) {
@@ -199,14 +199,13 @@ class Differ
         }
 
         $common = $lcs->calculate(array_values($from), array_values($to));
-        $diff = array();
+        $diff   = array();
 
         if (isset($fromMatches[0]) && $toMatches[0] &&
             count($fromMatches[0]) === count($toMatches[0]) &&
-            $fromMatches[0] !== $toMatches[0]
-        ) {
+            $fromMatches[0] !== $toMatches[0]) {
             $diff[] = array(
-                '#Warning: Strings contain different line endings!', 0
+              '#Warning: Strings contain different line endings!', 0
             );
         }
 

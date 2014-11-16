@@ -608,7 +608,7 @@ class Framework_AssertTest extends PHPUnit_Framework_TestCase
             array(0, 0),
             // floats
             array(2.3, 2.3),
-            array(1 / 3, 1 - 2 / 3),
+            array(1/3, 1 - 2/3),
             array(log(0), log(0)),
             // arrays
             array(array(), array()),
@@ -637,9 +637,9 @@ class Framework_AssertTest extends PHPUnit_Framework_TestCase
         $book4 = new stdClass;
         $book4->author = 'Terry Pratchett';
 
-        $object1 = new SampleClass(4, 8, 15);
+        $object1 = new SampleClass( 4, 8, 15);
         $object2 = new SampleClass(16, 23, 42);
-        $object3 = new SampleClass(4, 8, 15);
+        $object3 = new SampleClass( 4, 8, 15);
         $storage1 = new SplObjectStorage;
         $storage1->attach($object1);
         $storage2 = new SplObjectStorage;
@@ -654,7 +654,7 @@ class Framework_AssertTest extends PHPUnit_Framework_TestCase
             array('a', 'b'),
             array('a', 'A'),
             // https://github.com/sebastianbergmann/phpunit/issues/1023
-            array('9E6666666', '9E7777777'),
+            array('9E6666666','9E7777777'),
             // integers
             array(1, 2),
             array(2, 1),
@@ -870,8 +870,8 @@ class Framework_AssertTest extends PHPUnit_Framework_TestCase
             array('0', 0),
             array(2.3, '2.3'),
             array('2.3', 2.3),
-            array((string)(1 / 3), 1 - 2 / 3),
-            array(1 / 3, (string)(1 - 2 / 3)),
+            array((string)(1/3), 1 - 2/3),
+            array(1/3, (string)(1 - 2/3)),
             array('string representation', new ClassWithToString),
             array(new ClassWithToString, 'string representation'),
         );
@@ -901,7 +901,7 @@ class Framework_AssertTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers       PHPUnit_Framework_Assert::assertEquals
+     * @covers PHPUnit_Framework_Assert::assertEquals
      * @dataProvider equalProvider
      */
     public function testAssertEqualsSucceeds($a, $b, $delta = 0.0, $canonicalize = false, $ignoreCase = false)
@@ -910,7 +910,7 @@ class Framework_AssertTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers       PHPUnit_Framework_Assert::assertEquals
+     * @covers PHPUnit_Framework_Assert::assertEquals
      * @dataProvider notEqualProvider
      */
     public function testAssertEqualsFails($a, $b, $delta = 0.0, $canonicalize = false, $ignoreCase = false)
@@ -925,7 +925,7 @@ class Framework_AssertTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers       PHPUnit_Framework_Assert::assertNotEquals
+     * @covers PHPUnit_Framework_Assert::assertNotEquals
      * @dataProvider notEqualProvider
      */
     public function testAssertNotEqualsSucceeds($a, $b, $delta = 0.0, $canonicalize = false, $ignoreCase = false)
@@ -934,7 +934,7 @@ class Framework_AssertTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers       PHPUnit_Framework_Assert::assertNotEquals
+     * @covers PHPUnit_Framework_Assert::assertNotEquals
      * @dataProvider equalProvider
      */
     public function testAssertNotEqualsFails($a, $b, $delta = 0.0, $canonicalize = false, $ignoreCase = false)
@@ -949,7 +949,7 @@ class Framework_AssertTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers       PHPUnit_Framework_Assert::assertSame
+     * @covers PHPUnit_Framework_Assert::assertSame
      * @dataProvider sameProvider
      */
     public function testAssertSameSucceeds($a, $b)
@@ -958,7 +958,7 @@ class Framework_AssertTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers       PHPUnit_Framework_Assert::assertSame
+     * @covers PHPUnit_Framework_Assert::assertSame
      * @dataProvider notSameProvider
      */
     public function testAssertSameFails($a, $b)
@@ -973,7 +973,7 @@ class Framework_AssertTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers       PHPUnit_Framework_Assert::assertNotSame
+     * @covers PHPUnit_Framework_Assert::assertNotSame
      * @dataProvider notSameProvider
      */
     public function testAssertNotSameSucceeds($a, $b)
@@ -982,7 +982,7 @@ class Framework_AssertTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers       PHPUnit_Framework_Assert::assertNotSame
+     * @covers PHPUnit_Framework_Assert::assertNotSame
      * @dataProvider sameProvider
      */
     public function testAssertNotSameFails($a, $b)
@@ -2822,7 +2822,6 @@ class Framework_AssertTest extends PHPUnit_Framework_TestCase
     {
         $this->assertThat(array('foo'), $this->containsOnly('string'));
     }
-
     /**
      * @covers PHPUnit_Framework_Assert::assertThat
      * @covers PHPUnit_Framework_Assert::containsOnlyInstancesOf
@@ -2892,7 +2891,7 @@ class Framework_AssertTest extends PHPUnit_Framework_TestCase
      */
     public function testAssertThatIdenticalTo()
     {
-        $value = new StdClass;
+        $value      = new StdClass;
         $constraint = $this->identicalTo($value);
 
         $this->assertThat($value, $constraint);
@@ -2985,8 +2984,7 @@ class Framework_AssertTest extends PHPUnit_Framework_TestCase
      */
     public function testAssertThatCallback()
     {
-        $this->assertThat(null, $this->callback(function ($other) {
-            return true;
+        $this->assertThat(null, $this->callback(function ($other) { return true;
         }));
     }
 
@@ -3329,7 +3327,7 @@ class Framework_AssertTest extends PHPUnit_Framework_TestCase
      */
     public function testAssertAttributeEmpty()
     {
-        $o = new StdClass;
+        $o    = new StdClass;
         $o->a = array();
 
         $this->assertAttributeEmpty('a', $o);
@@ -3349,7 +3347,7 @@ class Framework_AssertTest extends PHPUnit_Framework_TestCase
      */
     public function testAssertAttributeNotEmpty()
     {
-        $o = new StdClass;
+        $o    = new StdClass;
         $o->a = array('b');
 
         $this->assertAttributeNotEmpty('a', $o);
@@ -3401,10 +3399,10 @@ class Framework_AssertTest extends PHPUnit_Framework_TestCase
      */
     public function testAssertCount()
     {
-        $this->assertCount(2, array(1, 2));
+        $this->assertCount(2, array(1,2));
 
         try {
-            $this->assertCount(2, array(1, 2, 3));
+            $this->assertCount(2, array(1,2,3));
         } catch (PHPUnit_Framework_AssertionFailedError $e) {
             return;
         }
@@ -3450,7 +3448,7 @@ class Framework_AssertTest extends PHPUnit_Framework_TestCase
      */
     public function testAssertAttributeCount()
     {
-        $o = new stdClass;
+        $o    = new stdClass;
         $o->a = array();
 
         $this->assertAttributeCount(0, 'a', $o);
@@ -3461,10 +3459,10 @@ class Framework_AssertTest extends PHPUnit_Framework_TestCase
      */
     public function testAssertNotCount()
     {
-        $this->assertNotCount(2, array(1, 2, 3));
+        $this->assertNotCount(2, array(1,2,3));
 
         try {
-            $this->assertNotCount(2, array(1, 2));
+            $this->assertNotCount(2, array(1,2));
         } catch (PHPUnit_Framework_AssertionFailedError $e) {
             return;
         }
@@ -3495,7 +3493,7 @@ class Framework_AssertTest extends PHPUnit_Framework_TestCase
      */
     public function testAssertAttributeNotCount()
     {
-        $o = new stdClass;
+        $o    = new stdClass;
         $o->a = array();
 
         $this->assertAttributeNotCount(1, 'a', $o);
@@ -3506,10 +3504,10 @@ class Framework_AssertTest extends PHPUnit_Framework_TestCase
      */
     public function testAssertSameSize()
     {
-        $this->assertSameSize(array(1, 2), array(3, 4));
+        $this->assertSameSize(array(1,2), array(3,4));
 
         try {
-            $this->assertSameSize(array(1, 2), array(1, 2, 3));
+            $this->assertSameSize(array(1,2), array(1,2,3));
         } catch (PHPUnit_Framework_AssertionFailedError $e) {
             return;
         }
@@ -3554,10 +3552,10 @@ class Framework_AssertTest extends PHPUnit_Framework_TestCase
      */
     public function testAssertNotSameSize()
     {
-        $this->assertNotSameSize(array(1, 2), array(1, 2, 3));
+        $this->assertNotSameSize(array(1,2), array(1,2,3));
 
         try {
-            $this->assertNotSameSize(array(1, 2), array(3, 4));
+            $this->assertNotSameSize(array(1,2), array(3,4));
         } catch (PHPUnit_Framework_AssertionFailedError $e) {
             return;
         }
@@ -3598,15 +3596,15 @@ class Framework_AssertTest extends PHPUnit_Framework_TestCase
     public function testAssertJsonStringEqualsJsonString()
     {
         $expected = '{"Mascott" : "Tux"}';
-        $actual = '{"Mascott" : "Tux"}';
-        $message = 'Given Json strings do not match';
+        $actual   = '{"Mascott" : "Tux"}';
+        $message  = 'Given Json strings do not match';
 
         $this->assertJsonStringEqualsJsonString($expected, $actual, $message);
     }
 
     /**
      * @dataProvider validInvalidJsonDataprovider
-     * @covers       PHPUnit_Framework_Assert::assertJsonStringEqualsJsonString
+     * @covers PHPUnit_Framework_Assert::assertJsonStringEqualsJsonString
      */
     public function testAssertJsonStringEqualsJsonStringErrorRaised($expected, $actual)
     {
@@ -3624,15 +3622,15 @@ class Framework_AssertTest extends PHPUnit_Framework_TestCase
     public function testAssertJsonStringNotEqualsJsonString()
     {
         $expected = '{"Mascott" : "Beastie"}';
-        $actual = '{"Mascott" : "Tux"}';
-        $message = 'Given Json strings do match';
+        $actual   = '{"Mascott" : "Tux"}';
+        $message  = 'Given Json strings do match';
 
         $this->assertJsonStringNotEqualsJsonString($expected, $actual, $message);
     }
 
     /**
      * @dataProvider validInvalidJsonDataprovider
-     * @covers       PHPUnit_Framework_Assert::assertJsonStringNotEqualsJsonString
+     * @covers PHPUnit_Framework_Assert::assertJsonStringNotEqualsJsonString
      */
     public function testAssertJsonStringNotEqualsJsonStringErrorRaised($expected, $actual)
     {
@@ -3721,7 +3719,7 @@ class Framework_AssertTest extends PHPUnit_Framework_TestCase
     public function testAssertJsonFileNotEqualsJsonFile()
     {
         $fileExpected = __DIR__ . '/../_files/JsonData/simpleObject.json';
-        $fileActual = __DIR__ . '/../_files/JsonData/arrayObject.json';
+        $fileActual   = __DIR__ . '/../_files/JsonData/arrayObject.json';
         $message = '';
         $this->assertJsonFileNotEqualsJsonFile($fileExpected, $fileActual, $message);
     }
@@ -3766,7 +3764,7 @@ class Framework_AssertTest extends PHPUnit_Framework_TestCase
      */
     public function testAssertAttributeInstanceOf()
     {
-        $o = new stdClass;
+        $o    = new stdClass;
         $o->a = new stdClass;
 
         $this->assertAttributeInstanceOf('stdClass', 'a', $o);
@@ -3802,7 +3800,7 @@ class Framework_AssertTest extends PHPUnit_Framework_TestCase
      */
     public function testAssertAttributeNotInstanceOf()
     {
-        $o = new stdClass;
+        $o    = new stdClass;
         $o->a = new stdClass;
 
         $this->assertAttributeNotInstanceOf('Exception', 'a', $o);
@@ -3838,7 +3836,7 @@ class Framework_AssertTest extends PHPUnit_Framework_TestCase
      */
     public function testAssertAttributeInternalType()
     {
-        $o = new stdClass;
+        $o    = new stdClass;
         $o->a = 1;
 
         $this->assertAttributeInternalType('integer', 'a', $o);
@@ -3874,7 +3872,7 @@ class Framework_AssertTest extends PHPUnit_Framework_TestCase
      */
     public function testAssertAttributeNotInternalType()
     {
-        $o = new stdClass;
+        $o    = new stdClass;
         $o->a = 1;
 
         $this->assertAttributeNotInternalType('string', 'a', $o);
@@ -3884,7 +3882,7 @@ class Framework_AssertTest extends PHPUnit_Framework_TestCase
     {
         return array(
             'error syntax in expected JSON' => array('{"Mascott"::}', '{"Mascott" : "Tux"}'),
-            'error UTF-8 in actual JSON' => array('{"Mascott" : "Tux"}', '{"Mascott" : :}'),
+            'error UTF-8 in actual JSON'    => array('{"Mascott" : "Tux"}', '{"Mascott" : :}'),
         );
     }
 }

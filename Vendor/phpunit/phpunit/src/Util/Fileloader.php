@@ -60,7 +60,7 @@ class PHPUnit_Util_Fileloader
      * Checks if a PHP sourcefile is readable.
      * The sourcefile is loaded through the load() method.
      *
-     * @param  string $filename
+     * @param  string                      $filename
      * @return string
      * @throws PHPUnit_Framework_Exception
      */
@@ -92,7 +92,7 @@ class PHPUnit_Util_Fileloader
 
         include_once $filename;
 
-        $newVariables = get_defined_vars();
+        $newVariables     = get_defined_vars();
         $newVariableNames = array_diff(
             array_keys($newVariables), $oldVariableNames
         );

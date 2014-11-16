@@ -70,30 +70,30 @@ class PHPUnit_Util_GlobalState
      * @var array
      */
     protected static $superGlobalArrays = array(
-        '_ENV',
-        '_POST',
-        '_GET',
-        '_COOKIE',
-        '_SERVER',
-        '_FILES',
-        '_REQUEST'
+      '_ENV',
+      '_POST',
+      '_GET',
+      '_COOKIE',
+      '_SERVER',
+      '_FILES',
+      '_REQUEST'
     );
 
     /**
      * @var array
      */
     protected static $superGlobalArraysLong = array(
-        'HTTP_ENV_VARS',
-        'HTTP_POST_VARS',
-        'HTTP_GET_VARS',
-        'HTTP_COOKIE_VARS',
-        'HTTP_SERVER_VARS',
-        'HTTP_POST_FILES'
+      'HTTP_ENV_VARS',
+      'HTTP_POST_VARS',
+      'HTTP_GET_VARS',
+      'HTTP_COOKIE_VARS',
+      'HTTP_SERVER_VARS',
+      'HTTP_POST_FILES'
     );
 
     public static function backupGlobals(array $blacklist)
     {
-        self::$globals = array();
+        self::$globals     = array();
         $superGlobalArrays = self::getSuperGlobalArrays();
 
         foreach ($superGlobalArrays as $superGlobalArray) {
@@ -106,8 +106,7 @@ class PHPUnit_Util_GlobalState
             if ($key != 'GLOBALS' &&
                 !in_array($key, $superGlobalArrays) &&
                 !in_array($key, $blacklist) &&
-                !$GLOBALS[$key] instanceof Closure
-            ) {
+                !$GLOBALS[$key] instanceof Closure) {
                 self::$globals['GLOBALS'][$key] = serialize($GLOBALS[$key]);
             }
         }
@@ -132,8 +131,7 @@ class PHPUnit_Util_GlobalState
         foreach (array_keys($GLOBALS) as $key) {
             if ($key != 'GLOBALS' &&
                 !in_array($key, $superGlobalArrays) &&
-                !in_array($key, $blacklist)
-            ) {
+                !in_array($key, $blacklist)) {
                 if (isset(self::$globals['GLOBALS'][$key])) {
                     $GLOBALS[$key] = unserialize(
                         self::$globals['GLOBALS'][$key]
@@ -152,8 +150,7 @@ class PHPUnit_Util_GlobalState
         self::$globals[$superGlobalArray] = array();
 
         if (isset($GLOBALS[$superGlobalArray]) &&
-            is_array($GLOBALS[$superGlobalArray])
-        ) {
+            is_array($GLOBALS[$superGlobalArray])) {
             foreach ($GLOBALS[$superGlobalArray] as $key => $value) {
                 self::$globals[$superGlobalArray][$key] = serialize($value);
             }
@@ -164,8 +161,7 @@ class PHPUnit_Util_GlobalState
     {
         if (isset($GLOBALS[$superGlobalArray]) &&
             is_array($GLOBALS[$superGlobalArray]) &&
-            isset(self::$globals[$superGlobalArray])
-        ) {
+            isset(self::$globals[$superGlobalArray])) {
             $keys = array_keys(
                 array_merge(
                     $GLOBALS[$superGlobalArray], self::$globals[$superGlobalArray]
@@ -189,9 +185,9 @@ class PHPUnit_Util_GlobalState
     public static function getIncludedFilesAsString()
     {
         $blacklist = new PHPUnit_Util_Blacklist;
-        $files = get_included_files();
-        $prefix = false;
-        $result = '';
+        $files     = get_included_files();
+        $prefix    = false;
+        $result    = '';
 
         if (defined('__PHPUNIT_PHAR__')) {
             $prefix = 'phar://' . __PHPUNIT_PHAR__ . '/';
@@ -214,7 +210,7 @@ class PHPUnit_Util_GlobalState
 
     public static function getIniSettingsAsString()
     {
-        $result = '';
+        $result      = '';
         $iniSettings = ini_get_all(null, false);
 
         foreach ($iniSettings as $key => $value) {
@@ -231,7 +227,7 @@ class PHPUnit_Util_GlobalState
     public static function getConstantsAsString()
     {
         $constants = get_defined_constants(true);
-        $result = '';
+        $result    = '';
 
         if (isset($constants['user'])) {
             foreach ($constants['user'] as $name => $value) {
@@ -249,13 +245,12 @@ class PHPUnit_Util_GlobalState
 
     public static function getGlobalsAsString()
     {
-        $result = '';
+        $result            = '';
         $superGlobalArrays = self::getSuperGlobalArrays();
 
         foreach ($superGlobalArrays as $superGlobalArray) {
             if (isset($GLOBALS[$superGlobalArray]) &&
-                is_array($GLOBALS[$superGlobalArray])
-            ) {
+                is_array($GLOBALS[$superGlobalArray])) {
                 foreach (array_keys($GLOBALS[$superGlobalArray]) as $key) {
                     if ($GLOBALS[$superGlobalArray][$key] instanceof Closure) {
                         continue;
@@ -271,7 +266,7 @@ class PHPUnit_Util_GlobalState
             }
         }
 
-        $blacklist = $superGlobalArrays;
+        $blacklist   = $superGlobalArrays;
         $blacklist[] = 'GLOBALS';
 
         foreach (array_keys($GLOBALS) as $key) {
@@ -301,8 +296,8 @@ class PHPUnit_Util_GlobalState
     public static function backupStaticAttributes(array $blacklist)
     {
         self::$staticAttributes = array();
-        $declaredClasses = get_declared_classes();
-        $declaredClassesNum = count($declaredClasses);
+        $declaredClasses        = get_declared_classes();
+        $declaredClassesNum     = count($declaredClasses);
 
         for ($i = $declaredClassesNum - 1; $i >= 0; $i--) {
             if (strpos($declaredClasses[$i], 'PHPUnit') !== 0 &&
@@ -313,8 +308,7 @@ class PHPUnit_Util_GlobalState
                 strpos($declaredClasses[$i], 'PHP_Token_Stream') !== 0 &&
                 strpos($declaredClasses[$i], 'Symfony') !== 0 &&
                 strpos($declaredClasses[$i], 'Text_Template') !== 0 &&
-                strpos($declaredClasses[$i], 'Instantiator') !== 0
-            ) {
+                strpos($declaredClasses[$i], 'Instantiator') !== 0) {
                 $class = new ReflectionClass($declaredClasses[$i]);
 
                 if ($class->isSubclassOf('PHPUnit_Framework_Test')) {
@@ -332,8 +326,7 @@ class PHPUnit_Util_GlobalState
                         $name = $attribute->getName();
 
                         if (!isset($blacklist[$declaredClasses[$i]]) ||
-                            !in_array($name, $blacklist[$declaredClasses[$i]])
-                        ) {
+                           !in_array($name, $blacklist[$declaredClasses[$i]])) {
                             $attribute->setAccessible(true);
                             $value = $attribute->getValue();
 
@@ -367,13 +360,12 @@ class PHPUnit_Util_GlobalState
     protected static function exportVariable($variable)
     {
         if (is_scalar($variable) || is_null($variable) ||
-            (is_array($variable) && self::arrayOnlyContainsScalars($variable))
-        ) {
+           (is_array($variable) && self::arrayOnlyContainsScalars($variable))) {
             return var_export($variable, true);
         }
         return 'unserialize(' .
-        var_export(serialize($variable), true) .
-        ')';
+                var_export(serialize($variable), true) .
+                ')';
     }
 
     protected static function arrayOnlyContainsScalars(array $array)

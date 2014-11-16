@@ -88,7 +88,7 @@ class PHPUnit_Framework_Constraint_Exception extends PHPUnit_Framework_Constrain
      * The beginning of failure messages is "Failed asserting that" in most
      * cases. This method should return the second part of that sentence.
      *
-     * @param  mixed $other Evaluated value or object.
+     * @param  mixed  $other Evaluated value or object.
      * @return string
      */
     protected function failureDescription($other)
@@ -97,7 +97,7 @@ class PHPUnit_Framework_Constraint_Exception extends PHPUnit_Framework_Constrain
             $message = '';
             if ($other instanceof Exception) {
                 $message = '. Message was: "' . $other->getMessage() . '" at'
-                    . "\n" . $other->getTraceAsString();
+                        . "\n" . $other->getTraceAsString();
             }
 
             return sprintf(

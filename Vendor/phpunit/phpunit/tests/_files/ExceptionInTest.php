@@ -1,5 +1,4 @@
 <?php
-
 class ExceptionInTest extends PHPUnit_Framework_TestCase
 {
     public $setUp = false;

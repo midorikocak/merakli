@@ -1,5 +1,4 @@
 <?php
-
 class Issue1348Test extends PHPUnit_Framework_TestCase
 {
     public function testSTDOUT()

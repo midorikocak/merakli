@@ -1,5 +1,4 @@
 <?php
-
 class Mockable
 {
     public $constructorArgs;

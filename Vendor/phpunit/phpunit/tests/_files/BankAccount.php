@@ -1,5 +1,4 @@
 <?php
-
 /**
  * PHPUnit
  *
@@ -42,6 +41,7 @@
  * @link       http://www.phpunit.de/
  * @since      File available since Release 2.3.0
  */
+
 class BankAccountException extends RuntimeException
 {
 }

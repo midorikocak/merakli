@@ -4,14 +4,14 @@
          bootstrap="vendor/autoload.php"
          backupGlobals="false"
          verbose="true">
-    <testsuite name="Diff">
-        <directory suffix="Test.php">tests</directory>
-    </testsuite>
+  <testsuite name="Diff">
+    <directory suffix="Test.php">tests</directory>
+  </testsuite>
 
-    <filter>
-        <whitelist processUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">src</directory>
-        </whitelist>
-    </filter>
+  <filter>
+    <whitelist processUncoveredFilesFromWhitelist="true">
+      <directory suffix=".php">src</directory>
+    </whitelist>
+  </filter>
 </phpunit>
 

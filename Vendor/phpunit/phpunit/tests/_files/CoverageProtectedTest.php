@@ -1,5 +1,4 @@
 <?php
-
 class CoverageProtectedTest extends PHPUnit_Framework_TestCase
 {
     /**

@@ -9,6 +9,8 @@
 
 namespace Midori\Cms;
 
+use \PDO;
+
 class Settings extends Assets
 {
 
@@ -65,11 +67,11 @@ class Settings extends Assets
 
             // insert
             $insert = $this->db->insert('settings')
-                ->set(array(
-                    'title' => $title,
-                    'description' => $description,
-                    'copyright' => $copyright
-                ));
+                        ->set(array(
+                             'title' => $title,
+                             'description'=>$description,
+                             'copyright'=>$copyright
+                        ));
 
             if ($insert) {
                 // Veritabanı işlemi başarılı ise sınıfın objesine ait değişkenleri değiştirelim
@@ -82,7 +84,7 @@ class Settings extends Assets
             } else {
                 return false;
             }
-
+            
         } else {
             return array('render' => true, 'template' => 'admin');
         }
@@ -104,8 +106,8 @@ class Settings extends Assets
 
             // Buradan anlıyoruz ki veri henüz çekilmemiş. Veriyi çekmeye başlayalım
             $query = $this->db->select('settings')
-                ->limit(0, 1)
-                ->run();
+                            ->limit(0,1)
+                        ->run();
             if ($query) {
                 $setting = $query[0];
 
@@ -169,14 +171,14 @@ class Settings extends Assets
         $oldData = $this->view();
         $id = $oldData['setting']['id'];
         if ($title != null) {
-
+            
             $update = $this->db->update('settings')
-                ->where('id', $id)
-                ->set(array(
-                    "title" => $title,
-                    "description" => $description,
-                    "copyright" => $copyright
-                ));
+                        ->where('id', $id)
+                        ->set(array(
+                            "title" => $title,
+                            "description" => $description,
+                            "copyright" => $copyright
+                        ));
 
             if ($update) {
                 return true;

@@ -64,7 +64,7 @@ class DifferTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param array $expected
+     * @param array  $expected
      * @param string $from
      * @param string $to
      * @dataProvider arrayProvider
@@ -90,7 +90,7 @@ class DifferTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param array $expected
+     * @param array  $expected
      * @param string $from
      * @param string $to
      * @dataProvider arrayProvider

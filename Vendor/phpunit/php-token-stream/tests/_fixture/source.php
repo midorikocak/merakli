@@ -1,13 +1,8 @@
 <?php
-
 /**
  * Some comment
  */
-class Foo
-{
-    function foo()
-    {
-    }
+class Foo{function foo(){}
 
     /**
      * @param Baz $baz

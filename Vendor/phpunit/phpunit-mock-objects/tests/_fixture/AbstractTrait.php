@@ -1,5 +1,4 @@
 <?php
-
 trait AbstractTrait
 {
     abstract public function doSomething();

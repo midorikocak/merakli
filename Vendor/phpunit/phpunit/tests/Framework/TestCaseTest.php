@@ -45,15 +45,15 @@
 require_once dirname(__DIR__) . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'NoArgTestCaseTest.php';
 require_once dirname(__DIR__) . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'Singleton.php';
 
-$GLOBALS['a'] = 'a';
-$_ENV['b'] = 'b';
-$_POST['c'] = 'c';
-$_GET['d'] = 'd';
-$_COOKIE['e'] = 'e';
-$_SERVER['f'] = 'f';
-$_FILES['g'] = 'g';
+$GLOBALS['a']  = 'a';
+$_ENV['b']     = 'b';
+$_POST['c']    = 'c';
+$_GET['d']     = 'd';
+$_COOKIE['e']  = 'e';
+$_SERVER['f']  = 'f';
+$_FILES['g']   = 'g';
 $_REQUEST['h'] = 'h';
-$GLOBALS['i'] = 'i';
+$GLOBALS['i']  = 'i';
 
 /**
  *
@@ -85,7 +85,7 @@ class Framework_TestCaseTest extends PHPUnit_Framework_TestCase
 
     public function testSuccess()
     {
-        $test = new Success;
+        $test   = new Success;
         $result = $test->run();
 
         $this->assertEquals(0, $result->errorCount());
@@ -95,7 +95,7 @@ class Framework_TestCaseTest extends PHPUnit_Framework_TestCase
 
     public function testFailure()
     {
-        $test = new Failure;
+        $test   = new Failure;
         $result = $test->run();
 
         $this->assertEquals(0, $result->errorCount());
@@ -105,7 +105,7 @@ class Framework_TestCaseTest extends PHPUnit_Framework_TestCase
 
     public function testError()
     {
-        $test = new Error;
+        $test   = new Error;
         $result = $test->run();
 
         $this->assertEquals(1, $result->errorCount());
@@ -115,7 +115,7 @@ class Framework_TestCaseTest extends PHPUnit_Framework_TestCase
 
     public function testExceptionInSetUp()
     {
-        $test = new ExceptionInSetUpTest('testSomething');
+        $test   = new ExceptionInSetUpTest('testSomething');
         $result = $test->run();
 
         $this->assertTrue($test->setUp);
@@ -127,7 +127,7 @@ class Framework_TestCaseTest extends PHPUnit_Framework_TestCase
 
     public function testExceptionInAssertPreConditions()
     {
-        $test = new ExceptionInAssertPreConditionsTest('testSomething');
+        $test   = new ExceptionInAssertPreConditionsTest('testSomething');
         $result = $test->run();
 
         $this->assertTrue($test->setUp);
@@ -139,7 +139,7 @@ class Framework_TestCaseTest extends PHPUnit_Framework_TestCase
 
     public function testExceptionInTest()
     {
-        $test = new ExceptionInTest('testSomething');
+        $test   = new ExceptionInTest('testSomething');
         $result = $test->run();
 
         $this->assertTrue($test->setUp);
@@ -151,7 +151,7 @@ class Framework_TestCaseTest extends PHPUnit_Framework_TestCase
 
     public function testExceptionInAssertPostConditions()
     {
-        $test = new ExceptionInAssertPostConditionsTest('testSomething');
+        $test   = new ExceptionInAssertPostConditionsTest('testSomething');
         $result = $test->run();
 
         $this->assertTrue($test->setUp);
@@ -163,7 +163,7 @@ class Framework_TestCaseTest extends PHPUnit_Framework_TestCase
 
     public function testExceptionInTearDown()
     {
-        $test = new ExceptionInTearDownTest('testSomething');
+        $test   = new ExceptionInTearDownTest('testSomething');
         $result = $test->run();
 
         $this->assertTrue($test->setUp);
@@ -176,7 +176,7 @@ class Framework_TestCaseTest extends PHPUnit_Framework_TestCase
     public function testNoArgTestCasePasses()
     {
         $result = new PHPUnit_Framework_TestResult;
-        $t = new PHPUnit_Framework_TestSuite('NoArgTestCaseTest');
+        $t      = new PHPUnit_Framework_TestSuite('NoArgTestCaseTest');
 
         $t->run($result);
 
@@ -314,16 +314,16 @@ class Framework_TestCaseTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('i', $i);
         $this->assertEquals('i', $GLOBALS['i']);
 
-        $GLOBALS['a'] = 'aa';
+        $GLOBALS['a']   = 'aa';
         $GLOBALS['foo'] = 'bar';
-        $_ENV['b'] = 'bb';
-        $_POST['c'] = 'cc';
-        $_GET['d'] = 'dd';
-        $_COOKIE['e'] = 'ee';
-        $_SERVER['f'] = 'ff';
-        $_FILES['g'] = 'gg';
-        $_REQUEST['h'] = 'hh';
-        $GLOBALS['i'] = 'ii';
+        $_ENV['b']      = 'bb';
+        $_POST['c']     = 'cc';
+        $_GET['d']      = 'dd';
+        $_COOKIE['e']   = 'ee';
+        $_SERVER['f']   = 'ff';
+        $_FILES['g']    = 'gg';
+        $_REQUEST['h']  = 'hh';
+        $GLOBALS['i']   = 'ii';
 
         $this->assertEquals('aa', $a);
         $this->assertEquals('aa', $GLOBALS['a']);
@@ -380,7 +380,7 @@ class Framework_TestCaseTest extends PHPUnit_Framework_TestCase
 
     public function testIsInIsolationReturnsFalse()
     {
-        $test = new IsolationTest('testIsInIsolationReturnsFalse');
+        $test   = new IsolationTest('testIsInIsolationReturnsFalse');
         $result = $test->run();
 
         $this->assertEquals(1, count($result));
@@ -389,7 +389,7 @@ class Framework_TestCaseTest extends PHPUnit_Framework_TestCase
 
     public function testIsInIsolationReturnsTrue()
     {
-        $test = new IsolationTest('testIsInIsolationReturnsTrue');
+        $test   = new IsolationTest('testIsInIsolationReturnsTrue');
         $test->setRunTestInSeparateProcess(true);
         $result = $test->run();
 
@@ -399,7 +399,7 @@ class Framework_TestCaseTest extends PHPUnit_Framework_TestCase
 
     public function testExpectOutputStringFooActualFoo()
     {
-        $test = new OutputTestCase('testExpectOutputStringFooActualFoo');
+        $test   = new OutputTestCase('testExpectOutputStringFooActualFoo');
         $result = $test->run();
 
         $this->assertEquals(1, count($result));
@@ -408,7 +408,7 @@ class Framework_TestCaseTest extends PHPUnit_Framework_TestCase
 
     public function testExpectOutputStringFooActualBar()
     {
-        $test = new OutputTestCase('testExpectOutputStringFooActualBar');
+        $test   = new OutputTestCase('testExpectOutputStringFooActualBar');
         $result = $test->run();
 
         $this->assertEquals(1, count($result));
@@ -417,7 +417,7 @@ class Framework_TestCaseTest extends PHPUnit_Framework_TestCase
 
     public function testExpectOutputRegexFooActualFoo()
     {
-        $test = new OutputTestCase('testExpectOutputRegexFooActualFoo');
+        $test   = new OutputTestCase('testExpectOutputRegexFooActualFoo');
         $result = $test->run();
 
         $this->assertEquals(1, count($result));
@@ -426,7 +426,7 @@ class Framework_TestCaseTest extends PHPUnit_Framework_TestCase
 
     public function testExpectOutputRegexFooActualBar()
     {
-        $test = new OutputTestCase('testExpectOutputRegexFooActualBar');
+        $test   = new OutputTestCase('testExpectOutputRegexFooActualBar');
         $result = $test->run();
 
         $this->assertEquals(1, count($result));
@@ -435,7 +435,7 @@ class Framework_TestCaseTest extends PHPUnit_Framework_TestCase
 
     public function testSkipsIfRequiresHigherVersionOfPHPUnit()
     {
-        $test = new RequirementsTest('testAlwaysSkip');
+        $test   = new RequirementsTest('testAlwaysSkip');
         $result = $test->run();
 
         $this->assertEquals(1, $result->skippedCount());
@@ -447,7 +447,7 @@ class Framework_TestCaseTest extends PHPUnit_Framework_TestCase
 
     public function testSkipsIfRequiresHigherVersionOfPHP()
     {
-        $test = new RequirementsTest('testAlwaysSkip2');
+        $test   = new RequirementsTest('testAlwaysSkip2');
         $result = $test->run();
 
         $this->assertEquals(1, $result->skippedCount());
@@ -459,7 +459,7 @@ class Framework_TestCaseTest extends PHPUnit_Framework_TestCase
 
     public function testSkipsIfRequiresNonExistingOs()
     {
-        $test = new RequirementsTest('testAlwaysSkip3');
+        $test   = new RequirementsTest('testAlwaysSkip3');
         $result = $test->run();
 
         $this->assertEquals(1, $result->skippedCount());
@@ -471,7 +471,7 @@ class Framework_TestCaseTest extends PHPUnit_Framework_TestCase
 
     public function testSkipsIfRequiresNonExistingFunction()
     {
-        $test = new RequirementsTest('testNine');
+        $test   = new RequirementsTest('testNine');
         $result = $test->run();
 
         $this->assertEquals(1, $result->skippedCount());
@@ -483,7 +483,7 @@ class Framework_TestCaseTest extends PHPUnit_Framework_TestCase
 
     public function testSkipsIfRequiresNonExistingExtension()
     {
-        $test = new RequirementsTest('testTen');
+        $test   = new RequirementsTest('testTen');
         $result = $test->run();
 
         $this->assertEquals(
@@ -494,7 +494,7 @@ class Framework_TestCaseTest extends PHPUnit_Framework_TestCase
 
     public function testSkipsProvidesMessagesForAllSkippingReasons()
     {
-        $test = new RequirementsTest('testAllPossibleRequirements');
+        $test   = new RequirementsTest('testAllPossibleRequirements');
         $result = $test->run();
 
         $this->assertEquals(
@@ -511,28 +511,28 @@ class Framework_TestCaseTest extends PHPUnit_Framework_TestCase
 
     public function testRequiringAnExistingMethodDoesNotSkip()
     {
-        $test = new RequirementsTest('testExistingMethod');
+        $test   = new RequirementsTest('testExistingMethod');
         $result = $test->run();
         $this->assertEquals(0, $result->skippedCount());
     }
 
     public function testRequiringAnExistingFunctionDoesNotSkip()
     {
-        $test = new RequirementsTest('testExistingFunction');
+        $test   = new RequirementsTest('testExistingFunction');
         $result = $test->run();
         $this->assertEquals(0, $result->skippedCount());
     }
 
     public function testRequiringAnExistingExtensionDoesNotSkip()
     {
-        $test = new RequirementsTest('testExistingExtension');
+        $test   = new RequirementsTest('testExistingExtension');
         $result = $test->run();
         $this->assertEquals(0, $result->skippedCount());
     }
 
     public function testRequiringAnExistingOsDoesNotSkip()
     {
-        $test = new RequirementsTest('testExistingOs');
+        $test   = new RequirementsTest('testExistingOs');
         $result = $test->run();
         $this->assertEquals(0, $result->skippedCount());
     }

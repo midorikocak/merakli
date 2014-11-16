@@ -75,7 +75,7 @@ class ExceptionMessageRegExpTest extends PHPUnit_Framework_TestCase
         throw new Exception("A polymorphic exception message");
     }
 
-    /**
+     /**
      * @runInSeparateProcess
      * @requires extension xdebug
      * @expectedException \Exception

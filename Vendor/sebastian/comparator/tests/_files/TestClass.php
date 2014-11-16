@@ -43,6 +43,5 @@
 
 namespace SebastianBergmann\Comparator;
 
-class TestClass
-{
+class TestClass {
 }

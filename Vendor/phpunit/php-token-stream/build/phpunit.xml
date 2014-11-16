@@ -3,15 +3,15 @@
          backupStaticAttributes="false"
          bootstrap="../tests/bootstrap.php"
          verbode="true">
-    <testsuites>
-        <testsuite name="php-token-stream">
-            <directory suffix="Test.php">../tests</directory>
-        </testsuite>
-    </testsuites>
+  <testsuites>
+    <testsuite name="php-token-stream">
+      <directory suffix="Test.php">../tests</directory>
+    </testsuite>
+  </testsuites>
 
-    <filter>
-        <whitelist addUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">../src</directory>
-        </whitelist>
-    </filter>
+  <filter>
+    <whitelist addUncoveredFilesFromWhitelist="true">
+      <directory suffix=".php">../src</directory>
+    </whitelist>
+  </filter>
 </phpunit>

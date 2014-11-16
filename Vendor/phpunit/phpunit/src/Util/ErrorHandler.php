@@ -76,10 +76,10 @@ class PHPUnit_Util_ErrorHandler
     }
 
     /**
-     * @param  integer $errno
-     * @param  string $errstr
-     * @param  string $errfile
-     * @param  integer $errline
+     * @param  integer                 $errno
+     * @param  string                  $errstr
+     * @param  string                  $errfile
+     * @param  integer                 $errline
      * @throws PHPUnit_Framework_Error
      */
     public static function handleError($errno, $errstr, $errfile, $errline)
@@ -127,7 +127,7 @@ class PHPUnit_Util_ErrorHandler
     /**
      * Registers an error handler and returns a function that will restore
      * the previous handler when invoked
-     * @param  integer $severity PHP predefined error constant
+     * @param  integer   $severity PHP predefined error constant
      * @link   http://www.php.net/manual/en/errorfunc.constants.php
      * @throws Exception if event of specified severity is emitted
      */

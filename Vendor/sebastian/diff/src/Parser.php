@@ -62,19 +62,18 @@ class Parser
      */
     public function parse($string)
     {
-        $lines = preg_split('(\r\n|\r|\n)', $string);
+        $lines     = preg_split('(\r\n|\r|\n)', $string);
         $lineCount = count($lines);
-        $diffs = array();
-        $diff = null;
+        $diffs     = array();
+        $diff      = null;
         $collected = array();
 
         for ($i = 0; $i < $lineCount; ++$i) {
             if (preg_match('(^---\\s+(?P<file>\\S+))', $lines[$i], $fromMatch) &&
-                preg_match('(^\\+\\+\\+\\s+(?P<file>\\S+))', $lines[$i + 1], $toMatch)
-            ) {
+                preg_match('(^\\+\\+\\+\\s+(?P<file>\\S+))', $lines[$i + 1], $toMatch)) {
                 if ($diff !== null) {
                     $this->parseFileDiff($diff, $collected);
-                    $diffs[] = $diff;
+                    $diffs[]   = $diff;
                     $collected = array();
                 }
 
@@ -94,7 +93,7 @@ class Parser
     }
 
     /**
-     * @param Diff $diff
+     * @param Diff  $diff
      * @param array $lines
      */
     private function parseFileDiff(Diff $diff, array $lines)
@@ -116,11 +115,11 @@ class Parser
             );
 
             $diffLines = array();
-            $last = null;
+            $last      = null;
 
             while (count($lines) &&
-                (preg_match('(^(?P<type>[+ -])?(?P<line>.*))', $last = array_shift($lines), $match) ||
-                    (strpos($last, '\\ No newline at end of file') === 0))) {
+                  (preg_match('(^(?P<type>[+ -])?(?P<line>.*))', $last = array_shift($lines), $match) ||
+                  (strpos($last, '\\ No newline at end of file') === 0))) {
                 if (count($match)) {
                     $type = Line::UNCHANGED;
 

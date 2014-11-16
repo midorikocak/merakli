@@ -1,5 +1,4 @@
 <?php
-
 class MethodCallback
 {
     public static function staticCallback()

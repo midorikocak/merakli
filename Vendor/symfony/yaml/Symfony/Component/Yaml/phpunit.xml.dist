@@ -5,7 +5,7 @@
          backupGlobals="false"
          colors="true"
          bootstrap="vendor/autoload.php"
-        >
+>
     <testsuites>
         <testsuite name="Symfony Yaml Component Test Suite">
             <directory>./Tests/</directory>

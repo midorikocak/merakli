@@ -1,5 +1,4 @@
 <?php
-
 class Singleton
 {
     private static $uniqueInstance = null;

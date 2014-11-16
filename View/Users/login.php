@@ -11,27 +11,27 @@
 
 ?>
 <div class="row">
-    <div class="small-6 large-centered columns">
-        <form action="<?= LINK_PREFIX ?>/Users/login" method="post">
-            <div class="row">
-                <div class="large-12 columns">
-                    <label>Username
-                        <input id="username" name="username" type="text" placeholder="Username"/>
-                    </label>
-                </div>
+  <div class="small-6 large-centered columns">
+      <form action="<?= LINK_PREFIX ?>/Users/login" method="post">
+        <div class="row">
+          <div class="large-12 columns">
+            <label>Username
+              <input id="username" name="username" type="text" placeholder="Username" />
+            </label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="large-12 columns">
+            <label>Password
+              <input id="password" name="password" type="password" placeholder="Password" />
+            </label>
+          </div>
+        </div>
+        <div class="row">
+            <div class="large-12 columns">
+                <button type="submit">Gönder</button>
             </div>
-            <div class="row">
-                <div class="large-12 columns">
-                    <label>Password
-                        <input id="password" name="password" type="password" placeholder="Password"/>
-                    </label>
-                </div>
-            </div>
-            <div class="row">
-                <div class="large-12 columns">
-                    <button type="submit">Gönder</button>
-                </div>
-            </div>
-        </form>
-    </div>
+        </div>
+      </form>
+  </div>
 </div>

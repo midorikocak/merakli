@@ -75,7 +75,7 @@ class Exporter
      *  - Carriage returns and newlines are normalized to \n
      *  - Recursion and repeated rendering is treated properly
      *
-     * @param  mixed $value
+     * @param  mixed   $value
      * @param  integer $indentation The indentation level of the 2nd+ line
      * @return string
      */
@@ -113,9 +113,9 @@ class Exporter
 
         if (is_resource($value)) {
             return sprintf(
-                'resource(%d) of type (%s)',
-                $value,
-                get_resource_type($value)
+              'resource(%d) of type (%s)',
+              $value,
+              get_resource_type($value)
             );
         }
 
@@ -126,8 +126,8 @@ class Exporter
             }
 
             return "'" .
-            str_replace(array("\r\n", "\n\r", "\r"), array("\n", "\n", "\n"), $value) .
-            "'";
+                   str_replace(array("\r\n", "\n\r", "\r"), array("\n", "\n", "\n"), $value) .
+                   "'";
         }
 
         $whitespace = str_repeat(' ', 4 * $indentation);
@@ -147,10 +147,10 @@ class Exporter
             if (count($value) > 0) {
                 foreach ($value as $k => $v) {
                     $values .= sprintf(
-                        '%s    %s => %s' . "\n",
-                        $whitespace,
-                        $this->recursiveExport($k, $indentation),
-                        $this->recursiveExport($value[$k], $indentation + 1, $processed)
+                      '%s    %s => %s' . "\n",
+                      $whitespace,
+                      $this->recursiveExport($k, $indentation),
+                      $this->recursiveExport($value[$k], $indentation + 1, $processed)
                     );
                 }
 
@@ -175,10 +175,10 @@ class Exporter
             if (count($array) > 0) {
                 foreach ($array as $k => $v) {
                     $values .= sprintf(
-                        '%s    %s => %s' . "\n",
-                        $whitespace,
-                        $this->recursiveExport($k, $indentation),
-                        $this->recursiveExport($v, $indentation + 1, $processed)
+                      '%s    %s => %s' . "\n",
+                      $whitespace,
+                      $this->recursiveExport($k, $indentation),
+                      $this->recursiveExport($v, $indentation + 1, $processed)
                     );
                 }
 
@@ -219,16 +219,16 @@ class Exporter
 
         if (is_object($value)) {
             return sprintf(
-                '%s Object (%s)',
-                get_class($value),
-                count($this->toArray($value)) > 0 ? '...' : ''
+              '%s Object (%s)',
+              get_class($value),
+              count($this->toArray($value)) > 0 ? '...' : ''
             );
         }
 
         if (is_array($value)) {
             return sprintf(
-                'Array (%s)',
-                count($value) > 0 ? '...' : ''
+              'Array (%s)',
+              count($value) > 0 ? '...' : ''
             );
         }
 
@@ -276,12 +276,12 @@ class Exporter
             // However, the fast method does work in HHVM, and exposes the
             // internal implementation. Hide it again.
             if (property_exists('\SplObjectStorage', '__storage')) {
-                unset($array['__storage']);
+              unset($array['__storage']);
             } else if (property_exists('\SplObjectStorage', 'storage')) {
-                unset($array['storage']);
+              unset($array['storage']);
             }
             if (property_exists('\SplObjectStorage', '__key')) {
-                unset($array['__key']);
+              unset($array['__key']);
             }
             foreach ($value as $key => $val) {
                 $array[spl_object_hash($val)] = array(

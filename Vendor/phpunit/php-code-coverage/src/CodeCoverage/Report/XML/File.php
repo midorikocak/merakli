@@ -66,7 +66,7 @@ class PHP_CodeCoverage_Report_XML_File
 
     public function __construct(DOMElement $context)
     {
-        $this->dom = $context->ownerDocument;
+        $this->dom         = $context->ownerDocument;
         $this->contextNode = $context;
     }
 

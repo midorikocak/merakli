@@ -13,9 +13,8 @@
 ?>
 <article>
     <h2><?php echo $post['title']; ?></h2>
-
-    <p><?= $post['content'] ?></p>
-    <small><?= $post['created'] ?></small>
+    <p><?=$post['content']?></p>
+    <small><?=$post['created']?></small>
 </article>
 
 

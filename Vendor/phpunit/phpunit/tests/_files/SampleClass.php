@@ -1,5 +1,4 @@
 <?php
-
 class SampleClass
 {
     public $a;

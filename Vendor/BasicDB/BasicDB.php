@@ -9,7 +9,6 @@
  */
 
 namespace erbilen;
-
 use PDO;
 
 class BasicDB extends PDO

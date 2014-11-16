@@ -1,5 +1,4 @@
 <?php
-
 class Struct
 {
     public $var;

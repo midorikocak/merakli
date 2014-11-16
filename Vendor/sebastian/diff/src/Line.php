@@ -69,12 +69,12 @@ class Line
     private $content;
 
     /**
-     * @param int $type
+     * @param int    $type
      * @param string $content
      */
     public function __construct($type = self::UNCHANGED, $content = '')
     {
-        $this->type = $type;
+        $this->type    = $type;
         $this->content = $content;
     }
 

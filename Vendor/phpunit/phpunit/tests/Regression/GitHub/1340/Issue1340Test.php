@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @see https://bugs.php.net/bug.php?id=51800
  */

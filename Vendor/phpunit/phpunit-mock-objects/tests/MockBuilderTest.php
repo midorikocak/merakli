@@ -137,12 +137,12 @@ class Framework_MockBuilderTest extends PHPUnit_Framework_TestCase
     public function testProvidesAFluentInterface()
     {
         $spec = $this->getMockBuilder('Mockable')
-            ->setMethods(array('mockableMethod'))
-            ->setConstructorArgs(array())
-            ->setMockClassName('DummyClassName')
-            ->disableOriginalConstructor()
-            ->disableOriginalClone()
-            ->disableAutoload();
+                     ->setMethods(array('mockableMethod'))
+                     ->setConstructorArgs(array())
+                     ->setMockClassName('DummyClassName')
+                     ->disableOriginalConstructor()
+                     ->disableOriginalClone()
+                     ->disableAutoload();
         $this->assertTrue($spec instanceof PHPUnit_Framework_MockObject_MockBuilder);
     }
 }

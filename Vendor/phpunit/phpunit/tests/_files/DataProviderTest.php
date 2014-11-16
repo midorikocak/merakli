@@ -1,5 +1,4 @@
 <?php
-
 class DataProviderTest extends PHPUnit_Framework_TestCase
 {
     /**
@@ -13,10 +12,10 @@ class DataProviderTest extends PHPUnit_Framework_TestCase
     public static function providerMethod()
     {
         return array(
-            array(0, 0, 0),
-            array(0, 1, 1),
-            array(1, 1, 3),
-            array(1, 0, 1)
+          array(0, 0, 0),
+          array(0, 1, 1),
+          array(1, 1, 3),
+          array(1, 0, 1)
         );
     }
 }

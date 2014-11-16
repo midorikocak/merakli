@@ -1,5 +1,4 @@
 <?php
-
 class CoverageMethodParenthesesTest extends PHPUnit_Framework_TestCase
 {
     /**

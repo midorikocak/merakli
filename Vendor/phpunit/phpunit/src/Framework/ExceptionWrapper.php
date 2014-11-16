@@ -76,7 +76,7 @@ class PHPUnit_Framework_ExceptionWrapper extends PHPUnit_Framework_Exception
     {
         // PDOException::getCode() is a string.
         // @see http://php.net/manual/en/class.pdoexception.php#95812
-        parent::__construct($e->getMessage(), (int)$e->getCode());
+        parent::__construct($e->getMessage(), (int) $e->getCode());
 
         $this->classname = get_class($e);
         $this->file = $e->getFile();
