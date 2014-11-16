@@ -1,61 +1,44 @@
 <?php
 /**
- * Tüm sistemdeki kategorileri yönetecek olan kategori sınıfıdır.
+ * Abstract class that defines methods for assets CRUD operations
  *
- * Sistemdeki kategorilerin düzenlenmesini, silinmesini, görüntülenmesini,
- * listelenmesini ve eklenmesini kontrol eden sınıftır.
+ * Basic CRUD and login methods
  *
  * @author     Midori Kocak <mtkocak@mtkocak.net>
  */
-
 namespace Midori\Cms;
 
-use \PDO;
+use erbilen\BasicDB;
 
 /**
  * Class Assets
+ *
  * @package Midori\Cms
  */
 abstract class Assets
 {
 
     /**
-     * Kategorinin tekil id'sini tutan değişken. Başka kategorilerle karışmamasını sağlar
-     *
-     * @var int
-     */
-    public $id;
-
-    /**
-     * Veritabanı bağlantısını tutacak olan değişken.
-     *
-     * @var PDO
-     */
-    protected $db = false;
-
-    /**
-     * Bağlantı yapmaya yarayan metod
-     *
-     * @param BasicDb $db Bağlantı objesi
-     * @return void
-     */
-    protected function getDb($db)
-    {
-        $this->db = $db;
-    }
-
-    /**
-     * Sistemdeki bağlı bilgileri içeren dizi
+     * Array holds related data.
+     * TODO Categories for now.
      *
      * @var array
      */
     public $related;
 
     /**
-     * Sınıftan nesne oluşturulduğunda otomatik çalışan metod
-     * Burada sınıfın çalışması için veritabanı sınıfı isteniyor.
+     * Variable holds database connection
      *
-     * @param $db
+     * @var BasicDB
+     */
+    protected $db = false;
+
+    /**
+     * Constructor that instantiates class.
+     * Here database connection is added to protected variable database $db.
+     *
+     * @param
+     *            $db
      */
     public function __construct($db)
     {
@@ -63,26 +46,26 @@ abstract class Assets
     }
 
     /**
-     * Sistemde oturum açılıp açılmadığını gösteren metod
+     * Method that shows if user logged in or not.
      *
-     * @return bool
+     * @return bool.
      */
     public function checkLogin()
     {
-        // Burada tekrar oturum kontrolü yapıyoruz:
-        if (!isset($_SESSION['username'])) {
+        // We control session here.
+        if (! isset($_SESSION['username'])) {
             return false;
-            //return array('render'=>false,'template'=>'public','message'=>'Lütfen oturum açınız!');
+            // return array('render'=>false,'template'=>'public','message'=>'Please login!');
         } else {
             return true;
         }
     }
 
     /**
-     * Bağlı
+     * Get related data.
+     * Categories for now.
      *
-     * @param PDO $db Bağlantı objesi
-     * @return void
+     * @param array $related            
      */
     public function getRelatedData($related)
     {
@@ -90,57 +73,64 @@ abstract class Assets
     }
 
     /**
-     * Kategori ekleyen metod, verilerin kaydedilmesini sağlar.
-     *
-     * @param string $title Kategori başlığı
-     * @param string $content Kategori içeriği
-     * @param int $category_id Kategori kategorisinin benzersiz kimliği
-     * @return bool eklendiyse doğru, eklenemediyse yanlış değer döndürsün
+     * Method for adding data.
+     * Basic CRUD operations. (Create)
      */
     abstract public function add();
 
     /**
-     * Tek bir kategordeki girdileri göstereceğiz
+     * Method for viewing data.
+     * Basic CRUD operations. (Read)
      *
-     * @param int $id Kategorinin benzersiz index'i
-     * @return array gösterilebildyise dizi türünde verileri döndürsün, gösterilemediyse false, yanlış değeri döndürsün
+     * @param int $id            
+     * @return array
      */
     abstract public function view($id);
 
     /**
-     * Tüm girdilerin listelenmesini sağlayan metod.
+     * Method for listing all data in admin context.
+     * Basic CRUD operations. (Read)
      *
-     * @return bool listelenebildiyse doğru, listelenemediyse yanlış değer döndürsün
+     * @return array
      */
     abstract public function show();
 
     /**
-     * Tüm kategorilerin listelenmesini sağlayan metod.
+     * Method for listing all data in public context.
+     * Basic CRUD operations. (Read)
      *
-     * @return bool listelenebildiyse doğru, listelenemediyse yanlış değer döndürsün
+     * @return array
      */
     abstract public function index();
 
-
     /**
-     * Kategori düzenleyen metod. Verilen Id bilginse göre, alınan bilgi ile sistemdeki bilgiyi değiştiren
-     * güncelleyen metod.
+     * Method for editing data.
+     * Basic CRUD operations. (Update)
      *
-     * @param int $id Kategorinin benzersiz index'i
-     * @return bool düzenlendiyse doğru, eklenemediyse yanlış değer döndürsün
+     * @param int $id            
+     * @return bool|array
      */
-    abstract public function edit();
-
+    abstract public function edit($id);
 
     /**
-     * Kategori silen metod, verilerin silinmesini sağlar.
-     * Geri dönüşü yoktur.
+     * Method for deleting data.
+     * Basic CRUD operations. (Delete)
      *
-     * @param int $id Kategorinin benzersiz index'i
-     * @return bool silindiyse doğru, eklenemediyse yanlış değer döndürsün
+     * @param int $id            
+     * @return bool|array
      */
     abstract public function delete($id);
 
+    /**
+     * Method sets database connection
+     *
+     * @param BasicDb $db
+     *            Connection object
+     */
+    protected function getDb($db)
+    {
+        $this->db = $db;
+    }
 }
 
 ?>

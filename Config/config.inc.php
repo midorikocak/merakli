@@ -1,10 +1,8 @@
 <?php
 /**
-* Tüm sistemdeki ayarları buradan hallediyoruz.
+* We define configuration variables in this document.
 *
-* Veritabanına kaydetmediğimiz ve sürekli değişmeyecek
-* olan veritabanı sunucusu, cache tipi gibi bilgileri 
-* bu dosyada saklayacağız.
+* This array has a 'db' key holding database credentials.
 *
 * @author     Midori Kocak <mtkocak@mtkocak.net>
 */
