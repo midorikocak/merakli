@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Merakli CMS Yönetim Paneli</title>
+    <title>Merakli CMS</title>
     <link rel="stylesheet" href="<?=FILE_PREFIX?>css/foundation.css" />
     <link rel="stylesheet" href="<?=FILE_PREFIX?>css/app.css" />
     <link rel="stylesheet" href="<?=FILE_PREFIX?>css/app.css" />
@@ -28,26 +28,26 @@
             <ul class="center">
                 <li class="divider"></li>
                 <li class="has-dropdown">
-                    <a href="#">Girdiler</a>
+                    <a href="#">Posts</a>
                     <ul class="dropdown">
-                        <li><a href="<?= LINK_PREFIX ?>/Posts/show">Tüm girdiler &rarr;</a></li>
-                        <li><a href="<?= LINK_PREFIX ?>/Posts/add">Yeni girdi</a></li>
+                        <li><a href="<?= LINK_PREFIX ?>/Posts/show">All posts &rarr;</a></li>
+                        <li><a href="<?= LINK_PREFIX ?>/Posts/add">New post</a></li>
                     </ul>
                 </li>
                 <li class="divider"></li>
                 <li class="has-dropdown">
-                    <a href="#">Kategoriler</a>
+                    <a href="#">Categories</a>
                     <ul class="dropdown">
-                        <li><a href="<?= LINK_PREFIX ?>/Categories/show">Tüm kategoriler &rarr;</a></li>
-                        <li><a href="<?= LINK_PREFIX ?>/Categories/add">Yeni kategori</a></li>
+                        <li><a href="<?= LINK_PREFIX ?>/Categories/show">All categories &rarr;</a></li>
+                        <li><a href="<?= LINK_PREFIX ?>/Categories/add">New category</a></li>
                     </ul>
                 </li>
                 <li class="divider"></li>
                 <li class="has-dropdown">
-                    <a href="#">Dosyalar</a>
+                    <a href="#">Files</a>
                     <ul class="dropdown">
-                        <li><a href="<?= LINK_PREFIX ?>/Files/show">Tüm dosyalar &rarr;</a></li>
-                        <li><a href="<?= LINK_PREFIX ?>/Files/add">Yeni dosya</a></li>
+                        <li><a href="<?= LINK_PREFIX ?>/Files/show">All files &rarr;</a></li>
+                        <li><a href="<?= LINK_PREFIX ?>/Files/add">New file</a></li>
                     </ul>
                 </li>
             </ul>
@@ -55,14 +55,14 @@
                 <li class="has-dropdown">
                     <a href="#">Admin</a>
                     <ul class="dropdown">
-                        <li><a href="<?= LINK_PREFIX ?>/Users/show">Tüm Kullanıcılar &rarr;</a></li>
-                        <li><a href="<?= LINK_PREFIX ?>/Users/add">Yeni Kullanıcı</a></li>
-                        <li><a href="<?= LINK_PREFIX ?>/Users/edit/<?=$_SESSION['id']?>">Profilim</a></li>
-                        <li><a href="<?= LINK_PREFIX ?>/Users/logout">Çıkış yap</a></li>
+                        <li><a href="<?= LINK_PREFIX ?>/Users/show">All users &rarr;</a></li>
+                        <li><a href="<?= LINK_PREFIX ?>/Users/add">New user</a></li>
+                        <li><a href="<?= LINK_PREFIX ?>/Users/edit/<?=$_SESSION['id']?>">My profile</a></li>
+                        <li><a href="<?= LINK_PREFIX ?>/Users/logout">Logout</a></li>
                     </ul>
                 </li>
                 <li class="divider"></li>
-                <li><a href="<?= LINK_PREFIX ?>/Settings/add">Ayarlar</a></li>
+                <li><a href="<?= LINK_PREFIX ?>/Settings/add">Settings</a></li>
             </ul>
         </section>
     </nav>
